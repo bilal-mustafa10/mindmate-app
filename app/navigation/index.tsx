@@ -6,6 +6,8 @@ import * as React from 'react';
 import {RootStackParamList, RootTabParamList} from './types';
 import LandingScreen from '../screens/LandingScreen';
 import HomeScreen from '../screens/(tabs)/HomeScreen';
+import SignIn from '../screens/(auth)/SignIn';
+import SignUp from '../screens/(auth)/SignUp';
 
 
 export default function Navigation() {
@@ -22,21 +24,36 @@ export default function Navigation() {
  * https://reactnavigation.org/docs/modal
  */
 const Stack = createNativeStackNavigator<RootStackParamList>();
+// create a composite navigator
+
+
 
 
 function RootNavigator() {
     return (
         <Stack.Navigator initialRouteName="LandingPage">
             <Stack.Screen
+                name="Root"
+                component={BottomTabNavigator}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
                 name="LandingPage"
                 component={LandingScreen}
                 options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen
-                name="Root"
-                component={BottomTabNavigator}
+                name="SignIn"
+                component={SignIn}
                 options={{headerShown: false, gestureEnabled: false}}
             />
+            <Stack.Screen
+                name="SignUp"
+                component={SignUp}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+
+
         </Stack.Navigator>
     );
 }
