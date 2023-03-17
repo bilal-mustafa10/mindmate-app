@@ -5,7 +5,7 @@ export const theme = {
         secondary: '#39A873',
         tertiary: '#3960A8',
         error: '#A83944',
-        background: '#F9F9F9',
+        background: '#F5F5F5',
         secondaryBackground: '#F2E8FF',
         text: '#000000',
         textSecondary: '#FFFFFF',
@@ -48,7 +48,7 @@ export const theme = {
         },
         footnote: {
             fontFamily: 'outfit-regular',
-            fontSize: 14,
+            fontSize: 16,
             lineHeight: 18,
             letterSpacing: -0.08,
             color: '#000000',
@@ -96,9 +96,14 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.background,
     },
     logo: {
+        marginTop: 40,
+        width: width * 0.8,
+        height: width * 0.8,
+    },
+    logoWithoutContainer: {
         width: width * 0.6,
-        height: width * 0.6 * 2 / 3,
-        marginBottom: 16,
+        height: width * 0.6 * 0.5,
+        marginBottom: 20,
     },
     title: {
         ...theme.typography.h1,

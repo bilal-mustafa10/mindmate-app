@@ -4,6 +4,8 @@ import FastImage from 'react-native-fast-image';
 import {height, styles} from '../constants/Theme';
 import {Button} from '../components/Button';
 import {RootStackScreenProps} from '../navigation/types';
+import { SvgXml } from 'react-native-svg';
+
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
 
@@ -12,11 +14,11 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
             <View style={[styles.content, styles.secondaryBackground, { height: height * 0.67 }]}>
                 <FastImage
                     source={require('../assets/images/logo.png')}
-                    resizeMode={FastImage.resizeMode.contain}
+                    //resizeMode={FastImage.resizeMode.contain}
                     style={styles.logo}
                 />
             </View>
-            <View style={[styles.content, styles.primaryBackground, { height: height * 0.33, justifyContent: 'space-between' }]}>
+            <View style={[styles.content,  { height: height * 0.33, justifyContent: 'space-between' }]}>
                 <View style={{ alignItems: 'center', marginTop: '5%' }}>
                     <Text style={[styles.title]}>Welcome to MindMate</Text>
                     <Text style={[styles.body, { textAlign:'center'}]}>Take control of your mental health, anytime, anywhere</Text>

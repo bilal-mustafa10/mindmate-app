@@ -1,5 +1,5 @@
-import {height, styles} from '../../constants/Theme';
-import {View, Text} from 'react-native';
+import {height, styles, theme} from '../../constants/Theme';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
@@ -7,6 +7,8 @@ import * as React from 'react';
 import {Input} from '../../components/Input';
 
 export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
+    const [firstName, setFirstName] = React.useState('');
+    const [lastName, setLastName] = React.useState('');
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
@@ -15,16 +17,34 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
         <View style={styles.container}>
             <View style={[styles.content, { height: height * 0.35, justifyContent: 'flex-end'}]}>
                 <FastImage
-                    source={require('../../assets/images/logo.png')}
+                    source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}
-                    style={styles.logo}
+                    style={styles.logoWithoutContainer}
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign up</Text>
+                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign up to MindMate</Text>
                 <View>
                     <Input
-                        label={'Email'}
+                        label={'First Name'}
+                        keyboardType="default"
+                        inputMode={'text'}
+                        value={firstName}
+                        onChangeText={setFirstName}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+                    <Input
+                        label={'Last Name'}
+                        keyboardType="default"
+                        inputMode={'text'}
+                        value={lastName}
+                        onChangeText={setLastName}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                    />
+                    <Input
+                        label={'Email Address'}
                         keyboardType="email-address"
                         inputMode={'email'}
                         value={email}
@@ -41,8 +61,13 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                         autoCorrect={false}
                     />
 
-                    <Button type={'large'} onPress={() => navigation.replace('Root')} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
+                    <Button type={'large'} onPress={() => navigation.replace('Root')} style={{marginTop: '5%'}} color={'secondary'}>Sign Up</Button>
                 </View>
+                <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
+                    <Text style={[styles.content, { textAlign: 'center', marginTop: '10%', color: theme.colors.text }]}>
+                        Already have an account? <Text style={{ fontWeight: 'bold', color: theme.colors.secondary }}>Sign in</Text>
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );

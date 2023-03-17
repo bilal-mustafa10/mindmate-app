@@ -8,10 +8,11 @@ interface InputProps extends TextInputProps {
 }
 
 export const Input: React.FC<InputProps> = ({ label, secureTextEntry, ...rest }: InputProps) => {
+
     return (
         <>
-            {label && <Text style={styles.label}>{label}</Text>}
             <TextInput
+                placeholder={label}
                 style={styles.input}
                 secureTextEntry={secureTextEntry}
                 {...rest}
@@ -33,10 +34,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         paddingHorizontal: 16,
-        fontSize: 14,
         ...theme.typography.footnote,
         color: theme.colors.text,
-        borderWidth: 0.5,
+        borderWidth: 1,
         borderColor: '#D9D9D9',
         marginBottom: '5%'
     }

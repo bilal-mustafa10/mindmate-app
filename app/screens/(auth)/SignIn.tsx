@@ -1,5 +1,5 @@
-import {height, styles} from '../../constants/Theme';
-import {View, Text} from 'react-native';
+import {height, styles, theme} from '../../constants/Theme';
+import {View, Text, TouchableOpacity} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
@@ -15,16 +15,16 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
         <View style={styles.container}>
             <View style={[styles.content, { height: height * 0.35, justifyContent: 'flex-end'}]}>
                 <FastImage
-                    source={require('../../assets/images/logo.png')}
+                    source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}
-                    style={styles.logo}
+                    style={styles.logoWithoutContainer}
                 />
             </View>
             <View style={styles.formContainer}>
                 <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign in to your account</Text>
                 <View>
                     <Input
-                        label={'Email'}
+                        label={'Email Address'}
                         keyboardType="email-address"
                         inputMode={'email'}
                         value={email}
@@ -43,6 +43,11 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
 
                     <Button type={'large'} onPress={() => navigation.replace('Root')} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
                 </View>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                    <Text style={[styles.content, { textAlign: 'center', marginTop: '10%', color: theme.colors.text }]}>
+                        Do not have an account? <Text style={{ fontWeight: 'bold', color: theme.colors.secondary }}>Sign up</Text>
+                    </Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
