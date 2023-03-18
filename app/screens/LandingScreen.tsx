@@ -4,7 +4,6 @@ import FastImage from 'react-native-fast-image';
 import {height, styles} from '../constants/Theme';
 import {Button} from '../components/Button';
 import {RootStackScreenProps} from '../navigation/types';
-import { SvgXml } from 'react-native-svg';
 
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {

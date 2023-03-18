@@ -10,11 +10,30 @@ import SignIn from '../screens/(auth)/SignIn';
 import SignUp from '../screens/(auth)/SignUp';
 
 
-export default function Navigation() {
+export default function Navigation({loggedIn}: {loggedIn: boolean}) {
     return (
-        <NavigationContainer
-            theme={DefaultTheme}>
-            <RootNavigator/>
+        <NavigationContainer theme={DefaultTheme}>
+            {loggedIn ? (
+                <RootNavigator />
+            ) : (
+                <Stack.Navigator initialRouteName="LandingPage">
+                    <Stack.Screen
+                        name="LandingPage"
+                        component={LandingScreen}
+                        options={{headerShown: false, gestureEnabled: false}}
+                    />
+                    <Stack.Screen
+                        name="SignIn"
+                        component={SignIn}
+                        options={{headerShown: false, gestureEnabled: false}}
+                    />
+                    <Stack.Screen
+                        name="SignUp"
+                        component={SignUp}
+                        options={{headerShown: false, gestureEnabled: false}}
+                    />
+                </Stack.Navigator>
+            )}
         </NavigationContainer>
     );
 }
@@ -37,23 +56,6 @@ function RootNavigator() {
                 component={BottomTabNavigator}
                 options={{headerShown: false, gestureEnabled: false}}
             />
-            <Stack.Screen
-                name="LandingPage"
-                component={LandingScreen}
-                options={{headerShown: false, gestureEnabled: false}}
-            />
-            <Stack.Screen
-                name="SignIn"
-                component={SignIn}
-                options={{headerShown: false, gestureEnabled: false}}
-            />
-            <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{headerShown: false, gestureEnabled: false}}
-            />
-
-
         </Stack.Navigator>
     );
 }

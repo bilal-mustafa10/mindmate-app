@@ -5,10 +5,24 @@ import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
 import * as React from 'react';
 import {Input} from '../../components/Input';
+import {emailValidator, passwordValidator} from '../../services/validator';
 
 export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [emailAddress, setEmailAddress] = React.useState({value: '', error: ''});
+    const [password, setPassword] = React.useState({value: '', error: ''});
+
+    const handleSignIn = () => {
+        const emailError = emailValidator(emailAddress.value);
+        const passwordError = passwordValidator(password.value);
+
+        if (emailError || passwordError) {
+            setEmailAddress({ ...emailAddress, error: emailError });
+            setPassword({ ...password, error: passwordError });
+            return;
+        }
+
+        navigation.replace('Root');
+    };
 
 
     return (
@@ -27,21 +41,23 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                         label={'Email Address'}
                         keyboardType="email-address"
                         inputMode={'email'}
-                        value={email}
-                        onChangeText={setEmail}
+                        value={emailAddress.value}
+                        onChangeText={text => setEmailAddress({value: text, error: ''})}
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
+                    {emailAddress.error ? <Text>{emailAddress.error}</Text> : null}
                     <Input
                         label={'Password'}
                         secureTextEntry
-                        value={password}
-                        onChangeText={setPassword}
+                        value={password.value}
+                        onChangeText={text => setPassword({value: text, error: ''})}
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
+                    {password.error ? <Text>{password.error}</Text> : null}
 
-                    <Button type={'large'} onPress={() => navigation.replace('Root')} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
+                    <Button type={'large'} onPress={() => handleSignIn} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                     <Text style={[styles.content, { textAlign: 'center', marginTop: '10%', color: theme.colors.text }]}>
