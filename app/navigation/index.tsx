@@ -10,30 +10,10 @@ import SignIn from '../screens/(auth)/SignIn';
 import SignUp from '../screens/(auth)/SignUp';
 
 
-export default function Navigation({loggedIn}: {loggedIn: boolean}) {
+export default function Navigation() {
     return (
         <NavigationContainer theme={DefaultTheme}>
-            {loggedIn ? (
-                <RootNavigator />
-            ) : (
-                <Stack.Navigator initialRouteName="LandingPage">
-                    <Stack.Screen
-                        name="LandingPage"
-                        component={LandingScreen}
-                        options={{headerShown: false, gestureEnabled: false}}
-                    />
-                    <Stack.Screen
-                        name="SignIn"
-                        component={SignIn}
-                        options={{headerShown: false, gestureEnabled: false}}
-                    />
-                    <Stack.Screen
-                        name="SignUp"
-                        component={SignUp}
-                        options={{headerShown: false, gestureEnabled: false}}
-                    />
-                </Stack.Navigator>
-            )}
+            <RootNavigator/>
         </NavigationContainer>
     );
 }
@@ -46,14 +26,27 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 // create a composite navigator
 
 
-
-
 function RootNavigator() {
     return (
-        <Stack.Navigator initialRouteName="LandingPage">
+        <Stack.Navigator initialRouteName={'LandingPage'}>
             <Stack.Screen
                 name="Root"
                 component={BottomTabNavigator}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="LandingPage"
+                component={LandingScreen}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="SignIn"
+                component={SignIn}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="SignUp"
+                component={SignUp}
                 options={{headerShown: false, gestureEnabled: false}}
             />
         </Stack.Navigator>

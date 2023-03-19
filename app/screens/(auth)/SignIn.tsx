@@ -1,27 +1,62 @@
 import {height, styles, theme} from '../../constants/Theme';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
 import * as React from 'react';
 import {Input} from '../../components/Input';
-import {emailValidator, passwordValidator} from '../../services/validator';
+import {passwordValidator, usernameValidator} from '../../services/validator';
+import {login} from '../../services/api/authEndpoints';
+import {ILoginRequest} from '../../types/ILoginRequest';
+import {useDispatch} from 'react-redux';
+import {setLogin} from '../../services/redux/auth';
+import jwtDecode from 'jwt-decode';
 
-export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
-    const [emailAddress, setEmailAddress] = React.useState({value: '', error: ''});
+export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
+    const [username, setUsername] = React.useState({value: '', error: ''});
     const [password, setPassword] = React.useState({value: '', error: ''});
+    const [showError, setShowError] = React.useState(false);
+    const dispatch = useDispatch();
 
-    const handleSignIn = () => {
-        const emailError = emailValidator(emailAddress.value);
+    React.useEffect(() => {
+        setUsername({value: '', error: ''});
+        setPassword({value: '', error: ''});
+        setShowError(false);
+    }, []);
+
+    const handleSignIn = async () => {
+        const usernameError = usernameValidator(username.value);
         const passwordError = passwordValidator(password.value);
 
-        if (emailError || passwordError) {
-            setEmailAddress({ ...emailAddress, error: emailError });
-            setPassword({ ...password, error: passwordError });
+        if (usernameError || passwordError) {
+            setUsername({...username, error: usernameError});
+            setPassword({...password, error: passwordError});
             return;
         }
 
-        navigation.replace('Root');
+        const loginCredentials: ILoginRequest = {
+            username: username.value,
+            password: password.value,
+        };
+
+        const response = await login(loginCredentials);
+
+        if (response && response.status === 200) {
+            const decoded = jwtDecode(response.data.access);
+            console.log(decoded['user_id']);
+            console.log(response.data);
+
+            dispatch(setLogin({
+                userId: decoded['user_id'],
+                accessToken: response.data.access,
+                refreshToken: response.data.refresh
+            }));
+
+            navigation.navigate('Root');
+        } else {
+            console.log('error');
+            setShowError(true);
+        }
     };
 
 
@@ -38,15 +73,15 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                 <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign in to your account</Text>
                 <View>
                     <Input
-                        label={'Email Address'}
-                        keyboardType="email-address"
+                        label={'Username'}
+                        keyboardType={'default'}
                         inputMode={'email'}
-                        value={emailAddress.value}
-                        onChangeText={text => setEmailAddress({value: text, error: ''})}
+                        value={username.value}
+                        onChangeText={text => setUsername({value: text, error: ''})}
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
-                    {emailAddress.error ? <Text>{emailAddress.error}</Text> : null}
+                    {username.error ? <Text>{username.error}</Text> : null}
                     <Input
                         label={'Password'}
                         secureTextEntry
@@ -57,11 +92,15 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                     />
                     {password.error ? <Text>{password.error}</Text> : null}
 
-                    <Button type={'large'} onPress={() => handleSignIn} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
+                    <Button type={'large'} onPress={() => {
+                        handleSignIn().then(r => console.log(r));
+                    }} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
+                    {showError ? <Text>Failure to Login</Text> : null}
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[styles.content, { textAlign: 'center', marginTop: '10%', color: theme.colors.text }]}>
-                        Do not have an account? <Text style={{ fontWeight: 'bold', color: theme.colors.secondary }}>Sign up</Text>
+                    <Text style={[styles.content, {textAlign: 'center', marginTop: '10%', color: theme.colors.text}]}>
+                        Do not have an account? <Text style={{fontWeight: 'bold', color: theme.colors.secondary}}>Sign
+                        up</Text>
                     </Text>
                 </TouchableOpacity>
             </View>

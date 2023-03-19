@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Pressable, StyleSheet, Text, ViewStyle } from 'react-native';
-import {theme} from '../constants/Theme';
+import { theme } from '../constants/Theme';
 
 interface ButtonProps {
     type: 'large' | 'medium' | 'small';
@@ -11,6 +11,8 @@ interface ButtonProps {
 }
 
 export const Button = ({ type, onPress, color, children, style }: ButtonProps) => {
+    const [isPressed, setIsPressed] = React.useState(false);
+
     let buttonStyle;
     let textStyle;
 
@@ -48,9 +50,23 @@ export const Button = ({ type, onPress, color, children, style }: ButtonProps) =
         break;
     }
 
+
+    const handlePressIn = () => {
+        setIsPressed(true);
+    };
+
+    const handlePressOut = () => {
+        setIsPressed(false);
+    };
+
     return (
-        <Pressable style={[buttonStyle, style]} onPress={onPress}>
-            <Text style={textStyle}>{children}</Text>
+        <Pressable
+            style={[buttonStyle, style, isPressed && styles.buttonTextPressed]}
+            onPress={onPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Text style={[textStyle, isPressed && styles.buttonTextPressed]}>{children}</Text>
         </Pressable>
     );
 };
@@ -94,5 +110,8 @@ const styles = StyleSheet.create({
     smallButtonText: {
         ...theme.typography.subheading,
         color: theme.colors.textSecondary,
+    },
+    buttonTextPressed: {
+        opacity: 0.6,
     },
 });
