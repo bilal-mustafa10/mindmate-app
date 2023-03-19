@@ -8,14 +8,14 @@ import {isLoggedIn} from 'react-native-axios-jwt';
 
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
+
     React.useEffect(() => {
         isLoggedIn().then(async res => {
-            if (res) {
+            if (!res) {
+                console.log('not logged in');
+            } else {
                 console.log('logged in');
                 navigation.navigate('Root');
-            }else{
-                navigation.navigate('LandingPage');
-                console.log('not logged in');
             }
         });
     }, []);

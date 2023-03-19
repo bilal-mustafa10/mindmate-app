@@ -3,8 +3,9 @@ import useCachedResources from './app/hooks/useCachedResources';
 import * as React from 'react';
 import Navigation from './app/navigation';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
-import {store} from './app/services/redux/store';
+import {persistor, store} from './app/services/redux/store';
 import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
 
 
 export default function App() {
@@ -15,10 +16,12 @@ export default function App() {
     } else {
         return (
             <Provider store={store}>
-                <SafeAreaProvider>
-                    <Navigation/>
-                    <StatusBar/>
-                </SafeAreaProvider>
+                <PersistGate loading={null} persistor={persistor}>
+                    <SafeAreaProvider>
+                        <Navigation/>
+                        <StatusBar/>
+                    </SafeAreaProvider>
+                </PersistGate>
             </Provider>
         );
     }

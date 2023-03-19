@@ -9,7 +9,7 @@ import {passwordValidator, usernameValidator} from '../../services/validator';
 import {login} from '../../services/api/authEndpoints';
 import {ILoginRequest} from '../../types/ILoginRequest';
 import {useDispatch} from 'react-redux';
-import {setLogin} from '../../services/redux/auth';
+import {setLogin} from '../../services/redux/authSlice';
 import jwtDecode from 'jwt-decode';
 
 export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
