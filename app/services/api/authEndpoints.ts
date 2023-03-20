@@ -23,6 +23,6 @@ export const login = async (params: ILoginRequest) => {
 };
 
 // 5. Log out by clearing the auth tokens from AsyncStorage
-const logout = () => clearAuthTokens();
+export const logout = () => clearAuthTokens();
 
 

@@ -5,9 +5,13 @@ import {height, styles} from '../constants/Theme';
 import {Button} from '../components/Button';
 import {RootStackScreenProps} from '../navigation/types';
 import {isLoggedIn} from 'react-native-axios-jwt';
+import {getActivities} from '../services/api/activityEndpoints';
+import {useDispatch} from 'react-redux';
+import {setActivity} from '../services/redux/activitySlice';
 
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
+    const dispatch = useDispatch();
 
     React.useEffect(() => {
         isLoggedIn().then(async res => {
@@ -15,6 +19,8 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
                 console.log('not logged in');
             } else {
                 console.log('logged in');
+                const activities = await getActivities();
+                dispatch(setActivity(activities));
                 navigation.navigate('Root');
             }
         });

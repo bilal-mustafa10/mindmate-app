@@ -1,5 +1,6 @@
 import {applyAuthTokenInterceptor, AuthTokens, TokenRefreshRequest,} from 'react-native-axios-jwt';
 import axios from 'axios';
+import {logout} from './authEndpoints';
 
 const BASE_URL = 'http://127.0.0.1:8000/api';
 export const axiosInstance = axios.create({baseURL: BASE_URL});
@@ -27,6 +28,7 @@ const requestRefresh: TokenRefreshRequest = async (
             };
         }
     } catch (e) {
+        await logout();
         console.log('Error getting a new token.');
     }
 
