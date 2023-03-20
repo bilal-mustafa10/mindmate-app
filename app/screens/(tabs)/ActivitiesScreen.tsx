@@ -6,7 +6,7 @@ import {styles} from '../../constants/Theme';
 
 export default function ActivitiesScreen() {
     const {results} = useSelector((state: RootState) => state.activity);
-    console.log('Results: ', results);
+    
 
     return (
         <View style={styles.container}>
