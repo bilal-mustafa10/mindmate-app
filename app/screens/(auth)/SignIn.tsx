@@ -43,8 +43,8 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
 
         if (response && response.status === 200) {
             const decoded = jwtDecode(response.data.access);
-            console.log(decoded['user_id']);
-            console.log(response.data);
+            
+            
 
             dispatch(setLogin({
                 userId: decoded['user_id'],
@@ -54,7 +54,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
 
             navigation.navigate('Root');
         } else {
-            console.log('error');
+            
             setShowError(true);
         }
     };
@@ -93,7 +93,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                     {password.error ? <Text>{password.error}</Text> : null}
 
                     <Button type={'large'} onPress={() => {
-                        handleSignIn().then(r => console.log(r));
+                        handleSignIn().then(r => {});
                     }} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
                     {showError ? <Text>Failure to Login</Text> : null}
                 </View>
