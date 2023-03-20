@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux';
 import {RootState} from '../../services/redux/store';
 import {styles} from '../../constants/Theme';
 
-export default function HomeScreen() {
+export default function HubScreen() {
     // get the current user from the redux store
     const auth = useSelector((state: RootState) => state.auth);
     return (

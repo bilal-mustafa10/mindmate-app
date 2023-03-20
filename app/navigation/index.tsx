@@ -8,7 +8,10 @@ import LandingScreen from '../screens/LandingScreen';
 import HomeScreen from '../screens/(tabs)/HomeScreen';
 import SignIn from '../screens/(auth)/SignIn';
 import SignUp from '../screens/(auth)/SignUp';
-
+import ActivitiesScreen from '../screens/(tabs)/ActivitiesScreen';
+import HubScreen from '../screens/(tabs)/HubScreen';
+import MindverseScreen from '../screens/(tabs)/MindverseScreen';
+import {theme} from '../constants/Theme';
 
 export default function Navigation() {
     return (
@@ -56,7 +59,7 @@ function RootNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator({ route }: { route: any }) {
+function BottomTabNavigator({ route }: { route: unknown }) {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     const activeTabLabelStyle = {
@@ -90,8 +93,8 @@ function BottomTabNavigator({ route }: { route: any }) {
             <BottomTab.Screen
                 name="MindMate"
                 component={HomeScreen}
-                options={(props) => ({
-                    headerShown: true,
+                options={() => ({
+                    headerShown: false,
                     tabBarLabelStyle: routeName === 'MindMate'? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color}) => <Ionicons name={(routeName === 'MindMate'? 'cloud': 'cloud-outline')} size={28} color={color}/>
 
@@ -99,27 +102,57 @@ function BottomTabNavigator({ route }: { route: any }) {
             />
             <BottomTab.Screen
                 name="Activities"
-                component={HomeScreen}
+                component={ActivitiesScreen}
                 options={() => ({
                     headerShown: true,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: {
+                        fontFamily: 'outfit-semibold',
+                        fontSize: 24,
+                        color: theme.colors.text,
+                        marginBottom: 10,
+                    },
+                    headerStyle: {
+                        backgroundColor: theme.colors.background,
+                    },
                     tabBarLabelStyle: routeName === 'Activities'? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Activities'? 'compass': 'compass-outline')} size={28} color={color}/>
                 })}
             />
             <BottomTab.Screen
                 name="Hub"
-                component={HomeScreen}
+                component={HubScreen}
                 options={() => ({
                     headerShown: true,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: {
+                        fontFamily: 'outfit-semibold',
+                        fontSize: 24,
+                        color: theme.colors.text,
+                        marginBottom: 10,
+                    },
+                    headerStyle: {
+                        backgroundColor: theme.colors.background,
+                    },
                     tabBarLabelStyle: routeName === 'Hub'? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Hub'? 'people': 'people-outline')} size={28} color={color}/>
                 })}
             />
             <BottomTab.Screen
                 name="Mindverse"
-                component={HomeScreen}
+                component={MindverseScreen}
                 options={() => ({
                     headerShown: true,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: {
+                        fontFamily: 'outfit-semibold',
+                        fontSize: 24,
+                        color: theme.colors.text,
+                        marginBottom: 10,
+                    },
+                    headerStyle: {
+                        backgroundColor: theme.colors.background,
+                    },
                     tabBarLabelStyle: routeName === 'Mindverse'? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Mindverse'? 'heart': 'heart-outline')} size={28} color={color}/>
                 })}
