@@ -1,6 +1,6 @@
-import {AntDesign} from '@expo/vector-icons';
+import {Ionicons} from '@expo/vector-icons';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {DefaultTheme, NavigationContainer,} from '@react-navigation/native';
+import {DefaultTheme, NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import * as React from 'react';
 import {RootStackParamList, RootTabParamList} from './types';
@@ -56,15 +56,72 @@ function RootNavigator() {
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
+function BottomTabNavigator({ route }: { route: any }) {
+    const routeName = getFocusedRouteNameFromRoute(route);
+
+    const activeTabLabelStyle = {
+        fontSize: 13,
+        fontFamily: 'outfit-semibold',
+    };
+
+    const inactiveTabLabelStyle = {
+        fontSize: 13,
+        fontFamily: 'outfit-regular',
+    };
+
     return (
-        <BottomTab.Navigator initialRouteName="TabOne">
+        <BottomTab.Navigator
+            initialRouteName="MindMate"
+            screenOptions={{
+                tabBarActiveTintColor: '#5539A8',
+                tabBarInactiveTintColor: '#000',
+                tabBarStyle: {
+                    borderRadius: 20,
+                    padding: 5,
+                    height: 95,
+                    backgroundColor: '#fff',
+                    borderTopColor: '#fff',
+
+                },
+                tabBarLabelStyle: inactiveTabLabelStyle,
+                tabBarLabelPosition: 'below-icon',
+            }}
+        >
             <BottomTab.Screen
-                name="TabOne"
+                name="MindMate"
+                component={HomeScreen}
+                options={(props) => ({
+                    headerShown: true,
+                    tabBarLabelStyle: routeName === 'MindMate'? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({color}) => <Ionicons name={(routeName === 'MindMate'? 'cloud': 'cloud-outline')} size={28} color={color}/>
+
+                })}
+            />
+            <BottomTab.Screen
+                name="Activities"
                 component={HomeScreen}
                 options={() => ({
-                    headerShown: false,
-                    tabBarIcon: ({color}) => <AntDesign name="home" size={24} color={color}/>
+                    headerShown: true,
+                    tabBarLabelStyle: routeName === 'Activities'? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Activities'? 'compass': 'compass-outline')} size={28} color={color}/>
+                })}
+            />
+            <BottomTab.Screen
+                name="Hub"
+                component={HomeScreen}
+                options={() => ({
+                    headerShown: true,
+                    tabBarLabelStyle: routeName === 'Hub'? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Hub'? 'people': 'people-outline')} size={28} color={color}/>
+                })}
+            />
+            <BottomTab.Screen
+                name="Mindverse"
+                component={HomeScreen}
+                options={() => ({
+                    headerShown: true,
+                    tabBarLabelStyle: routeName === 'Mindverse'? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({color}) => <Ionicons name={(routeName === 'Mindverse'? 'heart': 'heart-outline')} size={28} color={color}/>
                 })}
             />
         </BottomTab.Navigator>

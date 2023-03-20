@@ -1675,6 +1675,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@primer/octicons-react@^18.2.0":
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/@primer/octicons-react/-/octicons-react-18.2.0.tgz#eeac37b3d42980a7edebd790b9373d22bdb89f72"
+  integrity sha512-taT0l99qztqU9NnNo0HCutm3mEjBmXcaqWlmCLvU2MrKVrMZF3HuwaguPhNl/rNk8+mpgtDSTTDPBlpI0MtPPA==
+
 "@react-native-async-storage/async-storage@^1.17.12":
   version "1.17.12"
   resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.17.12.tgz#a39e4df5b06795ce49b2ca5b7ca9b8faadf8e621"
