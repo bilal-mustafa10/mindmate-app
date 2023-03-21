@@ -2,10 +2,12 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "build",
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts",
     "test/**/*.ts"
-  ]
+  ],
+
 }

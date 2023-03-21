@@ -10,71 +10,9 @@ interface ButtonProps {
     style?: ViewStyle;
 }
 
-export const Button = ({ type, onPress, color, children, style }: ButtonProps) => {
-    const [isPressed, setIsPressed] = React.useState(false);
-
-    let buttonStyle;
-    let textStyle;
-
-    switch (type) {
-    case 'large':
-        buttonStyle = styles.largeButton;
-        textStyle = styles.largeButtonText;
-        break;
-    case 'medium':
-        buttonStyle = styles.mediumButton;
-        textStyle = styles.mediumButtonText;
-        break;
-    case 'small':
-        buttonStyle = styles.smallButton;
-        textStyle = styles.smallButtonText;
-        break;
-    default:
-        buttonStyle = styles.mediumButton;
-        textStyle = styles.mediumButtonText;
-    }
-
-    switch (color) {
-    case 'secondary':
-        buttonStyle.backgroundColor = theme.colors.secondary;
-        break;
-    case 'tertiary':
-        buttonStyle.backgroundColor = theme.colors.tertiary;
-        break;
-    case 'error':
-        buttonStyle.backgroundColor = theme.colors.error;
-        break;
-    case 'primary':
-    default:
-        buttonStyle.backgroundColor = theme.colors.primary;
-        break;
-    }
-
-
-    const handlePressIn = () => {
-        setIsPressed(true);
-    };
-
-    const handlePressOut = () => {
-        setIsPressed(false);
-    };
-
-    return (
-        <Pressable
-            style={[buttonStyle, style, isPressed && styles.buttonTextPressed]}
-            onPress={onPress}
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-        >
-            <Text style={[textStyle, isPressed && styles.buttonTextPressed]}>{children}</Text>
-        </Pressable>
-    );
-};
-
 const styles = StyleSheet.create({
     largeButton: {
         alignItems: 'center',
-        backgroundColor: theme.colors.primary,
         borderRadius: 8,
         borderWidth: 0.5,
         borderColor: '#D9D9D9',
@@ -88,7 +26,6 @@ const styles = StyleSheet.create({
     },
     mediumButton: {
         alignItems: 'center',
-        backgroundColor: theme.colors.secondary,
         borderRadius: 8,
         borderWidth: 0.5,
         borderColor: '#D9D9D9',
@@ -101,17 +38,66 @@ const styles = StyleSheet.create({
     },
     smallButton: {
         alignItems: 'center',
-        backgroundColor: theme.colors.secondary,
         borderRadius: 24,
         height: 48,
         justifyContent: 'center',
         paddingHorizontal: 16,
     },
     smallButtonText: {
-        ...theme.typography.subheading,
+        ...theme.typography.caption,
         color: theme.colors.textSecondary,
     },
     buttonTextPressed: {
         opacity: 0.6,
     },
 });
+
+const buttonSizeStyles = {
+    large: {
+        button: styles.largeButton,
+        text: styles.largeButtonText,
+    },
+    medium: {
+        button: styles.mediumButton,
+        text: styles.mediumButtonText,
+    },
+    small: {
+        button: styles.smallButton,
+        text: styles.smallButtonText,
+    },
+};
+
+export const Button = ({ type, onPress, color, children, style }: ButtonProps) => {
+    const [isPressed, setIsPressed] = React.useState(false);
+
+    const buttonStyle = StyleSheet.flatten([
+        buttonSizeStyles[type]?.button || buttonSizeStyles.medium.button,
+        { backgroundColor: theme.colors[color] },
+        style,
+        isPressed && styles.buttonTextPressed,
+    ]);
+
+    const textStyle = StyleSheet.flatten([
+        buttonSizeStyles[type]?.text || buttonSizeStyles.medium.text,
+        isPressed && styles.buttonTextPressed,
+    ]);
+
+    const handlePressIn = () => {
+        setIsPressed(true);
+    };
+
+    const handlePressOut = () => {
+        setIsPressed(false);
+    };
+
+    return (
+        <Pressable
+            style={buttonStyle}
+            onPress={onPress}
+            onPressIn={handlePressIn}
+            onPressOut={handlePressOut}
+        >
+            <Text style={textStyle}>{children}</Text>
+        </Pressable>
+    );
+};

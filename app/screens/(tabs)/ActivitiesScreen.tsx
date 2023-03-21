@@ -2,9 +2,9 @@ import { Text, View, StyleSheet } from 'react-native';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/redux/store';
-import { styles } from '../../constants/Theme';
-import FastImage from 'react-native-fast-image';
 import { ScrollView } from 'react-native';
+import SmallCard from '../../components/SmallCard';
+
 
 export default function ActivitiesScreen() {
     const { results } = useSelector((state: RootState) => state.activity);
@@ -25,18 +25,15 @@ export default function ActivitiesScreen() {
     return (
         <ScrollView style={styles.container}>
             {Object.entries(activitiesByTag).map(([tag, activities]) => (
-                <View style={style.tagContainer} key={tag}>
-                    <Text style={style.tagText}>{tag}</Text>
+                <View style={styles.tagContainer} key={tag}>
+                    <Text style={styles.tagText}>{tag}</Text>
                     <ScrollView
                         horizontal
-                        contentContainerStyle={style.activitiesContainer}
+                        contentContainerStyle={styles.activitiesContainer}
                         showsHorizontalScrollIndicator={false}
                     >
                         {activities.map((activity, index) => (
-                            <View style={style.activityBox} key={index}>
-                                <FastImage source={{ uri: activity.logo.file }} style={style.activityImage} />
-                                <Text style={style.activityTitle}>{activity.title}</Text>
-                            </View>
+                            <SmallCard key={index} logo={activity.logo} title={activity.title} />
                         ))}
                     </ScrollView>
                 </View>
@@ -45,9 +42,10 @@ export default function ActivitiesScreen() {
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container: {
         flex: 1,
+        paddingHorizontal: 10,
     },
     tagContainer: {
         margin: 10,
@@ -62,25 +60,5 @@ const style = StyleSheet.create({
         overflow: 'scroll',
         alignItems: 'center',
         justifyContent: 'flex-start',
-    },
-    activityBox: {
-        width: 140,
-        height: 115,
-        backgroundColor: '#ffffff',
-        padding: 15,
-        borderRadius: 8,
-        borderColor: '#3960A8',
-        borderWidth: 1,
-        marginHorizontal: 4,
-        justifyContent: 'space-between',
-    },
-    activityImage: {
-        width: 40,
-        height: 40,
-    },
-    activityTitle: {
-        fontSize: 12,
-        fontFamily: 'outfit-semibold',
-        textAlign: 'left',
     },
 });

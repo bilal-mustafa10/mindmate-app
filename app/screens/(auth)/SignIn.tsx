@@ -1,9 +1,7 @@
-import {height, styles, theme} from '../../constants/Theme';
+import React, {useState, useEffect} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
-import {RootStackScreenProps} from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
-import * as React from 'react';
 import {Input} from '../../components/Input';
 import {passwordValidator, usernameValidator} from '../../services/validator';
 import {login} from '../../services/api/authEndpoints';
@@ -13,14 +11,16 @@ import {setLogin} from '../../services/redux/authSlice';
 import jwtDecode from 'jwt-decode';
 import {getActivities} from '../../services/api/activityEndpoints';
 import {setActivity} from '../../services/redux/activitySlice';
+import {height, styles, theme} from '../../constants/Theme';
+import {RootStackScreenProps} from '../../navigation/types';
 
 export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
-    const [username, setUsername] = React.useState({value: '', error: ''});
-    const [password, setPassword] = React.useState({value: '', error: ''});
-    const [showError, setShowError] = React.useState(false);
+    const [username, setUsername] = useState({value: '', error: ''});
+    const [password, setPassword] = useState({value: '', error: ''});
+    const [showError, setShowError] = useState(false);
     const dispatch = useDispatch();
 
-    React.useEffect(() => {
+    useEffect(() => {
         setUsername({value: '', error: ''});
         setPassword({value: '', error: ''});
         setShowError(false);
@@ -41,33 +41,34 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
             password: password.value,
         };
 
-        const response = await login(loginCredentials);
+        try {
+            const response = await login(loginCredentials);
 
-        if (response && response.status === 200) {
-            const decoded = jwtDecode(response.data.access);
+            if (response && response.status === 200) {
+                const decoded = jwtDecode(response.data.access);
 
+                dispatch(
+                    setLogin({
+                        userId: decoded['user_id'],
+                        accessToken: response.data.access,
+                        refreshToken: response.data.refresh,
+                    }),
+                );
 
+                const activities = await getActivities();
+                dispatch(setActivity(activities));
 
-            dispatch(setLogin({
-                userId: decoded['user_id'],
-                accessToken: response.data.access,
-                refreshToken: response.data.refresh
-            }));
-
-            const activities = await getActivities();
-            dispatch(setActivity(activities));
-
-            navigation.navigate('Root');
-        } else {
-
+                navigation.navigate('Root');
+            }
+        } catch (error) {
             setShowError(true);
         }
     };
 
-
     return (
         <View style={styles.container}>
-            <View style={[styles.content, { height: height * 0.35, justifyContent: 'flex-end'}]}>
+            <View
+                style={[styles.content, {height: height * 0.35, justifyContent: 'flex-end'}]}>
                 <FastImage
                     source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}
@@ -75,7 +76,9 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign in to your account</Text>
+                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>
+                    Sign in to your account
+                </Text>
                 <View>
                     <Input
                         label={'Username'}
@@ -97,15 +100,27 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                     />
                     {password.error ? <Text>{password.error}</Text> : null}
 
-                    <Button type={'large'} onPress={() => {
-                        handleSignIn();
-                    }} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
+                    <Button
+                        type={'large'}
+                        onPress={handleSignIn}
+                        style={{marginTop: '5%'}}
+                        color={'secondary'}
+                    >
+                        Sign In
+                    </Button>
                     {showError ? <Text>Failure to Login</Text> : null}
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text style={[styles.content, {textAlign: 'center', marginTop: '10%', color: theme.colors.text}]}>
-                        Do not have an account? <Text style={{fontWeight: 'bold', color: theme.colors.secondary}}>Sign
-                        up</Text>
+                    <Text
+                        style={[
+                            styles.content,
+                            {textAlign: 'center', marginTop: '10%', color: theme.colors.text},
+                        ]}
+                    >
+                        Do not have an account?{' '}
+                        <Text style={{fontWeight: 'bold', color: theme.colors.secondary}}>
+                            Sign up
+                        </Text>
                     </Text>
                 </TouchableOpacity>
             </View>

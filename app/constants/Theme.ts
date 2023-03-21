@@ -1,4 +1,5 @@
 import { Dimensions, StyleSheet } from 'react-native';
+
 export const theme = {
     colors: {
         primary: '#5539A8',
@@ -11,73 +12,58 @@ export const theme = {
         textSecondary: '#FFFFFF',
     },
     typography: {
-        h1: {
+        header1: {
             fontFamily: 'outfit-bold',
+            fontSize: 32,
+            lineHeight: 40,
+            letterSpacing: -0.5,
+        },
+        header2: {
+            fontFamily: 'outfit-semibold',
             fontSize: 24,
-            lineHeight: 41,
-            letterSpacing: -0.41,
-            color: '#000000',
+            lineHeight: 32,
+            letterSpacing: -0.2,
         },
-        h2: {
-            fontFamily: 'outfit-semibold',
-            fontSize: 20,
-            lineHeight: 34,
-            letterSpacing: -0.34,
-            color: '#000000',
-        },
-        h3: {
+        header3: {
             fontFamily: 'outfit-medium',
-            fontSize: 16,
-            lineHeight: 28,
-            letterSpacing: -0.22,
-            color: '#000000',
+            fontSize: 18,
+            lineHeight: 24,
+            letterSpacing: 0,
         },
-        body: {
+        body1: {
             fontFamily: 'outfit-regular',
-            fontSize: 17,
-            lineHeight: 22,
-            letterSpacing: -0.41,
-            color: '#000000',
+            fontSize: 16,
+            lineHeight: 24,
+            letterSpacing: 0.2,
         },
-        subheading: {
+        body2: {
             fontFamily: 'outfit-semibold',
-            fontSize: 15,
+            fontSize: 14,
             lineHeight: 20,
-            letterSpacing: -0.24,
-            color: '#000000',
-        },
-        footnote: {
-            fontFamily: 'outfit-regular',
-            fontSize: 16,
-            lineHeight: 18,
-            letterSpacing: -0.08,
-            color: '#000000',
+            letterSpacing: 0.25,
         },
         caption: {
             fontFamily: 'outfit-regular',
             fontSize: 12,
             lineHeight: 16,
-            letterSpacing: -0.06,
-            color: '#000000',
+            letterSpacing: 0.4,
         },
         button: {
             fontFamily: 'outfit-semibold',
-            fontSize: 16,
+            fontSize: 14,
             lineHeight: 20,
-            letterSpacing: -0.24,
-            color: '#FFFFFF',
-        }
+            letterSpacing: 0.75,
+            color: '#FFFFFF'
+        },
     },
 };
 
 export const { width, height } = Dimensions.get('window');
 
-
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.background,
-
     },
     content: {
         justifyContent: 'center',
@@ -106,21 +92,19 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
     },
     title: {
-        ...theme.typography.h1,
+        ...theme.typography.header1,
         marginBottom: 16,
     },
     subtitle: {
-        ...theme.typography.h2,
+        ...theme.typography.header2,
         marginBottom: 12,
     },
     label: {
-        ...theme.typography.subheading,
+        ...theme.typography.header3,
         marginBottom: 8,
     },
     body: {
-        ...theme.typography.body,
+        ...theme.typography.body1,
         marginBottom: 8,
     },
-
-
 });
