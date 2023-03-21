@@ -11,6 +11,8 @@ import {ILoginRequest} from '../../types/ILoginRequest';
 import {useDispatch} from 'react-redux';
 import {setLogin} from '../../services/redux/authSlice';
 import jwtDecode from 'jwt-decode';
+import {getActivities} from '../../services/api/activityEndpoints';
+import {setActivity} from '../../services/redux/activitySlice';
 
 export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
     const [username, setUsername] = React.useState({value: '', error: ''});
@@ -43,8 +45,8 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
 
         if (response && response.status === 200) {
             const decoded = jwtDecode(response.data.access);
-            
-            
+
+
 
             dispatch(setLogin({
                 userId: decoded['user_id'],
@@ -52,9 +54,12 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                 refreshToken: response.data.refresh
             }));
 
+            const activities = await getActivities();
+            dispatch(setActivity(activities));
+
             navigation.navigate('Root');
         } else {
-            
+
             setShowError(true);
         }
     };
@@ -93,7 +98,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                     {password.error ? <Text>{password.error}</Text> : null}
 
                     <Button type={'large'} onPress={() => {
-                        handleSignIn().then(r => {});
+                        handleSignIn();
                     }} style={{marginTop: '5%'}} color={'secondary'}>Sign In</Button>
                     {showError ? <Text>Failure to Login</Text> : null}
                 </View>
