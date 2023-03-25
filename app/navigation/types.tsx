@@ -12,6 +12,7 @@ export type RootStackParamList = {
     LandingPage: undefined;
     SignIn: undefined;
     SignUp: undefined;
+    ActivityCompleted: undefined;
     ViewActivity: { activity: ActivityResults};
 };
 

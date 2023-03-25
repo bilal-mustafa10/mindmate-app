@@ -10,11 +10,11 @@ import SignUp from '../screens/(auth)/SignUp';
 import ActivitiesScreen from '../screens/(tabs)/ActivitiesScreen';
 import HubScreen from '../screens/(tabs)/HubScreen';
 import MindverseScreen from '../screens/(tabs)/MindverseScreen';
-import {styles, theme} from '../constants/Theme';
+import {theme} from '../constants/Theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
-import {View} from 'react-native';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
+import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 
 export default function Navigation() {
     return (
@@ -53,6 +53,11 @@ function RootNavigator() {
             <Stack.Screen
                 name="SignUp"
                 component={SignUp}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="ActivityCompleted"
+                component={ActivityCompleted}
                 options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen

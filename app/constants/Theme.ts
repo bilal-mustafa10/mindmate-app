@@ -100,6 +100,11 @@ export const styles = StyleSheet.create({
         width: width * 0.8,
         height: width * 0.8,
     },
+    activityLogo: {
+        width: width * 0.35,
+        height: width * 0.35,
+        marginBottom: 20,
+    },
     logoWithoutContainer: {
         width: width * 0.6,
         height: width * 0.6 * 0.5,

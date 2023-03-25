@@ -2,10 +2,9 @@ import React from 'react';
 import {View, Text, StatusBar, ScrollView} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
-import {styles, theme, width} from '../../constants/Theme';
+import {styles, width} from '../../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import HTMLView from 'react-native-htmlview';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import {htmlViewStyle} from '../../constants/HtmlViewStyle';
 import {Ionicons} from '@expo/vector-icons';
 import {Button} from '../../components/Button';
@@ -18,13 +17,12 @@ type Props = {
 
 export default function ViewActivityScreen({ navigation, route }: Props) {
     const activity = route.params.activity;
-    const insets = useSafeAreaInsets();
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
 
     const handleActivityComplete = () => {
-        console.log('Complete');
+        navigation.navigate('ActivityCompleted');
     };
 
     return (
@@ -41,7 +39,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                         height: (width / (activity.photo.width / activity.photo.height)) * 1.5,
                     }}
                 />
-                <View style={styles.container}>
+                <View style={[styles.container, {marginBottom: '30%'}]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center' }}>
                         <View style={{marginVertical: 25}}>
                             <Text style={[styles.activityTitle, {marginBottom: 10, marginVertical: 0}]}>{activity.title}</Text>
@@ -52,7 +50,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                             style={{ width: 25, height: 25 }}
                         />
                     </View>
-                    <HTMLView stylesheet={htmlViewStyle} value={activity.description} />
+                    <HTMLView stylesheet={htmlViewStyle} value={activity.description}/>
                 </View>
             </ScrollView>
             <View style={styles.activityContainer}>
