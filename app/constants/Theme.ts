@@ -38,12 +38,12 @@ export const theme = {
         },
         body2: {
             fontFamily: 'outfit-semibold',
-            fontSize: 14,
-            lineHeight: 20,
+            fontSize: 12,
+            lineHeight: 16,
             letterSpacing: 0.25,
         },
         caption: {
-            fontFamily: 'outfit-regular',
+            fontFamily: 'outfit-medium',
             fontSize: 12,
             lineHeight: 16,
             letterSpacing: 0.4,
@@ -56,6 +56,13 @@ export const theme = {
             color: '#FFFFFF'
         },
     },
+    five_ways_theme: {
+        'Keep Active': '#3960A8',
+        'Connect with others': '#A83973',
+        'Keep Learning': '#A85B39',
+        'Give to others': '#6F39A8',
+        'Take Notice': '#39A873',
+    }
 };
 
 export const { width, height } = Dimensions.get('window');
@@ -64,6 +71,7 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.background,
+        paddingHorizontal: '5%',
     },
     content: {
         justifyContent: 'center',
@@ -74,6 +82,12 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingHorizontal: '10%',
         backgroundColor: theme.colors.background,
+    },
+    rowScrollContainer: {
+        flexDirection: 'row',
+        overflow: 'scroll',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
     },
     secondaryBackground: {
         backgroundColor: theme.colors.secondaryBackground,
@@ -107,4 +121,41 @@ export const styles = StyleSheet.create({
         ...theme.typography.body1,
         marginBottom: 8,
     },
+    subTitle: {
+        fontSize: 16,
+        fontFamily: 'outfit-semibold',
+        marginHorizontal: 10,
+        marginVertical: 20,
+    },
+    activityTitle: {
+        fontSize: 20,
+        fontFamily: 'outfit-bold',
+        marginVertical: 20,
+    },
+    leadPhoto: {
+        width: width,
+        height: undefined,
+        aspectRatio: 1,
+    },
+    activityContainer: {
+        height: 55,
+        backgroundColor: 'white',
+        borderRadius: 8,
+        paddingHorizontal: '3%',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+        position: 'absolute',
+        bottom: 35,
+        width: '90%',
+        alignSelf: 'center',
+    }
 });

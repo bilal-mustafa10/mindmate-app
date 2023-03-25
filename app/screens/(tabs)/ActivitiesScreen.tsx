@@ -1,18 +1,19 @@
-import { Text, View, StyleSheet } from 'react-native';
-import * as React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/redux/store';
 import { ScrollView } from 'react-native';
 import SmallCard from '../../components/SmallCard';
+import {styles, theme} from '../../constants/Theme';
+import {RootStackScreenProps} from '../../navigation/types';
 
 
-export default function ActivitiesScreen() {
+export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'Root'>) {
     const { results } = useSelector((state: RootState) => state.activity);
 
     const activitiesByTag = {
         'Keep Active': [],
         'Give to others': [],
-        'Keep Notice': [],
+        'Take Notice': [],
         'Connect with others': [],
         'Keep Learning': [],
     };
@@ -23,17 +24,20 @@ export default function ActivitiesScreen() {
     });
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={[styles.container]}>
             {Object.entries(activitiesByTag).map(([tag, activities]) => (
-                <View style={styles.tagContainer} key={tag}>
-                    <Text style={styles.tagText}>{tag}</Text>
+                <View key={tag}>
+                    <Text style={styles.subTitle}>{tag}</Text>
                     <ScrollView
                         horizontal
-                        contentContainerStyle={styles.activitiesContainer}
+                        contentContainerStyle={styles.rowScrollContainer}
                         showsHorizontalScrollIndicator={false}
                     >
                         {activities.map((activity, index) => (
-                            <SmallCard key={index} logo={activity.logo} title={activity.title} />
+                            <TouchableOpacity key={index} onPress={() => navigation.navigate('ViewActivity', {activity: activity})}>
+                                <SmallCard borderColor={theme.five_ways_theme[tag]} key={index} logo={activity.logo} title={activity.title} />
+                            </TouchableOpacity>
+
                         ))}
                     </ScrollView>
                 </View>
@@ -41,24 +45,3 @@ export default function ActivitiesScreen() {
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 10,
-    },
-    tagContainer: {
-        margin: 10,
-    },
-    tagText: {
-        fontSize: 16,
-        fontFamily: 'outfit-semibold',
-        marginVertical: 8,
-    },
-    activitiesContainer: {
-        flexDirection: 'row',
-        overflow: 'scroll',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
-});

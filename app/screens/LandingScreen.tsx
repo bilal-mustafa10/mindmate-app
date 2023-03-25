@@ -23,13 +23,13 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
                 console.log('logged in');
                 const activities = await getActivities();
                 dispatch(setActivity(activities));
-                // navigation.navigate('Root');
+                navigation.navigate('Root');
             }
         });
     }, []);
 
     return (
-        <ScrollView contentContainerStyle={styles.container}>
+        <ScrollView contentContainerStyle={[styles.container, {paddingHorizontal: 0}]}>
             <View style={[styles.content, styles.secondaryBackground, { height: height * 0.67 }]}>
                 <FastImage source={require('../assets/images/logo.png')} style={styles.logo} />
             </View>

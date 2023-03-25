@@ -10,8 +10,11 @@ import SignUp from '../screens/(auth)/SignUp';
 import ActivitiesScreen from '../screens/(tabs)/ActivitiesScreen';
 import HubScreen from '../screens/(tabs)/HubScreen';
 import MindverseScreen from '../screens/(tabs)/MindverseScreen';
-import {theme} from '../constants/Theme';
+import {styles, theme} from '../constants/Theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import FastImage from 'react-native-fast-image';
+import {View} from 'react-native';
+import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 
 export default function Navigation() {
     return (
@@ -52,6 +55,15 @@ function RootNavigator() {
                 component={SignUp}
                 options={{headerShown: false, gestureEnabled: false}}
             />
+            <Stack.Screen
+                name="ViewActivity"
+                component={ViewActivityScreen}
+                options={{headerShown: true,
+                    gestureEnabled: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                }}
+            />
         </Stack.Navigator>
     );
 }
@@ -84,7 +96,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 tabBarActiveTintColor: '#5539A8',
                 tabBarInactiveTintColor: '#000',
                 tabBarStyle: {
-                    borderRadius: 16,
+                    borderRadius: 32,
                     paddingTop: 10,
                     paddingBottom: insets.bottom - 10,
                     paddingHorizontal: 10,
@@ -124,6 +136,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                         fontFamily: 'outfit-semibold',
                         fontSize: 24,
                         color: theme.colors.text,
+                        paddingHorizontal: '5%',
                         marginBottom: 10,
                     },
                     headerStyle: {
@@ -131,6 +144,13 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                     },
                     tabBarLabelStyle: routeName === 'Activities' ? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color, focused}) => tabBarIcon('compass', focused, color),
+                    headerRightContainerStyle: {
+                        paddingHorizontal: '5%',
+                    },
+                    headerRight: () => (
+                        <FastImage source={require('../assets/images/favourite.png')} style={{width: 30, height: 30}} />
+
+                    ),
                 })}
             />
             <BottomTab.Screen

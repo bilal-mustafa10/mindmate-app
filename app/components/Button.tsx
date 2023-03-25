@@ -3,7 +3,7 @@ import { Pressable, StyleSheet, Text, ViewStyle } from 'react-native';
 import { theme } from '../constants/Theme';
 
 interface ButtonProps {
-    type: 'large' | 'medium' | 'small';
+    type: 'large' | 'medium' | 'small'| 'pill';
     onPress: () => void;
     color: 'secondary' | 'tertiary' | 'error' | 'primary';
     children: React.ReactNode;
@@ -38,10 +38,13 @@ const styles = StyleSheet.create({
     },
     smallButton: {
         alignItems: 'center',
-        borderRadius: 24,
-        height: 48,
+        borderRadius: 8,
+        borderWidth: 0.5,
+        borderColor: '#D9D9D9',
+        height: 35,
         justifyContent: 'center',
-        paddingHorizontal: 16,
+        width: '32%',
+        margin: 5,
     },
     smallButtonText: {
         ...theme.typography.caption,
@@ -49,6 +52,17 @@ const styles = StyleSheet.create({
     },
     buttonTextPressed: {
         opacity: 0.6,
+    },
+    pillButton: {
+        alignItems: 'center',
+        borderRadius: 24,
+        height: 48,
+        justifyContent: 'center',
+        paddingHorizontal: 16,
+    },
+    pillButtonText: {
+        ...theme.typography.caption,
+        color: theme.colors.textSecondary,
     },
 });
 
@@ -64,6 +78,10 @@ const buttonSizeStyles = {
     small: {
         button: styles.smallButton,
         text: styles.smallButtonText,
+    },
+    pill: {
+        button: styles.pillButton,
+        text: styles.pillButtonText,
     },
 };
 
