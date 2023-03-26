@@ -1,15 +1,38 @@
 import {Text, View} from '../../components/Themed';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../services/redux/store';
 import {styles} from '../../constants/Theme';
+import {Button} from '../../components/Button';
+import {RootStackScreenProps} from '../../navigation/types';
+import React from 'react';
+import InspirationBoxComponent from '../../components/InspirationComponent';
+import {shortcuts} from '../../constants/Shortcuts';
+import ShortcutComponent from '../../components/ShortcutComponent';
+import RecommendedActivity from '../../components/RecommendedActivity';
+import {ScrollView} from 'react-native';
 
-export default function HomeScreen() {
-    // get the current user from the redux store
-    const auth = useSelector((state: RootState) => state.auth);
+export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>) {
+    const inspiration = '"You are not your illness. You have an individual story to tell. You have a name, a history, a personality. Staying yourself is part of the battle." - Julian Seifter';
+
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>Welcome to the app {auth.userId}</Text>
-        </View>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
+                <Text style={styles.subTitle}>Daily Inspiration</Text>
+                <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'pill'}>
+                    share
+                </Button>
+            </View>
+            <InspirationBoxComponent inspiration={inspiration}/>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
+                <Text style={styles.subTitle}>Shortcuts</Text>
+                <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'pill'}>
+                    edit
+                </Button>
+            </View>
+            <ShortcutComponent shortcuts={shortcuts} navigation={navigation} />
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
+                <Text style={styles.subTitle}>Recommended Activities</Text>
+            </View>
+            <RecommendedActivity activities={shortcuts} navigation={navigation} />
+        </ScrollView>
     );
 }
 

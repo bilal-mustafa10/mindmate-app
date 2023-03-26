@@ -132,9 +132,28 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 name="MindMate"
                 component={HomeScreen}
                 options={() => ({
-                    headerShown: false,
+                    headerShown: true,
+                    headerTitleAlign: 'left',
+                    headerTitleStyle: {
+                        fontFamily: 'outfit-semibold',
+                        fontSize: 24,
+                        color: theme.colors.text,
+                        paddingHorizontal: '5%',
+                        marginBottom: 10,
+                    },
+                    headerStyle: {
+                        backgroundColor: theme.colors.background,
+                    },
                     tabBarLabelStyle: routeName === 'MindMate' ? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color, focused}) => tabBarIcon('cloud', focused, color),
+                    headerRightContainerStyle: {
+                        paddingHorizontal: '5%',
+                        marginBottom: 10,
+                    },
+                    headerRight: () => (
+                        <FastImage source={require('../assets/images/help.png')} style={{width: 30, height: 30}} />
+
+                    ),
                 })}
             />
             <BottomTab.Screen
@@ -157,6 +176,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                     tabBarIcon: ({color, focused}) => tabBarIcon('compass', focused, color),
                     headerRightContainerStyle: {
                         paddingHorizontal: '5%',
+                        marginBottom: 10,
                     },
                     headerRight: () => (
                         <FastImage source={require('../assets/images/favourite.png')} style={{width: 30, height: 30}} />

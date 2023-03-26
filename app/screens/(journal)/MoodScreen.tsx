@@ -3,7 +3,7 @@ import {View, Text} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import * as React from 'react';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import {moodImages} from '../../constants/images';
+import {moodImages} from '../../constants/Images';
 import MoodComponent from '../../components/MoodComponent';
 import TextInput from '../../components/TextInput';
 import {Button} from '../../components/Button';

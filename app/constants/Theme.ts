@@ -62,6 +62,12 @@ export const theme = {
         'Keep Learning': '#A85B39',
         'Give to others': '#6F39A8',
         'Take Notice': '#39A873',
+    },
+    card_theme: {
+        0: '#A83944',
+        1: '#3960A8',
+        2: '#39A873',
+        3: '#5539A8',
     }
 };
 

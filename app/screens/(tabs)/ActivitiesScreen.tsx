@@ -2,7 +2,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/redux/store';
 import { ScrollView } from 'react-native';
-import SmallCard from '../../components/SmallCard';
+import Card from '../../components/Card';
 import {styles, theme} from '../../constants/Theme';
 import {RootStackScreenProps} from '../../navigation/types';
 
@@ -24,7 +24,7 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
     });
 
     return (
-        <ScrollView style={[styles.container]}>
+        <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
             {Object.entries(activitiesByTag).map(([tag, activities]) => (
                 <View key={tag}>
                     <Text style={styles.subTitle}>{tag}</Text>
@@ -35,7 +35,7 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
                     >
                         {activities.map((activity, index) => (
                             <TouchableOpacity key={index} onPress={() => navigation.navigate('ViewActivity', {activity: activity})}>
-                                <SmallCard borderColor={theme.five_ways_theme[tag]} key={index} logo={activity.logo} title={activity.title} />
+                                <Card type={'medium'} borderColor={theme.five_ways_theme[tag]} key={index} logo={activity.logo} title={activity.title} />
                             </TouchableOpacity>
 
                         ))}
