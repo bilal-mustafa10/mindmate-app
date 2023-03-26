@@ -15,6 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
+import MoodScreen from '../screens/(journal)/MoodScreen';
 
 export default function Navigation() {
     return (
@@ -58,6 +59,11 @@ function RootNavigator() {
             <Stack.Screen
                 name="ActivityCompleted"
                 component={ActivityCompleted}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="MoodScreen"
+                component={MoodScreen}
                 options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen

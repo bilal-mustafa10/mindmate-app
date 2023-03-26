@@ -22,7 +22,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
 
     const handleActivityComplete = () => {
-        navigation.navigate('ActivityCompleted');
+        navigation.navigate('MoodScreen');
     };
 
     return (

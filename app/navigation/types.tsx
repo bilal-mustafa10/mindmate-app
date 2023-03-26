@@ -13,6 +13,7 @@ export type RootStackParamList = {
     SignIn: undefined;
     SignUp: undefined;
     ActivityCompleted: undefined;
+    MoodScreen: undefined;
     ViewActivity: { activity: ActivityResults};
 };
 

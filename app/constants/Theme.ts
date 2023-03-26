@@ -7,7 +7,7 @@ export const theme = {
         tertiary: '#3960A8',
         error: '#A83944',
         background: '#F5F5F5',
-        secondaryBackground: '#F2E8FF',
+        secondaryBackground: '#F5F4FF',
         text: '#000000',
         textSecondary: '#FFFFFF',
     },
@@ -50,7 +50,7 @@ export const theme = {
         },
         button: {
             fontFamily: 'outfit-semibold',
-            fontSize: 14,
+            fontSize: 15,
             lineHeight: 20,
             letterSpacing: 0.75,
             color: '#FFFFFF'
