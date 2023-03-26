@@ -31,7 +31,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
                 <Text style={styles.subTitle}>Recommended Activities</Text>
             </View>
-            <RecommendedActivity activities={shortcuts} navigation={navigation} />
+            <RecommendedActivity activities={shortcuts}/>
         </ScrollView>
     );
 }
