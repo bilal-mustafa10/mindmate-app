@@ -2,7 +2,6 @@ import {Text, View} from '../../components/Themed';
 import {styles} from '../../constants/Theme';
 import {Button} from '../../components/Button';
 import {RootStackScreenProps} from '../../navigation/types';
-import React from 'react';
 import InspirationBoxComponent from '../../components/InspirationComponent';
 import {shortcuts} from '../../constants/Shortcuts';
 import ShortcutComponent from '../../components/ShortcutComponent';
