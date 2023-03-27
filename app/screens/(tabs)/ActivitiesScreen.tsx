@@ -24,10 +24,10 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
     });
 
     return (
-        <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
+        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             {Object.entries(activitiesByTag).map(([tag, activities]) => (
                 <View key={tag}>
-                    <Text style={styles.subTitle}>{tag}</Text>
+                    <Text style={theme.typography.subTitle}>{tag}</Text>
                     <ScrollView
                         horizontal
                         contentContainerStyle={styles.rowScrollContainer}

@@ -12,41 +12,42 @@ export const theme = {
         textSecondary: '#FFFFFF',
     },
     typography: {
-        header1: {
+        header: {
             fontFamily: 'outfit-bold',
-            fontSize: 32,
-            lineHeight: 40,
-            letterSpacing: -0.5,
+            fontSize: 28,
+            lineHeight: 36,
+            color: 'black',
         },
-        header2: {
+        title: {
             fontFamily: 'outfit-semibold',
-            fontSize: 24,
-            lineHeight: 32,
-            letterSpacing: -0.2,
+            fontSize: 22,
+            lineHeight: 30,
+            color: 'black',
         },
-        header3: {
+        subTitle: {
             fontFamily: 'outfit-medium',
             fontSize: 18,
             lineHeight: 24,
-            letterSpacing: 0,
+            color: 'black',
+            marginVertical:'5%'
         },
-        body1: {
+        body: {
             fontFamily: 'outfit-regular',
             fontSize: 16,
-            lineHeight: 24,
-            letterSpacing: 0.2,
+            lineHeight: 22,
+            color: 'black',
         },
-        body2: {
+        bodyBold: {
             fontFamily: 'outfit-semibold',
-            fontSize: 12,
-            lineHeight: 16,
-            letterSpacing: 0.25,
+            fontSize: 16,
+            lineHeight: 22,
+            color: 'black',
         },
         caption: {
             fontFamily: 'outfit-medium',
             fontSize: 12,
-            lineHeight: 16,
-            letterSpacing: 0.4,
+            lineHeight: 18,
+            color: 'black',
         },
         button: {
             fontFamily: 'outfit-semibold',
@@ -116,7 +117,7 @@ export const styles = StyleSheet.create({
         height: width * 0.6 * 0.5,
         marginBottom: 20,
     },
-    title: {
+    /*title: {
         ...theme.typography.header1,
         marginBottom: 16,
     },
@@ -131,8 +132,8 @@ export const styles = StyleSheet.create({
     body: {
         ...theme.typography.body1,
         marginBottom: 8,
-    },
-    subTitle: {
+    },*/
+    /*subTitle: {
         fontSize: 16,
         fontFamily: 'outfit-semibold',
         marginHorizontal: 10,
@@ -142,7 +143,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily: 'outfit-bold',
         marginVertical: 20,
-    },
+    },*/
     leadPhoto: {
         width: width,
         height: undefined,

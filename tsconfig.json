@@ -9,5 +9,5 @@
     "src/**/*.ts",
     "test/**/*.ts"
   ],
-
+  "extends": "expo/tsconfig.base"
 }

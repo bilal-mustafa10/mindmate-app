@@ -1,7 +1,7 @@
 import {useEffect} from 'react';
 import {View, Text, ScrollView} from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {height, styles} from '../constants/Theme';
+import {height, styles, theme} from '../constants/Theme';
 import {Button} from '../components/Button';
 import {RootStackScreenProps} from '../navigation/types';
 import {isLoggedIn} from 'react-native-axios-jwt';
@@ -35,8 +35,8 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
             </View>
             <View style={[styles.content, { flex: 1, justifyContent: 'space-between' }]}>
                 <View style={{ alignItems: 'center', marginTop: '5%' }}>
-                    <Text style={styles.title}>Welcome to MindMate</Text>
-                    <Text style={[styles.body, { textAlign: 'center', marginBottom: 16 }]}>
+                    <Text style={theme.typography.header}>Welcome to MindMate</Text>
+                    <Text style={[theme.typography.subTitle, { textAlign: 'center', marginVertical: 16 }]}>
                         Take control of your mental health, anytime, anywhere
                     </Text>
                 </View>

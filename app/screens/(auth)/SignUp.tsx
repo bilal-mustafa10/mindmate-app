@@ -1,5 +1,5 @@
 import {height, styles, theme} from '../../constants/Theme';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {Text, TouchableOpacity, View} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
@@ -23,7 +23,7 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>Sign up to MindMate</Text>
+                <Text style={[theme.typography.subTitle, {marginBottom: '5%'}]}>Sign up to MindMate</Text>
                 <View>
                     <Input
                         label={'First Name'}
@@ -61,11 +61,23 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                         autoCorrect={false}
                     />
 
-                    <Button type={'large'} onPress={() => navigation.replace('Root')} style={{marginTop: '5%'}} color={'secondary'}>Sign Up</Button>
+                    <Button type={'large'}
+                        onPress={() => navigation.replace('Root')}
+                        style={{marginTop: '5%'}}
+                        color={'secondary'}
+                    >
+                        Sign Up
+                    </Button>
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                    <Text style={[styles.content, { textAlign: 'center', marginTop: '10%', color: theme.colors.text }]}>
-                        Already have an account? <Text style={{ fontWeight: 'bold', color: theme.colors.secondary }}>Sign in</Text>
+                    <Text style={[{
+                        ...theme.typography.body,
+                        textAlign: 'center',
+                        marginTop: '10%',
+                        color: theme.colors.text
+                    }]}>
+                        Already have an account? <Text
+                            style={{...theme.typography.bodyBold, color: theme.colors.secondary}}>Sign in</Text>
                     </Text>
                 </TouchableOpacity>
             </View>

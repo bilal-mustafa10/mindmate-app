@@ -1,4 +1,4 @@
-import React, {useMemo} from 'react';
+import {useMemo} from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Photo} from '../services/redux/activitySlice';
@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
         height: 30,
     },
     activityTitle: {
-        ...theme.typography.body2,
+        ...theme.typography.caption,
     },
 });
 

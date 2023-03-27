@@ -1,4 +1,4 @@
-import {styles} from '../../constants/Theme';
+import {styles, theme} from '../../constants/Theme';
 import {View, Text} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import * as React from 'react';
@@ -13,9 +13,9 @@ export default function MoodScreen({navigation}: RootStackScreenProps<'MoodScree
 
     return (
         <View style={[styles.container, styles.secondaryBackground, {paddingTop: insets.top * 1.5}]}>
-            <Text style={styles.subTitle}>How are you feeling today [Student Name]?</Text>
+            <Text style={theme.typography.subTitle}>How are you feeling today [Student Name]?</Text>
             <MoodComponent moodImages={moodImages} />
-            <Text style={styles.subTitle}>What made you feel like this?</Text>
+            <Text style={theme.typography.subTitle}>What made you feel like this?</Text>
             <TextInput />
             <View
                 style={{

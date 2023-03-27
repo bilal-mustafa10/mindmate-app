@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
@@ -76,7 +76,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={[styles.subtitle, {marginBottom: '5%'}]}>
+                <Text style={[theme.typography.subTitle, {marginBottom: '5%'}]}>
                     Sign in to your account
                 </Text>
                 <View>
@@ -111,14 +111,10 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                     {showError ? <Text>Failure to Login</Text> : null}
                 </View>
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
-                    <Text
-                        style={[
-                            styles.content,
-                            {textAlign: 'center', marginTop: '10%', color: theme.colors.text},
-                        ]}
+                    <Text style={{...theme.typography.body, textAlign: 'center', marginTop: '10%'}}
                     >
                         Do not have an account?{' '}
-                        <Text style={{fontWeight: 'bold', color: theme.colors.secondary}}>
+                        <Text style={{...theme.typography.bodyBold, color: theme.colors.secondary}}>
                             Sign up
                         </Text>
                     </Text>

@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Text, StatusBar, ScrollView} from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
-import {styles, width} from '../../constants/Theme';
+import {styles, theme, width} from '../../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import HTMLView from 'react-native-htmlview';
 import {htmlViewStyle} from '../../constants/HtmlViewStyle';
@@ -22,7 +22,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
 
     const handleActivityComplete = () => {
-        navigation.navigate('MoodScreen');
+        navigation.navigate('ActivityCompleted');
     };
 
     return (
@@ -42,7 +42,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 <View style={[styles.container, {marginBottom: '30%'}]}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center' }}>
                         <View style={{marginVertical: 25}}>
-                            <Text style={[styles.activityTitle, {marginBottom: 10, marginVertical: 0}]}>{activity.title}</Text>
+                            <Text style={[theme.typography.subTitle, {marginVertical: '2%'}]}>{activity.title}</Text>
                             <TagComponent tags={activity.tags} />
                         </View>
                         <FastImage

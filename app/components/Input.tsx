@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#FFFFFF',
         borderRadius: 8,
         paddingHorizontal: 16,
-        ...theme.typography.body1,
+        ...theme.typography.body,
         color: theme.colors.text,
         borderWidth: 1,
         borderColor: '#D9D9D9',
