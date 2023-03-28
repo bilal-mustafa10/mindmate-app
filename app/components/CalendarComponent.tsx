@@ -100,18 +100,20 @@ export function CalendarComponent() {
                     ) : (
                         selectedDateMoodData.map((moodData, moodIndex) => (
                             <View style={styles.moodDataContainer} key={`mood-${moodIndex}`}>
-                                <Image
-                                    style={styles.moodImage}
-                                    source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
-                                />
-                                <View style={styles.textAndButtonContainer}>
+                                <View style={{padding: 10,flexDirection: 'row'}}>
+                                    <Image
+                                        style={[styles.moodImage, {marginRight: 10}]}
+                                        source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
+                                    />
                                     <View>
                                         <Text style={styles.moodText}>{moodData.mood}</Text>
                                         <Text style={styles.dateText}>{selectedDate.toLocaleDateString()}</Text>
                                     </View>
-                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                        <Text style={styles.noteText}>{moodData.note}</Text>
-                                    </View>
+                                </View>
+
+                                <View style={{ paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
+                                    <Text style={styles.noteText}>{moodData.note}</Text>
+                                    <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>share</Button>
                                 </View>
                             </View>
                         ))
@@ -144,15 +146,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#D9D9D9',
     },
-    /*moodDataContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 4,
-
+    moodDataContainer: {
+        marginTop: 10,
+        width: '100%',
         height: 100,
         padding: 10,
         borderRadius: 8,
-        marginHorizontal: 4,
         backgroundColor: '#FFFFFF',
         shadowColor: '#000',
         shadowOffset: {
@@ -162,13 +161,12 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.04,
         shadowRadius: 4,
         elevation: 4,
-        justifyContent: 'space-around',
-    },*/
+    },
     moodText: {
-        ...theme.typography.bodyBold,
+        ...theme.typography.body,
     },
     noteText: {
-        ...theme.typography.body,
+        ...theme.typography.journalText,
     },
     selectedDateMoodData: {
         marginTop: 20,
@@ -186,24 +184,23 @@ const styles = StyleSheet.create({
         height: 30,
         resizeMode: 'contain',
     },
-
     container: {
         paddingHorizontal: 8,
     },
-    moodDataContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginTop: 4,
-        width: 345,
-        height: 80,
+    /*    moodDataContainer: {
         padding: 10,
+        flexDirection: 'row',
+        marginTop: 4,
+        width: '100%',
+        height: 80,
         borderRadius: 8,
         backgroundColor: '#FFFFFF',
-    },
+    },*/
     textAndButtonContainer: {
         flexDirection: 'column',
-        justifyContent: 'space-between',
+        justifyContent: 'space-around',
         height: '100%',
+        width: '80%',
         marginLeft: 8,
     },
     dateText: {
@@ -220,3 +217,4 @@ const styles = StyleSheet.create({
         height: '100%',
     },
 });
+

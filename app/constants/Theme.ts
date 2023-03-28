@@ -49,6 +49,12 @@ export const theme = {
             lineHeight: 18,
             color: 'black',
         },
+        journalText: {
+            fontFamily: 'outfit-light',
+            fontSize: 12,
+            lineHeight: 18,
+            color: 'black',
+        },
         button: {
             fontFamily: 'outfit-semibold',
             fontSize: 15,
