@@ -25,7 +25,7 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
                 <Text style={theme.typography.subTitle}>Journals</Text>
             </View>
-            <JournalComponent/>
+            <JournalComponent navigation={navigation}/>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
                 <Text style={theme.typography.subTitle}>Mental Health Resources</Text>
                 <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'pill'}>

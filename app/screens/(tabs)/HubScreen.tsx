@@ -8,7 +8,7 @@ export default function HubScreen() {
     const auth = useSelector((state: RootState) => state.auth);
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Welcome to the app {auth.userId}</Text>
+            <Text>Welcome to the app {auth.userId}</Text>
         </View>
     );
 }

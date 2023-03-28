@@ -1,4 +1,5 @@
 import {Ionicons} from '@expo/vector-icons';
+import {Text} from 'react-native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {DefaultTheme, NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
@@ -16,6 +17,7 @@ import FastImage from 'react-native-fast-image';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 import MoodScreen from '../screens/(journal)/MoodScreen';
+import MoodJournal from '../screens/(journal)/MoodJournal';
 
 export default function Navigation() {
     return (
@@ -65,6 +67,18 @@ function RootNavigator() {
                 name="MoodScreen"
                 component={MoodScreen}
                 options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="MoodJournal"
+                component={MoodJournal}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>Mood Journal</Text>
+                    ),
+                }}
             />
             <Stack.Screen
                 name="ViewActivity"
