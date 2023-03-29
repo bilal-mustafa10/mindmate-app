@@ -5,44 +5,41 @@ import {RectButton} from 'react-native-gesture-handler';
 import {Button} from './Button';
 import {moodImages} from '../constants/Images';
 
-const sampleMoodData = [
-    { date: '2023-03-02', mood: 'Happy', note: 'I had a great day today!' },
-    { date: '2023-03-02', mood: 'Unsure', note: 'I had an ok day today!' },
-    { date: '2023-03-28', mood: 'Happy', note: 'I had a great day today!' },
-];
+interface IMoodDataProps {
+    date: string;
+    mood: string;
+    note: string;
+}
+
+export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
+    const getWeekDates = (numDays = 45) => {
+        const weekDates = [];
+        const now = new Date();
+        now.setHours(0, 0, 0, 0);
+
+        for (let i = 0; i < numDays - 1; i++) {
+            const date = new Date(now);
+            date.setDate(now.getDate() - i);
+            weekDates.unshift(date);
+        }
+
+        return weekDates;
+    };
+
+    const getMonthName = (date) => new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
 
 
-
-const getWeekDates = (numDays = 45) => {
-    const weekDates = [];
-    const now = new Date();
-    now.setHours(0, 0, 0, 0);
-
-    for (let i = 0; i < numDays - 1; i++) {
-        const date = new Date(now);
-        date.setDate(now.getDate() - i);
-        weekDates.unshift(date);
-    }
-
-    return weekDates;
-};
-
-
-const getMonthName = (date) => new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
-
-const getMoodDataForDate = (date) => {
-    const dateString = date.toISOString().split('T')[0];
-    return sampleMoodData.filter((item) => item.date === dateString);
-};
-
-
-export function CalendarComponent() {
     const [dates] = useState(getWeekDates().reverse());
     const [month, setMonth] = useState(getMonthName(dates[0]));
 
     const currentDate = new Date();
     currentDate.setHours(0, 0, 0, 0);
-    const [selectedDate, setSelectedDate] = useState(currentDate); // Set selectedDate to currentDate initially
+    const [selectedDate, setSelectedDate] = useState(currentDate);
+
+    const getMoodDataForDate = (date) => {
+        const dateString = date.toISOString().split('T')[0];
+        return moodData.filter((item) => item.date === dateString);
+    };
 
     const handleScroll = (event) => {
         const scrollX = event.nativeEvent.contentOffset.x;
@@ -54,7 +51,6 @@ export function CalendarComponent() {
     const handleDateSelect = (date) => setSelectedDate(date);
 
     const selectedDateMoodData = selectedDate ? getMoodDataForDate(selectedDate) : [];
-
 
     const renderItem = ({item: date, index}) => {
         const isSelectedDate = selectedDate && date.getTime() === selectedDate.getTime();
@@ -100,7 +96,7 @@ export function CalendarComponent() {
                     ) : (
                         selectedDateMoodData.map((moodData, moodIndex) => (
                             <View style={styles.moodDataContainer} key={`mood-${moodIndex}`}>
-                                <View style={{padding: 10,flexDirection: 'row'}}>
+                                <View style={{padding: 10, flexDirection: 'row'}}>
                                     <Image
                                         style={[styles.moodImage, {marginRight: 10}]}
                                         source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
@@ -124,7 +120,6 @@ export function CalendarComponent() {
         </View>
     );
 }
-
 
 const styles = StyleSheet.create({
     header: {
@@ -171,10 +166,6 @@ const styles = StyleSheet.create({
     selectedDateMoodData: {
         marginTop: 20,
     },
-    selectedDateText: {
-        ...theme.typography.bodyBold,
-        marginBottom: 10,
-    },
     noDataText: {
         ...theme.typography.body,
         fontStyle: 'italic',
@@ -187,34 +178,9 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 8,
     },
-    /*    moodDataContainer: {
-        padding: 10,
-        flexDirection: 'row',
-        marginTop: 4,
-        width: '100%',
-        height: 80,
-        borderRadius: 8,
-        backgroundColor: '#FFFFFF',
-    },*/
-    textAndButtonContainer: {
-        flexDirection: 'column',
-        justifyContent: 'space-around',
-        height: '100%',
-        width: '80%',
-        marginLeft: 8,
-    },
     dateText: {
         fontSize: 10,
         fontWeight: '300',
-    },
-    buttonText: {
-        fontSize: 8,
-        fontWeight: '200',
-        textAlign: 'right',
-    },
-    forwardButton: {
-        width: 20,
-        height: '100%',
     },
 });
 
