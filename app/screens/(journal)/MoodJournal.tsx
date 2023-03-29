@@ -6,9 +6,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CalendarComponent, IMoodDataProps} from '../../components/CalendarComponent';
 
 const sampleMoodData: IMoodDataProps[] = [
-    { date: '2023-02-02T08:00:00', mood: 'Happy', note: 'I had a great day today!' },
-    { date: '2023-03-02T08:00:00', mood: 'Happy', note: 'I had a great day today!' },
-    { date: '2023-03-02T12:00:00', mood: 'Unsure', note: 'I had an ok day today!' },
+    { date: '2023-03-28T16:00:00', mood: 'Happy', note: 'I had a great day today!' },
+    { date: '2023-03-27T16:00:00', mood: 'Happy', note: 'I had a great day today!' },
     { date: '2023-03-28T16:00:00', mood: 'Happy', note: 'I had a great day today!' },
 ];
 

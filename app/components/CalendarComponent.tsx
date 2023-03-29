@@ -32,7 +32,15 @@ const findEarliestDate = (data) => {
 const getCalendarDates = (earliestDate) => {
     const currentDate = new Date();
     currentDate.setDate(currentDate.getDate() + 1);
-    const earliestDateObj = new Date(earliestDate) ;
+    const earliestDateObj = new Date(earliestDate);
+
+    // Calculate the difference in days
+    const diffInDays = Math.ceil((currentDate.getTime() - earliestDateObj.getTime()) / (1000 * 60 * 60 * 24));
+
+    // If the difference is less than 7 days, update the earliestDateObj
+    if (diffInDays < 5) {
+        earliestDateObj.setDate(earliestDateObj.getDate() - (5 - diffInDays));
+    }
 
     const datesInRange = [];
 
@@ -45,6 +53,7 @@ const getCalendarDates = (earliestDate) => {
 
     return datesInRange;
 };
+
 
 const getMonthName = (date) => {
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -184,6 +193,6 @@ const styles = StyleSheet.create({
     },
     container: {
         paddingHorizontal: 8,
-    }
+    },
 });
 
