@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
-import {View, Text, StyleSheet, FlatList, Image} from 'react-native';
+import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../constants/Theme';
 import {RectButton} from 'react-native-gesture-handler';
 import {Button} from './Button';
-import {moodImages} from '../constants/Images';
+import {MoodCard} from './MoodCard';
+
 
 interface IMoodDataProps {
     date: string;
@@ -11,63 +12,93 @@ interface IMoodDataProps {
     note: string;
 }
 
-export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
-    const getWeekDates = (numDays = 45) => {
-        const weekDates = [];
-        const now = new Date();
-        now.setHours(0, 0, 0, 0);
+const findEarliestDate = (moodData) => {
+    const earliestDate = moodData.reduce((earliest, current) => {
+        return earliest.date < current.date ? earliest : current;
+    });
 
-        for (let i = 0; i < numDays - 1; i++) {
-            const date = new Date(now);
-            date.setDate(now.getDate() - i);
-            weekDates.unshift(date);
-        }
+    return earliestDate.date;
+};
 
-        return weekDates;
-    };
-
-    const getMonthName = (date) => new Intl.DateTimeFormat('en-US', { month: 'long' }).format(date);
-
-
-    const [dates] = useState(getWeekDates().reverse());
-    const [month, setMonth] = useState(getMonthName(dates[0]));
-
+const getCalendarDates = (earliestDate) => {
     const currentDate = new Date();
-    currentDate.setHours(0, 0, 0, 0);
+    currentDate.setDate(currentDate.getDate() + 1);
+    const earliestDateObj = new Date(earliestDate) ;
+
+    const datesInRange = [];
+
+    while (earliestDateObj <= currentDate) {
+        const dateStr = earliestDateObj.toISOString().split('T')[0];
+        datesInRange.push(dateStr);
+
+        earliestDateObj.setDate(earliestDateObj.getDate() + 1);
+    }
+
+    return datesInRange;
+};
+
+const getMonthName = (date) => {
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    return monthNames[date.getMonth()];
+};
+
+
+export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
+    const currentDate = new Date();
+    const currentMonth = getMonthName(currentDate);
+    const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const earliestDate = findEarliestDate(moodData);
+    const [dates] = useState(getCalendarDates(earliestDate).reverse());
     const [selectedDate, setSelectedDate] = useState(currentDate);
+    const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
+    const [scrollPosition, setScrollPosition] = useState(0);
 
     const getMoodDataForDate = (date) => {
         const dateString = date.toISOString().split('T')[0];
-        return moodData.filter((item) => item.date === dateString);
+        return moodData.filter((item) => item.date.split('T')[0] === dateString);
     };
-
-    const handleScroll = (event) => {
-        const scrollX = event.nativeEvent.contentOffset.x;
-        const itemWidth = 60;
-        const index = Math.round(scrollX / itemWidth);
-        setMonth(getMonthName(dates[index]));
-    };
-
-    const handleDateSelect = (date) => setSelectedDate(date);
 
     const selectedDateMoodData = selectedDate ? getMoodDataForDate(selectedDate) : [];
 
-    const renderItem = ({item: date, index}) => {
-        const isSelectedDate = selectedDate && date.getTime() === selectedDate.getTime();
+    const handleScroll = (event) => {
+        const scrollX = event.nativeEvent.contentOffset.x;
+        const dateContainerWidth = 60; // From styles.dateGroup
+        const paddingHorizontal = 4; // From styles.dateButton
+        const indexOffset = (dateContainerWidth + paddingHorizontal * 2) / 2;
+        const index = Math.floor((scrollX + indexOffset) / (dateContainerWidth + paddingHorizontal * 2));
+        const dateStr = dates[index];
+        const newDisplayedMonth = getMonthName(new Date(dateStr));
+
+        if (newDisplayedMonth !== displayedMonth) {
+            setDisplayedMonth(newDisplayedMonth);
+        }
+
+        setScrollPosition(scrollX);
+    };
+
+
+    const renderItem = ({ item: date, index }) => {
+        const dateObj = new Date(date);
+        const dayOfWeek = weekdays[dateObj.getDay()];
+
+        const isSelectedDate = selectedDate && dateObj.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
+
+        const dateGroupStyle = isSelectedDate
+            ? { ...styles.dateGroup, backgroundColor: theme.colors.tertiary}
+            : { ...styles.dateGroup };
+
         const dateTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'blue' }
+            ? { ...theme.typography.bodyBold, color: 'white'}
             : { ...theme.typography.bodyBold };
         const dayTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'blue' }
+            ? { ...theme.typography.bodyBold, color: 'white'}
             : { ...theme.typography.body };
 
         return (
-            <RectButton style={styles.dateButton} key={index} onPress={() => handleDateSelect(date)}>
-                <View style={styles.dateGroup}>
-                    <Text style={dateTextStyle}>{date.getDate()}</Text>
-                    <Text style={dayTextStyle}>
-                        {new Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(date)}
-                    </Text>
+            <RectButton style={styles.dateButton} key={index} onPress={() => setSelectedDate(dateObj)} underlayColor={'white'}>
+                <View style={dateGroupStyle}>
+                    <Text style={dateTextStyle}>{date.split('-')[2]}</Text>
+                    <Text style={dayTextStyle}>{dayOfWeek}</Text>
                 </View>
             </RectButton>
         );
@@ -76,7 +107,7 @@ export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={theme.typography.subTitle}>{month}</Text>
+                <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
                 <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>add</Button>
             </View>
             <FlatList
@@ -95,23 +126,7 @@ export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
                         <Text style={styles.noDataText}>No mood data for the selected date.</Text>
                     ) : (
                         selectedDateMoodData.map((moodData, moodIndex) => (
-                            <View style={styles.moodDataContainer} key={`mood-${moodIndex}`}>
-                                <View style={{padding: 10, flexDirection: 'row'}}>
-                                    <Image
-                                        style={[styles.moodImage, {marginRight: 10}]}
-                                        source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
-                                    />
-                                    <View>
-                                        <Text style={styles.moodText}>{moodData.mood}</Text>
-                                        <Text style={styles.dateText}>{selectedDate.toLocaleDateString()}</Text>
-                                    </View>
-                                </View>
-
-                                <View style={{ paddingHorizontal: 10, flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent' }}>
-                                    <Text style={styles.noteText}>{moodData.note}</Text>
-                                    <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>share</Button>
-                                </View>
-                            </View>
+                            <MoodCard key={`mood-${moodIndex}`} moodData={moodData} selectedDate={selectedDate} />
                         ))
                     )}
                 </View>
@@ -141,27 +156,9 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: '#D9D9D9',
     },
-    moodDataContainer: {
-        marginTop: 10,
-        width: '100%',
-        height: 100,
-        padding: 10,
-        borderRadius: 8,
-        backgroundColor: '#FFFFFF',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.04,
-        shadowRadius: 4,
-        elevation: 4,
-    },
-    moodText: {
-        ...theme.typography.body,
-    },
-    noteText: {
-        ...theme.typography.journalText,
+    dateText: {
+        fontSize: 10,
+        fontFamily:'outfit-light'
     },
     selectedDateMoodData: {
         marginTop: 20,
@@ -170,17 +167,8 @@ const styles = StyleSheet.create({
         ...theme.typography.body,
         fontStyle: 'italic',
     },
-    moodImage: {
-        width: 30,
-        height: 30,
-        resizeMode: 'contain',
-    },
     container: {
         paddingHorizontal: 8,
-    },
-    dateText: {
-        fontSize: 10,
-        fontWeight: '300',
-    },
+    }
 });
 

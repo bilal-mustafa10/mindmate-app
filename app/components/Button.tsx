@@ -54,7 +54,6 @@ const styles = StyleSheet.create({
         opacity: 0.6,
     },
     pillButton: {
-        width: '20%',
         alignItems: 'center',
         borderRadius: 8,
         height: 25,
