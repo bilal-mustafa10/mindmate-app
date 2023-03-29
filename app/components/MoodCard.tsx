@@ -10,10 +10,9 @@ interface MoodCardProps {
         date: string;
         note: string;
     };
-    selectedDate: Date;
 }
 
-export const MoodCard: React.FC<MoodCardProps> = ({moodData, selectedDate}) => {
+export const MoodCard: React.FC<MoodCardProps> = ({moodData}) => {
     return (
         <View style={styles.moodDataContainer}>
             <View style={styles.moodDataTopRow}>
@@ -23,7 +22,6 @@ export const MoodCard: React.FC<MoodCardProps> = ({moodData, selectedDate}) => {
                 />
                 <View>
                     <Text style={styles.moodText}>{moodData.mood}</Text>
-                    <Text style={styles.dateText}>{selectedDate.toLocaleDateString()}</Text>
                 </View>
             </View>
 

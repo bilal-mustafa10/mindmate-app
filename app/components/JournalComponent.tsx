@@ -17,7 +17,7 @@ interface IJournal {
 }
 const journal: IJournal[] = [
     {name: 'Mood Journal', logo: require('../assets/images/journal/mood-journal.png'), navigateTo: 'MoodJournal'},
-    {name: 'Self-Reflection Journal', logo: require('../assets/images/journal/self-reflection-journal.png'), navigateTo: 'MoodJournal'}
+    {name: 'Self-Reflection Journal', logo: require('../assets/images/journal/self-reflection-journal.png'), navigateTo: 'SelfReflectionJournal'}
 ];
 
 

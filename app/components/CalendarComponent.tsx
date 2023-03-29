@@ -4,16 +4,25 @@ import {theme} from '../constants/Theme';
 import {RectButton} from 'react-native-gesture-handler';
 import {Button} from './Button';
 import {MoodCard} from './MoodCard';
+import {ReflectionCard} from './ReflectionCard';
 
 
-interface IMoodDataProps {
+export interface IMoodDataProps {
     date: string;
     mood: string;
     note: string;
 }
 
-const findEarliestDate = (moodData) => {
-    const earliestDate = moodData.reduce((earliest, current) => {
+export interface IReflectionDataProps {
+    date: string;
+    title: string;
+    note: string;
+}
+
+type DataProps = IMoodDataProps | IReflectionDataProps;
+
+const findEarliestDate = (data) => {
+    const earliestDate = data.reduce((earliest, current) => {
         return earliest.date < current.date ? earliest : current;
     });
 
@@ -43,22 +52,22 @@ const getMonthName = (date) => {
 };
 
 
-export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
+export function CalendarComponent<T extends DataProps>({type, data}: {type: 'mood'|'reflection', data: T[]}) {
     const currentDate = new Date();
     const currentMonth = getMonthName(currentDate);
     const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const earliestDate = findEarliestDate(moodData);
+    const earliestDate = findEarliestDate(data);
     const [dates] = useState(getCalendarDates(earliestDate).reverse());
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
-    const [scrollPosition, setScrollPosition] = useState(0);
 
-    const getMoodDataForDate = (date) => {
+    const getDataForDate = (date) => {
         const dateString = date.toISOString().split('T')[0];
-        return moodData.filter((item) => item.date.split('T')[0] === dateString);
+        return data.filter((item) => item.date.split('T')[0] === dateString);
     };
 
-    const selectedDateMoodData = selectedDate ? getMoodDataForDate(selectedDate) : [];
+    const selectedDateData = selectedDate ? getDataForDate(selectedDate) : [];
+
 
     const handleScroll = (event) => {
         const scrollX = event.nativeEvent.contentOffset.x;
@@ -72,8 +81,6 @@ export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
         if (newDisplayedMonth !== displayedMonth) {
             setDisplayedMonth(newDisplayedMonth);
         }
-
-        setScrollPosition(scrollX);
     };
 
 
@@ -108,7 +115,7 @@ export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
-                <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>add</Button>
+                <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>add {type}</Button>
             </View>
             <FlatList
                 horizontal
@@ -122,16 +129,24 @@ export function CalendarComponent({moodData}: {moodData: IMoodDataProps[]}) {
             />
             {selectedDate && (
                 <View style={styles.selectedDateMoodData}>
-                    {selectedDateMoodData.length === 0 ? (
-                        <Text style={styles.noDataText}>No mood data for the selected date.</Text>
+                    {selectedDateData.length === 0 ? (
+                        <Text style={styles.noDataText}>No data for the selected date.</Text>
                     ) : (
-                        selectedDateMoodData.map((moodData, moodIndex) => (
-                            <MoodCard key={`mood-${moodIndex}`} moodData={moodData} selectedDate={selectedDate} />
+                        selectedDateData.map((data, index) => (
+                            type === 'mood' ?
+                                <MoodCard
+                                    key={`mood-${index}`}
+                                    moodData={data as IMoodDataProps}
+                                />
+                                :
+                                <ReflectionCard
+                                    key={`reflection-${index}`}
+                                    reflectionData={data as IReflectionDataProps}
+                                />
                         ))
                     )}
                 </View>
             )}
-
         </View>
     );
 }

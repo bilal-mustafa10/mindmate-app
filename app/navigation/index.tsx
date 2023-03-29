@@ -18,6 +18,7 @@ import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 import MoodScreen from '../screens/(journal)/MoodScreen';
 import MoodJournal from '../screens/(journal)/MoodJournal';
+import SelfReflectionJournal from '../screens/(journal)/SelfReflectionJournal';
 
 export default function Navigation() {
     return (
@@ -77,6 +78,18 @@ function RootNavigator() {
                     headerTransparent: true,
                     headerRight: () => (
                         <Text style={{...theme.typography.title}}>Mood Journal</Text>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name="SelfReflectionJournal"
+                component={SelfReflectionJournal}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>Self Reflection Journal</Text>
                     ),
                 }}
             />
