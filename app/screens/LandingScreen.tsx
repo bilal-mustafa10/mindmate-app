@@ -10,10 +10,8 @@ import {useDispatch} from 'react-redux';
 import {setActivity} from '../services/redux/activitySlice';
 
 
-
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         isLoggedIn().then(async res => {

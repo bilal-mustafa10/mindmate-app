@@ -16,6 +16,7 @@ export type RootStackParamList = {
     MoodScreen: undefined;
     MoodJournal: undefined;
     SelfReflectionJournal: undefined;
+    EditShortcuts: undefined
     ViewActivity: { activity: ActivityResults};
 };
 

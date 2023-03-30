@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import Card from './Card';
 import {theme} from '../constants/Theme';
 import {RootStackParamList} from '../navigation/types';
@@ -30,6 +30,11 @@ const ShortcutComponent = ({shortcuts, navigation}: ShortcutsProps) => {
                 </TouchableOpacity>
 
             ))}
+
+            {shortcuts.length === 0 && (
+                <Text style={theme.typography.body}>No shortcuts.</Text>
+            )}
+
         </View>
     );
 };
@@ -37,7 +42,7 @@ const ShortcutComponent = ({shortcuts, navigation}: ShortcutsProps) => {
 const styles = StyleSheet.create({
     shortcutsContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
+        justifyContent: 'flex-start',
     },
 });
 

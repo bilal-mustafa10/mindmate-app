@@ -1,3 +1,4 @@
+import {useEffect, useState} from 'react';
 import {Text, View} from '../../components/Themed';
 import {styles, theme} from '../../constants/Theme';
 import {Button} from '../../components/Button';
@@ -9,10 +10,22 @@ import RecommendedActivity from '../../components/RecommendedActivity';
 import {ScrollView} from 'react-native';
 import {quotes} from '../../constants/quotes';
 import {logout} from '../../services/api/authEndpoints';
+import {RealmContext} from '../../services/realm/config';
 
+
+const { useQuery } = RealmContext;
 export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>) {
-    // pick a random inspiration from the list
     const inspiration = quotes[Math.floor(Math.random() * quotes.length)];
+    const userShortcutsData = useQuery('UserShortcut');
+    const [userShortcuts, setUserShortcuts] = useState([]);
+
+    useEffect(() => {
+        const newUserShortcuts = shortcuts.filter((shortcut) =>
+            userShortcutsData.some((userShortcut) => userShortcut['shortcut_id'] === shortcut.id)
+        );
+
+        setUserShortcuts(newUserShortcuts);
+    }, [userShortcutsData]);
 
     // TODO: write your own inspiration
 
@@ -36,11 +49,11 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
             <InspirationBoxComponent inspiration={inspiration}/>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
                 <Text style={theme.typography.subTitle}>Shortcuts</Text>
-                <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'pill'}>
+                <Button onPress={() => navigation.navigate('EditShortcuts')} color={'secondary'} type={'pill'}>
                     edit
                 </Button>
             </View>
-            <ShortcutComponent shortcuts={shortcuts} navigation={navigation} />
+            <ShortcutComponent shortcuts={userShortcuts} navigation={navigation} />
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
                 <Text style={theme.typography.subTitle}>Recommended Activities</Text>
             </View>

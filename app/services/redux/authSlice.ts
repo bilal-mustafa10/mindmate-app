@@ -4,6 +4,7 @@ export interface AuthSlice {
     userId: number;
     accessToken: string;
     refreshToken: string;
+    shortcuts?: number[];
 }
 
 
@@ -11,6 +12,7 @@ const initialState: AuthSlice = {
     userId: 0,
     accessToken: '',
     refreshToken: '',
+    shortcuts: []
 };
 
 export const authSlice = createSlice({
@@ -27,6 +29,9 @@ export const authSlice = createSlice({
             state.accessToken = null;
             state.refreshToken = null;
         },
+        setShortcuts: (state, action: PayloadAction<number[]>) => {
+            state.shortcuts = action.payload;
+        }
         /*setApplications: (state, action) => {
             state.applications = action.payload.applications;
         },
@@ -39,5 +44,5 @@ export const authSlice = createSlice({
     }
 });
 
-export const { setLogin, setLogout } = authSlice.actions;
+export const { setLogin, setLogout, setShortcuts } = authSlice.actions;
 

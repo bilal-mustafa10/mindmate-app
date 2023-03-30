@@ -19,6 +19,7 @@ import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 import MoodScreen from '../screens/(journal)/MoodScreen';
 import MoodJournal from '../screens/(journal)/MoodJournal';
 import SelfReflectionJournal from '../screens/(journal)/SelfReflectionJournal';
+import EditShortcutsScreen from '../screens/(shortcuts)/EditShortcuts';
 
 export default function Navigation() {
     return (
@@ -100,6 +101,18 @@ function RootNavigator() {
                     gestureEnabled: true,
                     headerTitle: '',
                     headerTransparent: true,
+                }}
+            />
+            <Stack.Screen
+                name="EditShortcuts"
+                component={EditShortcutsScreen}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>Edit Shortcuts</Text>
+                    ),
                 }}
             />
         </Stack.Navigator>
