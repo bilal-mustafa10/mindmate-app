@@ -200,7 +200,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 name="Activities"
                 component={ActivitiesScreen}
                 options={() => ({
-                    headerShown: true,
+                    headerShown: false,
                     headerTitleAlign: 'left',
                     headerTitleStyle: {
                         fontFamily: 'outfit-semibold',
@@ -220,7 +220,6 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                     },
                     headerRight: () => (
                         <FastImage source={require('../assets/images/favourite.png')} style={{width: 30, height: 30}} />
-
                     ),
                 })}
             />

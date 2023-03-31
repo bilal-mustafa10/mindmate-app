@@ -20,7 +20,7 @@ export const theme = {
         },
         title: {
             fontFamily: 'outfit-semibold',
-            fontSize: 22,
+            fontSize: 24,
             lineHeight: 30,
             color: 'black',
         },

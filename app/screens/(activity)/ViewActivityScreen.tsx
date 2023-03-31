@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView, StatusBar, Text, View} from 'react-native';
+import {ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/types';
 import {styles, theme, width} from '../../constants/Theme';
@@ -25,6 +25,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const activity = route.params.activity;
     const isCompleted = route.params.isCompleted;
     const [images, setImages] = React.useState<string[]>([]);
+    const [activityFavourite, setActivityFavourite] = React.useState<boolean>(false);
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
@@ -71,7 +72,34 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
             console.log('userActivity', userActivity['photos']);
             setImages(userActivity['photos']);
         }
+
+        const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
+        if (isFavourite) {
+            setActivityFavourite(true);
+        }
+
+
     }, []);
+
+
+    const handleAddFavourite = () => {
+        realm.write(() => {
+            const userActivityFavourite = {
+                _id: new Realm.BSON.UUID(),
+                activity_id: activity.id,
+            };
+            realm.create('UserActivityFavourite', userActivityFavourite);
+        });
+        setActivityFavourite(true);
+    };
+
+    const handleRemoveFavourite = () => {
+        realm.write(() => {
+            const userActivityFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
+            realm.delete(userActivityFavourite);
+        });
+        setActivityFavourite(false);
+    };
 
     return (
         <>
@@ -93,16 +121,19 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                             <Text style={[theme.typography.subTitle, {marginVertical: '2%'}]}>{activity.title}</Text>
                             <TagComponent tags={activity.tags}/>
                         </View>
-                        <FastImage
-                            source={require('../../assets/images/favourite-empty.png')}
-                            style={{width: 25, height: 25}}
-                        />
+                        <TouchableOpacity onPress={activityFavourite ? handleRemoveFavourite : handleAddFavourite}>
+                            <FastImage
+                                source={activityFavourite ? require('../../assets/images/favourite.png') : require('../../assets/images/favourite-empty.png')}
+                                style={{width: 25, height: 25}}
+                            />
+                        </TouchableOpacity>
+
                     </View>
                     <HTMLView stylesheet={htmlViewStyle} value={activity.description}/>
 
                     {images && images.length > 0 &&
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={[theme.typography.subTitle, { marginVertical: '2%' }]}>My Photos</Text>
+                            <Text style={[theme.typography.subTitle, { marginVertical: '2%' }]}>Memories</Text>
                             <ImageViewer
                                 images={images}
                                 onDeleteImage={handleDeleteImage}
