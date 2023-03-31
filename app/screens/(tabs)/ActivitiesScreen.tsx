@@ -45,7 +45,7 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
                             return (
                                 <TouchableOpacity
                                     key={index}
-                                    onPress={() => navigation.navigate('ViewActivity', {activity: activity})}>
+                                    onPress={() => navigation.navigate('ViewActivity', {activity: activity, isCompleted: isCompleted})}>
                                     <Card
                                         key={index}
                                         type={'medium'}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {ScrollView, StatusBar, Text, View} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/types';
@@ -23,6 +23,7 @@ const { useRealm } = RealmContext;
 export default function ViewActivityScreen({ navigation, route }: Props) {
     const realm = useRealm();
     const activity = route.params.activity;
+    const isCompleted = route.params.isCompleted;
     const [images, setImages] = React.useState<string[]>([]);
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
@@ -53,7 +54,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 _id: new Realm.BSON.UUID(),
                 activity_id: activity.id,
                 completed_at: new Date(),
-                photos: images.length > 0 ? images : null,
+                photos: images.length > 0 ? images : undefined,
                 is_shared: false,
                 likes: 0
             };
@@ -61,6 +62,16 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         });
         navigation.navigate('ActivityCompleted');
     };
+
+
+
+    useEffect(() => {
+        if (isCompleted) {
+            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
+            console.log('userActivity', userActivity['photos']);
+            setImages(userActivity['photos']);
+        }
+    }, []);
 
     return (
         <>
@@ -95,26 +106,31 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                             <ImageViewer
                                 images={images}
                                 onDeleteImage={handleDeleteImage}
+                                showDelete={!isCompleted}
                             />
                         </View>
                     }
 
                 </View>
             </ScrollView>
-            <View style={styles.activityContainer}>
-                <View style={{ flexDirection: 'row' }}>
-                    <Ionicons name={'image-outline'} size={32} color={'#000000'} style={{ marginRight: 8 }} onPress={handleOpenImageLibrary} />
-                    <Ionicons name={'camera-outline'} size={32} color={'#000000'} onPress={handleOpenCamera} />
+
+            {!isCompleted &&
+                <View style={styles.activityContainer}>
+                    <View style={{ flexDirection: 'row' }}>
+                        <Ionicons name={'image-outline'} size={32} color={'#000000'} style={{ marginRight: 8 }} onPress={handleOpenImageLibrary} />
+                        <Ionicons name={'camera-outline'} size={32} color={'#000000'} onPress={handleOpenCamera} />
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
+                        <Button onPress={handleActivityComplete} color={'tertiary'} type={'small'}>
+                            Share
+                        </Button>
+                        <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
+                            Complete
+                        </Button>
+                    </View>
                 </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                    <Button onPress={handleActivityComplete} color={'tertiary'} type={'small'}>
-                        Share
-                    </Button>
-                    <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
-                        Complete
-                    </Button>
-                </View>
-            </View>
+            }
+
         </>
     );
 }

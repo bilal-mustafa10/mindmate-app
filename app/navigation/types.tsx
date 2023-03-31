@@ -17,7 +17,7 @@ export type RootStackParamList = {
     MoodJournal: undefined;
     SelfReflectionJournal: undefined;
     EditShortcuts: undefined
-    ViewActivity: { activity: ActivityResults};
+    ViewActivity: { activity: ActivityResults, isCompleted: boolean };
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
