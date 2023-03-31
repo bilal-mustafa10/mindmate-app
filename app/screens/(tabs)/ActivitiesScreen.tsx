@@ -12,7 +12,6 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
     const {results} = useSelector((state: RootState) => state.activity);
     const userActivityData = useQuery('UserActivity');
 
-    console.log('userActivityData', userActivityData);
 
     const activitiesByTag = {
         'Keep Active': [],
@@ -42,7 +41,7 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
                             const isCompleted = userActivityData.some(
                                 (userActivity) => userActivity['activity_id'] === activity.id
                             );
-                            console.log('isCompleted', isCompleted);
+
                             return (
                                 <TouchableOpacity
                                     key={index}
