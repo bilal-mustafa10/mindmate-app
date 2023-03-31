@@ -1,14 +1,18 @@
-import {Text, TouchableOpacity, View} from 'react-native';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../services/redux/store';
-import { ScrollView } from 'react-native';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../services/redux/store';
 import Card from '../../components/Card';
 import {styles, theme} from '../../constants/Theme';
 import {RootStackScreenProps} from '../../navigation/types';
+import {RealmContext} from '../../services/realm/config';
 
 
-export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'Root'>) {
-    const { results } = useSelector((state: RootState) => state.activity);
+const {useQuery} = RealmContext;
+export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Root'>) {
+    const {results} = useSelector((state: RootState) => state.activity);
+    const userActivityData = useQuery('UserActivity');
+
+    console.log('userActivityData', userActivityData);
 
     const activitiesByTag = {
         'Keep Active': [],
@@ -23,6 +27,7 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
         activitiesByTag[activity.five_way_tag].push(activity);
     });
 
+
     return (
         <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
             {Object.entries(activitiesByTag).map(([tag, activities]) => (
@@ -33,12 +38,26 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
                         contentContainerStyle={styles.rowScrollContainer}
                         showsHorizontalScrollIndicator={false}
                     >
-                        {activities.map((activity, index) => (
-                            <TouchableOpacity key={index} onPress={() => navigation.navigate('ViewActivity', {activity: activity})}>
-                                <Card type={'medium'} borderColor={theme.five_ways_theme[tag]} key={index} logo={activity.logo} title={activity.title} />
-                            </TouchableOpacity>
-
-                        ))}
+                        {activities.map((activity, index) => {
+                            const isCompleted = userActivityData.some(
+                                (userActivity) => userActivity['activity_id'] === activity.id
+                            );
+                            console.log('isCompleted', isCompleted);
+                            return (
+                                <TouchableOpacity
+                                    key={index}
+                                    onPress={() => navigation.navigate('ViewActivity', {activity: activity})}>
+                                    <Card
+                                        key={index}
+                                        type={'medium'}
+                                        borderColor={theme.five_ways_theme[tag]}
+                                        logo={activity.logo}
+                                        title={activity.title}
+                                        isCompleted={isCompleted}
+                                    />
+                                </TouchableOpacity>
+                            );
+                        })}
                     </ScrollView>
                 </View>
             ))}

@@ -26,7 +26,7 @@ export const theme = {
         },
         subTitle: {
             fontFamily: 'outfit-medium',
-            fontSize: 18,
+            fontSize: 20,
             lineHeight: 24,
             color: 'black',
             marginVertical:'5%'
@@ -123,33 +123,6 @@ export const styles = StyleSheet.create({
         height: width * 0.6 * 0.5,
         marginBottom: 20,
     },
-    /*title: {
-        ...theme.typography.header1,
-        marginBottom: 16,
-    },
-    subtitle: {
-        ...theme.typography.header2,
-        marginBottom: 12,
-    },
-    label: {
-        ...theme.typography.header3,
-        marginBottom: 8,
-    },
-    body: {
-        ...theme.typography.body1,
-        marginBottom: 8,
-    },*/
-    /*subTitle: {
-        fontSize: 16,
-        fontFamily: 'outfit-semibold',
-        marginHorizontal: 10,
-        marginVertical: 20,
-    },
-    activityTitle: {
-        fontSize: 20,
-        fontFamily: 'outfit-bold',
-        marginVertical: 20,
-    },*/
     leadPhoto: {
         width: width,
         height: undefined,

@@ -10,11 +10,12 @@ interface SmallCardProps {
     title: string;
     borderColor?: string;
     type: 'large' | 'medium' | 'small';
+    isCompleted?: boolean;
 }
 
 const screenWidth = Dimensions.get('window').width;
 
-const Card = ({logo, title, borderColor, photo, type}: SmallCardProps) => {
+const Card = ({logo, title, borderColor, photo, type, isCompleted}: SmallCardProps) => {
     const cardWidth = useMemo(() => {
         if (type === 'large') {
             return screenWidth * 0.42;
@@ -26,8 +27,18 @@ const Card = ({logo, title, borderColor, photo, type}: SmallCardProps) => {
     }, [type]);
 
     const boxStyle = useMemo(() => {
-        return [styles.activityBox, {borderColor: borderColor, width: cardWidth}];
-    }, [borderColor, cardWidth]);
+        const bgColor = isCompleted ? borderColor : '#ffffff';
+        const opacity = isCompleted ? 0.25 : 1;
+        const rgbaColor = `${bgColor}${Math.floor(opacity * 255).toString(16)}`;
+        return [
+            styles.activityBox,
+            {
+                borderColor: borderColor,
+                width: cardWidth,
+                backgroundColor: rgbaColor,
+            },
+        ];
+    }, [borderColor, cardWidth, isCompleted]);
 
     return (
         <View style={boxStyle}>
