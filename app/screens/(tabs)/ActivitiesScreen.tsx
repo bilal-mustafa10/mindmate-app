@@ -20,7 +20,6 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
     const filteredResults = favouriteSelected ? results?.filter((activity) => {
         return userFavoriteActivities.some((userFavourite) => userFavourite['activity_id'] === activity.id);
     }) : null;
-    console.log('Filtered Results', filteredResults);
 
     const activitiesByTag = {
         'Keep Active': [],
@@ -48,6 +47,7 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
                                 <View key={tag}>
                                     <Text style={theme.typography.subTitle}>{tag}</Text>
                                     <ScrollView
+                                        key={tag}
                                         horizontal
                                         contentContainerStyle={styles.rowScrollContainer}
                                         showsHorizontalScrollIndicator={false}

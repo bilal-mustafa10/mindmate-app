@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import {Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
 import {Input} from '../../components/Input';
@@ -7,24 +7,29 @@ import {passwordValidator, usernameValidator} from '../../services/validator';
 import {login} from '../../services/api/authEndpoints';
 import {ILoginRequest} from '../../types/ILoginRequest';
 import {useDispatch} from 'react-redux';
-import {setLogin} from '../../services/redux/authSlice';
 import jwtDecode from 'jwt-decode';
 import {getActivities} from '../../services/api/activityEndpoints';
 import {setActivity} from '../../services/redux/activitySlice';
 import {height, styles, theme} from '../../constants/Theme';
 import {RootStackScreenProps} from '../../navigation/types';
+import {RealmContext} from '../../services/realm/config';
 
+
+const { useQuery } = RealmContext;
 export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
-    const [username, setUsername] = useState({value: '', error: ''});
-    const [password, setPassword] = useState({value: '', error: ''});
+    const [username, setUsername] = useState({value: 'bilalmustafa', error: ''});
+    const [password, setPassword] = useState({value: 'Global1234@', error: ''});
     const [showError, setShowError] = useState(false);
+    const user = useQuery('UserData');
+    console.log('user', user);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        setUsername({value: '', error: ''});
-        setPassword({value: '', error: ''});
+        setUsername({value: 'bilalmustafa', error: ''});
+        setPassword({value: 'Global1234@', error: ''});
         setShowError(false);
     }, []);
+
 
     const handleSignIn = async () => {
         const usernameError = usernameValidator(username.value);
@@ -47,20 +52,20 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
             if (response && response.status === 200) {
                 const decoded = jwtDecode(response.data.access);
 
-                dispatch(
-                    setLogin({
-                        userId: decoded['user_id'],
-                        accessToken: response.data.access,
-                        refreshToken: response.data.refresh,
-                    }),
-                );
 
                 const activities = await getActivities();
                 dispatch(setActivity(activities));
 
-                navigation.navigate('Root');
+                console.log(user);
+
+                if (user.length > 0) {
+                    navigation.navigate('Root');
+                } else {
+                    navigation.navigate('Introduction', {userId: decoded['user_id']});
+                }
             }
         } catch (error) {
+            console.log(error);
             setShowError(true);
         }
     };
@@ -110,7 +115,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                     </Button>
                     {showError ? <Text>Failure to Login</Text> : null}
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
+                {/*<TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
                     <Text style={{...theme.typography.body, textAlign: 'center', marginTop: '10%'}}
                     >
                         Do not have an account?{' '}
@@ -118,7 +123,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                             Sign up
                         </Text>
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
             </View>
         </View>
     );

@@ -46,10 +46,10 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
                         marginBottom: '15%'
                     }}
                 >
-                    <Button onPress={() => navigation.navigate('SignUp')} color={'tertiary'} type={'medium'}>
+                    {/*<Button onPress={() => navigation.navigate('SignUp')} color={'tertiary'} type={'medium'}>
                         Sign up
-                    </Button>
-                    <Button onPress={() => navigation.navigate('SignIn')} color={'secondary'} type={'medium'}>
+                    </Button>*/}
+                    <Button onPress={() => navigation.navigate('SignIn')} color={'secondary'} type={'large'}>
                         Sign in
                     </Button>
                 </View>

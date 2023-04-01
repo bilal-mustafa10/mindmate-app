@@ -3,21 +3,22 @@ import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 interface MoodComponentProps {
+    onAction: (id: string) => void;
+    mood: string;
     moodImages: {
         image: any;
         name: string;
     }[];
 }
 
-const MoodComponent = ({moodImages}: MoodComponentProps) => {
-    const [mood, setMood] = React.useState<string>('');
+const MoodComponent = ({moodImages, onAction, mood}: MoodComponentProps) => {
 
     return (
         <View style={styles.gridContainer}>
             {moodImages.map((moodItem, index) => (
                 <TouchableOpacity
                     key={index}
-                    onPress={() => setMood(moodItem.name)} // Set the mood when a mood card is selected
+                    onPress={() => {onAction(moodItem.name); }} // Set the mood when a mood card is selected
                     style={[
                         styles.moodCard,
                         {

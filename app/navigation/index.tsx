@@ -20,6 +20,7 @@ import MoodScreen from '../screens/(journal)/MoodScreen';
 import MoodJournal from '../screens/(journal)/MoodJournal';
 import SelfReflectionJournal from '../screens/(journal)/SelfReflectionJournal';
 import EditShortcutsScreen from '../screens/(shortcuts)/EditShortcuts';
+import IntroductionScreen from '../screens/(auth)/IntroductionScreen';
 
 export default function Navigation() {
     return (
@@ -53,6 +54,11 @@ function RootNavigator() {
             <Stack.Screen
                 name="SignIn"
                 component={SignIn}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="Introduction"
+                component={IntroductionScreen}
                 options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen

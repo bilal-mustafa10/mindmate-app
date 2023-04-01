@@ -5,6 +5,8 @@ import {RectButton} from 'react-native-gesture-handler';
 import {Button} from './Button';
 import {MoodCard} from './MoodCard';
 import {ReflectionCard} from './ReflectionCard';
+import {NavigationProp} from '@react-navigation/native';
+import {RootStackParamList} from '../navigation/types';
 
 
 export interface IMoodDataProps {
@@ -22,6 +24,10 @@ export interface IReflectionDataProps {
 type DataProps = IMoodDataProps | IReflectionDataProps;
 
 const findEarliestDate = (data) => {
+    if (data.length === 0) {
+        return new Date().toISOString().split('T')[0];
+    }
+
     const earliestDate = data.reduce((earliest, current) => {
         return earliest.date < current.date ? earliest : current;
     });
@@ -61,14 +67,25 @@ const getMonthName = (date) => {
 };
 
 
-export function CalendarComponent<T extends DataProps>({type, data}: {type: 'mood'|'reflection', data: T[]}) {
+export function CalendarComponent<T extends DataProps>({type, data, navigation}: {type: 'mood'|'reflection', data: T[], navigation: NavigationProp<RootStackParamList>}) {
     const currentDate = new Date();
+    currentDate.setHours(currentDate.getHours() + 1);
     const currentMonth = getMonthName(currentDate);
     const weekdays = ['Sun', 'Mon', 'Tues', 'Wed', 'Thu', 'Fri', 'Sat'];
     const earliestDate = findEarliestDate(data);
     const [dates] = useState(getCalendarDates(earliestDate).reverse());
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
+
+
+
+    const handleAddNavigation = () => {
+        if (type === 'mood') {
+            navigation.navigate('MoodScreen');
+        } else {
+            navigation.navigate('SelfReflectionJournal');
+        }
+    };
 
     const getDataForDate = (date) => {
         const dateString = date.toISOString().split('T')[0];
@@ -80,8 +97,8 @@ export function CalendarComponent<T extends DataProps>({type, data}: {type: 'moo
 
     const handleScroll = (event) => {
         const scrollX = event.nativeEvent.contentOffset.x;
-        const dateContainerWidth = 60; // From styles.dateGroup
-        const paddingHorizontal = 4; // From styles.dateButton
+        const dateContainerWidth = 60;
+        const paddingHorizontal = 4;
         const indexOffset = (dateContainerWidth + paddingHorizontal * 2) / 2;
         const index = Math.floor((scrollX + indexOffset) / (dateContainerWidth + paddingHorizontal * 2));
         const dateStr = dates[index];
@@ -124,7 +141,7 @@ export function CalendarComponent<T extends DataProps>({type, data}: {type: 'moo
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
-                <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>add {type}</Button>
+                <Button onPress={handleAddNavigation} color={'secondary'} type={'pill'}>add {type}</Button>
             </View>
             <FlatList
                 horizontal
