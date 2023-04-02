@@ -10,7 +10,7 @@ import {Button} from '../../components/Button';
 import {RealmContext} from '../../services/realm/config';
 
 const { useRealm, useQuery } = RealmContext;
-export default function MoodScreen({navigation}: RootStackScreenProps<'MoodScreen'>) {
+export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodScreen'>) {
     const insets = useSafeAreaInsets();
     const realm = useRealm();
     const [mood, setMood] = React.useState<string>('');
@@ -49,7 +49,7 @@ export default function MoodScreen({navigation}: RootStackScreenProps<'MoodScree
             <Text style={[theme.typography.bodyBold, {marginBottom: '5%'}]}>How are you feeling today {firstName}?</Text>
             <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
             <Text style={[theme.typography.bodyBold, {marginVertical: '5%'}]}>What made you feel like this?</Text>
-            <TextInput data={notes} onDataChange={onNotesChange}/>
+            <TextInput data={notes} onDataChange={onNotesChange} type={'large'}/>
             <View
                 style={{
                     position: 'absolute',

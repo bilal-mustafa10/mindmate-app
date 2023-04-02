@@ -7,6 +7,8 @@ import {MoodCard} from './MoodCard';
 import {ReflectionCard} from './ReflectionCard';
 import {NavigationProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
+import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
+import {RealmContext} from '../services/realm/config';
 
 
 export interface IMoodDataProps {
@@ -66,8 +68,9 @@ const getMonthName = (date) => {
     return monthNames[date.getMonth()];
 };
 
-
+const { useRealm } = RealmContext;
 export function CalendarComponent<T extends DataProps>({type, data, navigation}: {type: 'mood'|'reflection', data: T[], navigation: NavigationProp<RootStackParamList>}) {
+    const realm = useRealm();
     const currentDate = new Date();
     currentDate.setHours(currentDate.getHours() + 1);
     const currentMonth = getMonthName(currentDate);
@@ -77,13 +80,36 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
 
+    const [addReflectionModal, setAddReflectionModal] = useState(false);
+    const [reflectionTitle, setReflectionTitle] = useState(`${currentDate.getDay()} Reflection`);
+    const [reflectionNote, setReflectionNote] = useState('');
+
+    const handleAddReflection = () => {
+        const date = new Date();
+        date.setHours(date.getHours() + 1);
+
+        realm.write(() => {
+
+            realm.create('UserReflection', {
+                _id: new Realm.BSON.UUID(),
+                title: reflectionTitle,
+                notes: reflectionNote,
+                date: date,
+                is_shared: false,
+                likes: 0,
+            });
+        });
+
+        setAddReflectionModal(false);
+    };
+
 
 
     const handleAddNavigation = () => {
         if (type === 'mood') {
             navigation.navigate('MoodScreen');
         } else {
-            navigation.navigate('SelfReflectionJournal');
+            setAddReflectionModal(true);
         }
     };
 
@@ -138,42 +164,56 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
     };
 
     return (
-        <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
-                <Button onPress={handleAddNavigation} color={'secondary'} type={'pill'}>add {type}</Button>
-            </View>
-            <FlatList
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                data={dates}
-                renderItem={renderItem}
-                keyExtractor={(item, index) => index.toString()}
-                inverted={true}
-                onScroll={handleScroll}
-                scrollEventThrottle={16}
-            />
-            {selectedDate && (
-                <View style={styles.selectedDateMoodData}>
-                    {selectedDateData.length === 0 ? (
-                        <Text style={styles.noDataText}>No data for the selected date.</Text>
-                    ) : (
-                        selectedDateData.map((data, index) => (
-                            type === 'mood' ?
-                                <MoodCard
-                                    key={`mood-${index}`}
-                                    moodData={data as IMoodDataProps}
-                                />
-                                :
-                                <ReflectionCard
-                                    key={`reflection-${index}`}
-                                    reflectionData={data as IReflectionDataProps}
-                                />
-                        ))
-                    )}
+        <>
+            <View style={styles.container}>
+                <View style={styles.header}>
+                    <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
+                    <Button onPress={handleAddNavigation} color={'secondary'} type={'pill'}>add {type}</Button>
                 </View>
-            )}
-        </View>
+                <FlatList
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                    data={dates}
+                    renderItem={renderItem}
+                    keyExtractor={(item, index) => index.toString()}
+                    inverted={true}
+                    onScroll={handleScroll}
+                    scrollEventThrottle={16}
+                />
+                {selectedDate && (
+                    <View style={styles.selectedDateMoodData}>
+                        {selectedDateData.length === 0 ? (
+                            <Text style={styles.noDataText}>No data for the selected date.</Text>
+                        ) : (
+                            selectedDateData.map((data, index) => (
+                                type === 'mood' ?
+                                    <MoodCard
+                                        key={`mood-${index}`}
+                                        moodData={data as IMoodDataProps}
+                                    />
+                                    :
+                                    <ReflectionCard
+                                        key={`reflection-${index}`}
+                                        reflectionData={data as IReflectionDataProps}
+                                    />
+                            ))
+                        )}
+                    </View>
+                )}
+            </View>
+            <>
+                {type === 'reflection' && addReflectionModal &&
+                    <AddReflectionScreen
+                        title={reflectionTitle}
+                        setTitle={setReflectionTitle}
+                        reflection={reflectionNote}
+                        setReflection={setReflectionNote}
+                        onAction={handleAddReflection}
+                    />
+                }
+            </>
+        </>
+
     );
 }
 

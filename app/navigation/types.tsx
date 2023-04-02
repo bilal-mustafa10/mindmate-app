@@ -14,6 +14,7 @@ export type RootStackParamList = {
     SignUp: undefined;
     ActivityCompleted: undefined;
     MoodScreen: undefined;
+    ReflectionScreen: undefined;
     MoodJournal: undefined;
     SelfReflectionJournal: undefined;
     EditShortcuts: undefined

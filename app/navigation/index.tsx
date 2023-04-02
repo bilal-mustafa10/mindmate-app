@@ -16,11 +16,12 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import FastImage from 'react-native-fast-image';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
-import MoodScreen from '../screens/(journal)/MoodScreen';
+import AddMoodScreen from '../screens/(journal)/AddMoodScreen';
 import MoodJournal from '../screens/(journal)/MoodJournal';
 import SelfReflectionJournal from '../screens/(journal)/SelfReflectionJournal';
 import EditShortcutsScreen from '../screens/(shortcuts)/EditShortcuts';
 import IntroductionScreen from '../screens/(auth)/IntroductionScreen';
+import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
 
 export default function Navigation() {
     return (
@@ -73,7 +74,12 @@ function RootNavigator() {
             />
             <Stack.Screen
                 name="MoodScreen"
-                component={MoodScreen}
+                component={AddMoodScreen}
+                options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="ReflectionScreen"
+                component={AddReflectionScreen}
                 options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen

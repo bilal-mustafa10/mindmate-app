@@ -4,9 +4,10 @@ import { View, TextInput, StyleSheet } from 'react-native';
 interface CustomTextInputProps {
     data?: string;
     onDataChange?: (text: string) => void;
+    type: 'medium' | 'large';
 }
 
-const CustomTextInput: React.FC<CustomTextInputProps> = ({data, onDataChange, ...props }) => {
+const CustomTextInput: React.FC<CustomTextInputProps> = ({data, onDataChange,type, ...props }) => {
     const handleChange = (text: string) => {
         if (onDataChange) {
             onDataChange(text);
@@ -18,7 +19,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({data, onDataChange, ..
             <TextInput
                 value={data}
                 onChangeText={handleChange}
-                style={styles.textInput}
+                style={[styles.textInput, { height: type === 'large' ? 200 : 50 }]}
                 multiline={true} // Enable multiline
                 textAlignVertical="top" // Set text alignment to top
                 {...props}
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
     },
     textInput: {
         width: '100%',
-        height: 100,
         backgroundColor: '#FFFFFF',
         borderColor: '#D9D9D9',
         borderWidth: 1,

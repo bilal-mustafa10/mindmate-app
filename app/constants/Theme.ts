@@ -43,6 +43,13 @@ export const theme = {
             lineHeight: 22,
             color: 'black',
         },
+        journalTitle: {
+            fontFamily: 'outfit-medium',
+            fontSize: 16,
+            lineHeight: 22,
+            color: 'black',
+            marginBottom:'2%'
+        },
         caption: {
             fontFamily: 'outfit-medium',
             fontSize: 12,
@@ -51,7 +58,7 @@ export const theme = {
         },
         journalText: {
             fontFamily: 'outfit-light',
-            fontSize: 12,
+            fontSize: 14,
             lineHeight: 18,
             color: 'black',
         },

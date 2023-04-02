@@ -4,7 +4,8 @@ import UserActivity from './models/UserActivity';
 import UserActivityFavourite from './models/UserActivityFavourite';
 import UserMood from './models/UserMood';
 import UserData from './models/UserData';
+import UserReflection from './models/UserReflection';
 export const RealmContext = createRealmContext({
-    schema: [UserShortcut, UserActivity, UserActivityFavourite, UserMood, UserData],
-    schemaVersion: 10,
+    schema: [UserShortcut, UserActivity, UserActivityFavourite, UserMood, UserData, UserReflection],
+    schemaVersion: 11,
 });

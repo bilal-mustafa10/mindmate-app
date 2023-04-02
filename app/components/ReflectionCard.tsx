@@ -39,8 +39,7 @@ const styles = StyleSheet.create({
         elevation: 4,
     },
     titleText: {
-        ...theme.typography.body,
-        marginBottom: 8,
+        ...theme.typography.journalTitle,
     },
     noteText: {
         ...theme.typography.journalText,
