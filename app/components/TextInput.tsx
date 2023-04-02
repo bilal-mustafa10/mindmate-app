@@ -19,7 +19,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({data, onDataChange,typ
             <TextInput
                 value={data}
                 onChangeText={handleChange}
-                style={[styles.textInput, { height: type === 'large' ? 200 : 50 }]}
+                style={[styles.textInput, { height: type === 'large' ? 200 : 115 }]}
                 multiline={true} // Enable multiline
                 textAlignVertical="top" // Set text alignment to top
                 {...props}

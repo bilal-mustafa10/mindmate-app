@@ -25,10 +25,16 @@ export const MoodCard: React.FC<MoodCardProps> = ({moodData}) => {
                 </View>
             </View>
 
-            <View style={styles.moodDataBottomRow}>
-                <Text style={styles.noteText}>{moodData.note}</Text>
-                <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>share</Button>
-            </View>
+            {moodData.note !== '' &&
+                <>
+                    <View style={styles.moodDataBottomRow}>
+                        <Text style={styles.noteText}>{moodData.note}</Text>
+                    </View>
+                    <View style={{alignSelf: 'flex-end'}}>
+                        <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>share</Button>
+                    </View>
+                </>
+            }
         </View>
     );
 };
@@ -37,7 +43,7 @@ const styles = StyleSheet.create({
     moodDataContainer: {
         marginTop: 10,
         width: '100%',
-        height: 90,
+        minHeight: 55,
         padding: 10,
         borderRadius: 8,
         backgroundColor: '#FFFFFF',
@@ -58,7 +64,8 @@ const styles = StyleSheet.create({
         marginTop: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
+        marginBottom: 4,
     },
     moodImage: {
         width: 30,

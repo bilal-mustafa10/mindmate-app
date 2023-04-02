@@ -17,8 +17,10 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
     const [notes, setNotes] = React.useState<string>('');
     const userData = useQuery('UserData');
     const [firstName] = React.useState<string>(userData[0]['first_name']);
+    const [showError, setShowError] = React.useState<boolean>(false);
 
     const onMoodSelect = (mood: string) => {
+        setShowError(false);
         setMood(mood);
     };
 
@@ -28,6 +30,11 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
 
 
     const handleAddUserMood = () => {
+
+        if (mood === '') {
+            setShowError(true);
+            return;
+        }
         const date = new Date();
         date.setHours(date.getHours() + 1);
         realm.write(() => {
@@ -49,7 +56,7 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
             <Text style={[theme.typography.bodyBold, {marginBottom: '5%'}]}>How are you feeling today {firstName}?</Text>
             <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
             <Text style={[theme.typography.bodyBold, {marginVertical: '5%'}]}>What made you feel like this?</Text>
-            <TextInput data={notes} onDataChange={onNotesChange} type={'large'}/>
+            <TextInput data={notes} onDataChange={onNotesChange} type={'medium'}/>
             <View
                 style={{
                     position: 'absolute',
@@ -65,9 +72,15 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
                 {/*<Button onPress={() => navigation.navigate('Root')} color={'tertiary'} type={'medium'}>
                     Share with friends
                 </Button>*/}
-                <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
-                    Complete
-                </Button>
+                {showError ?
+                    <Button onPress={() => {console.log('error'); }} color={'error'} type={'large'}>
+                        please select a mood
+                    </Button>
+                    :
+                    <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
+                        Complete
+                    </Button>
+                }
             </View>
         </View>
 

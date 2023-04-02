@@ -15,6 +15,7 @@ export default function MoodJournal({navigation}: RootStackScreenProps<'MoodJour
 
     React.useEffect(() => {
         const moodData: IMoodDataProps[] = userMoodData.map((mood) => {
+
             return {
                 date: mood['date'].toISOString(),
                 mood: mood['mood'],

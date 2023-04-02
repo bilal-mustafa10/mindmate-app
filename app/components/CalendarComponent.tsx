@@ -209,6 +209,7 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
                         reflection={reflectionNote}
                         setReflection={setReflectionNote}
                         onAction={handleAddReflection}
+                        onClose={() => setAddReflectionModal(false)}
                     />
                 }
             </>
