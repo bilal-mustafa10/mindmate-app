@@ -8,6 +8,8 @@ import {isLoggedIn} from 'react-native-axios-jwt';
 import {getActivities} from '../services/api/activityEndpoints';
 import {useDispatch} from 'react-redux';
 import {setActivity} from '../services/redux/activitySlice';
+import {getMentalHealthResources} from '../services/api/resourcesEndpoints';
+import {setResources} from '../services/redux/resourcesSlice';
 
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
@@ -21,6 +23,10 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
                 console.log('logged in');
                 const activities = await getActivities();
                 dispatch(setActivity(activities));
+
+                const resources = await getMentalHealthResources();
+                dispatch(setResources(resources));
+
                 navigation.navigate('Root');
             }
         });

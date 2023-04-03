@@ -3212,6 +3212,11 @@ ci-info@^3.2.0, ci-info@^3.3.0:
   resolved "https://registry.npmjs.org/ci-info/-/ci-info-3.8.0.tgz"
   integrity sha512-eXTggHWSooYhq49F2opQhuHWgzucfF2YgODK4e1566GQs5BIfP30B0oenwBJHfWxAs2fyPB1s7Mg949zLf61Yw==
 
+clamp@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/clamp/-/clamp-1.0.1.tgz#66a0e64011816e37196828fdc8c8c147312c8634"
+  integrity sha512-kgMuFyE78OC6Dyu3Dy7vcx4uy97EIbVxJB/B0eJ3bUNAkwdNcxYzgKltnyADiYwsR7SEqkkUPsEUT//OVS6XMA==
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.npmjs.org/class-utils/-/class-utils-0.3.6.tgz"
@@ -7868,6 +7873,11 @@ react-native-axios-jwt@^1.8.0:
   dependencies:
     jwt-decode "^3.1.2"
 
+react-native-cards-swipe@^1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-cards-swipe/-/react-native-cards-swipe-1.2.1.tgz#9b5df9a28749cc74d54058b165f2b5b50a5cc774"
+  integrity sha512-II2qcI18TnAzuQvNG3theG+DwmEsCEETeNAMkPRDgSFjj3QN2PznjG0tD18MX9OuMkVTNAqRQoASHLTcjeAYCw==
+
 react-native-circular-progress-indicator@^4.4.2:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/react-native-circular-progress-indicator/-/react-native-circular-progress-indicator-4.4.2.tgz#5475d045950e6fcc622e54fb63863b274790fb8e"
@@ -7890,7 +7900,7 @@ react-native-fast-image@^8.6.3:
   resolved "https://registry.npmjs.org/react-native-fast-image/-/react-native-fast-image-8.6.3.tgz"
   integrity sha512-Sdw4ESidXCXOmQ9EcYguNY2swyoWmx53kym2zRsvi+VeFCHEdkO+WG1DK+6W81juot40bbfLNhkc63QnWtesNg==
 
-react-native-gesture-handler@^2.9.0:
+react-native-gesture-handler@~2.9.0:
   version "2.9.0"
   resolved "https://registry.yarnpkg.com/react-native-gesture-handler/-/react-native-gesture-handler-2.9.0.tgz#2f63812e523c646f25b9ad660fc6f75948e51241"
   integrity sha512-a0BcH3Qb1tgVqUutc6d3VuWQkI1AM3+fJx8dkxzZs9t06qA27QgURYFoklpabuWpsUTzuKRpxleykp25E8m7tg==
@@ -7928,6 +7938,13 @@ react-native-modalize@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/react-native-modalize/-/react-native-modalize-2.1.1.tgz#dcb67d208f4c5bdc76f45075e727be43fd008561"
   integrity sha512-4/7EZWsrUqAAkkAVEnOsSdpAPQaEBewX7TvwFuzgvGDzxKpq3O58I9SnSeU8QtG/r91XYHJNaU5dAuDrcLjUaQ==
+
+react-native-progress@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/react-native-progress/-/react-native-progress-5.0.0.tgz#f5ac6ceaeee27f184c660b00f29419e82a9d0ab0"
+  integrity sha512-KjnGIt3r9i5Kn2biOD9fXLJocf0bwxPRxOyAgXEnZTJQU2O+HyzgGFRCbM5h3izm9kKIkSc1txh8aGmMafCD9A==
+  dependencies:
+    prop-types "^15.7.2"
 
 react-native-reanimated-carousel@^3.3.0:
   version "3.3.0"
@@ -8015,6 +8032,14 @@ react-native-svg@13.4.0:
   dependencies:
     css-select "^5.1.0"
     css-tree "^1.1.3"
+
+react-native-swipe-cards-deck@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/react-native-swipe-cards-deck/-/react-native-swipe-cards-deck-0.3.0.tgz#bef9ff16151979d4e60397f407c44e8d1f4650b7"
+  integrity sha512-evidiowLlLVIB6USgyQV5ypfjTFjau88WvxasfFXuxs4e5lzdaip9FwbPzkV8Z5Ni4s7Os/L8xq9lI3TiHLFsQ==
+  dependencies:
+    clamp "^1.0.1"
+    prop-types "^15.7.2"
 
 react-native-text-input-interactive@^0.1.4:
   version "0.1.4"

@@ -73,7 +73,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
     return (
         <View style={styles.container}>
             <View
-                style={[styles.content, {height: height * 0.35, justifyContent: 'flex-end'}]}>
+                style={[styles.content, {height: height * 0.25, justifyContent: 'flex-end'}]}>
                 <FastImage
                     source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}

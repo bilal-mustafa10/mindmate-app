@@ -12,7 +12,7 @@ export const shortcuts: IShortcut[] = [
         id: 1,
         name: 'Moodify Your Journal',
         logo: require('../assets/images/shortcuts/add-mood.png'),
-        navigateTo: 'Root'
+        navigateTo: 'MoodScreen'
     },
     {
         id: 2,

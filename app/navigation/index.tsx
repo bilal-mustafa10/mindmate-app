@@ -22,6 +22,8 @@ import SelfReflectionJournal from '../screens/(journal)/SelfReflectionJournal';
 import EditShortcutsScreen from '../screens/(shortcuts)/EditShortcuts';
 import IntroductionScreen from '../screens/(auth)/IntroductionScreen';
 import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
+import AllResourcesScreen from '../screens/(resources)/AllResourcesScreen';
+import ViewResourceScreen from '../screens/(resources)/ViewResourceScreen';
 
 export default function Navigation() {
     return (
@@ -75,13 +77,42 @@ function RootNavigator() {
             <Stack.Screen
                 name="MoodScreen"
                 component={AddMoodScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{headerShown: true, gestureEnabled: false, headerTitle: '', headerTransparent: true}}
             />
             <Stack.Screen
                 name="ReflectionScreen"
                 component={AddReflectionScreen}
                 options={{headerShown: false, gestureEnabled: false}}
             />
+            <Stack.Screen
+                name="AllResources"
+                component={AllResourcesScreen}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>All Resources</Text>
+                    ),
+                }}
+            />
+            <Stack.Screen
+                name="ViewResource"
+                component={ViewResourceScreen}
+                options={({route}) => ({
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: false,
+                    headerStyle: {
+                        backgroundColor: theme.colors.background,
+                    },
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>{route.params.title}</Text>
+                    ),
+                })}
+            />
+
+
             <Stack.Screen
                 name="MoodJournal"
                 component={MoodJournal}

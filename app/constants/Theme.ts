@@ -53,7 +53,7 @@ export const theme = {
         caption: {
             fontFamily: 'outfit-medium',
             fontSize: 12,
-            lineHeight: 18,
+            lineHeight: 16,
             color: 'black',
         },
         journalText: {
@@ -128,7 +128,6 @@ export const styles = StyleSheet.create({
     logoWithoutContainer: {
         width: width * 0.6,
         height: width * 0.6 * 0.5,
-        marginBottom: 20,
     },
     leadPhoto: {
         width: width,
