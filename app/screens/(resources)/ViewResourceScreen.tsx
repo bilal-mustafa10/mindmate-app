@@ -105,7 +105,7 @@ export const htmlViewResourceStyle = StyleSheet.create({
         lineHeight: 34,
         letterSpacing: 1,
         backgroundColor: 'transparent',
-        textAlign: 'center',
+        textAlign: 'left',
         paddingHorizontal: 20,
     },
 });

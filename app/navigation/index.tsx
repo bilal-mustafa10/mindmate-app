@@ -190,7 +190,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 tabBarActiveTintColor: '#5539A8',
                 tabBarInactiveTintColor: '#000',
                 tabBarStyle: {
-                    borderRadius: 32,
+                    borderRadius: 0,
                     paddingTop: 10,
                     paddingBottom: insets.bottom - 10,
                     paddingHorizontal: 10,

@@ -11,6 +11,8 @@ import {ScrollView} from 'react-native';
 import {quotes} from '../../constants/quotes';
 import {logout} from '../../services/api/authEndpoints';
 import {RealmContext} from '../../services/realm/config';
+import {useSelector} from 'react-redux';
+import {RootState} from '../../services/redux/store';
 
 
 const { useQuery } = RealmContext;
@@ -18,6 +20,10 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
     const inspiration = quotes[Math.floor(Math.random() * quotes.length)];
     const userShortcutsData = useQuery('UserShortcut');
     const [userShortcuts, setUserShortcuts] = useState([]);
+    const {results} = useSelector((state: RootState) => state.activity);
+
+
+
 
     useEffect(() => {
         const newUserShortcuts = shortcuts.filter((shortcut) =>
@@ -57,7 +63,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
                 <Text style={theme.typography.subTitle}>Recommended Activities</Text>
             </View>
-            <RecommendedActivity activities={shortcuts}/>
+            <RecommendedActivity activities={results} navigation={navigation}/>
         </ScrollView>
     );
 }
