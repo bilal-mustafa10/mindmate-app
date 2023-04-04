@@ -7,5 +7,5 @@ import UserData from './models/UserData';
 import UserReflection from './models/UserReflection';
 export const RealmContext = createRealmContext({
     schema: [UserShortcut, UserActivity, UserActivityFavourite, UserMood, UserData, UserReflection],
-    schemaVersion: 11,
+    schemaVersion: 12,
 });

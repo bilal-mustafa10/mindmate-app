@@ -13,7 +13,7 @@ export type RootStackParamList = {
     LandingPage: undefined;
     SignIn: undefined;
     SignUp: undefined;
-    Profile: { firstName: string, lastName: string };
+    Profile: {id: number, firstName: string, lastName: string, avatarColor: string };
     ActivityCompleted: undefined;
     MoodScreen: undefined;
     ReflectionScreen: undefined;

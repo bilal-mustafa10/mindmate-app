@@ -9,6 +9,7 @@ class UserData extends Realm.Object<UserData> {
             username: 'int',
             first_name: 'string',
             last_name: 'string',
+            avatar_color: {type: 'string', default: '#3960A8'},
         },
     };
 }

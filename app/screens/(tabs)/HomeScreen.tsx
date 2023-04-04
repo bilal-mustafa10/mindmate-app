@@ -9,7 +9,6 @@ import ShortcutComponent from '../../components/ShortcutComponent';
 import RecommendedActivity from '../../components/RecommendedActivity';
 import {ScrollView} from 'react-native';
 import {quotes} from '../../constants/quotes';
-import {logout} from '../../services/api/authEndpoints';
 import {RealmContext} from '../../services/realm/config';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../services/redux/store';
@@ -24,6 +23,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
     const [userShortcuts, setUserShortcuts] = useState([]);
     const {results} = useSelector((state: RootState) => state.activity);
     const name = userData[0]['first_name'] + ' ' + userData[0]['last_name'];
+    const avatarColor = userData[0]['avatar_color'];
 
 
     useEffect(() => {
@@ -42,9 +42,10 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
         <>
             <Header
                 showAvatar={true}
+                avatarColor={avatarColor}
                 headerRight={require('../../assets/images/help.png')}
                 onHeaderRightPress={()=>{console.log('');}}
-                onHeaderLeftPress={()=>{navigation.navigate('Profile', {firstName: userData[0]['first_name'], lastName: userData[0]['last_name']});}}
+                onHeaderLeftPress={()=>{navigation.navigate('Profile', {id: userData[0]['username'], firstName: userData[0]['first_name'], lastName: userData[0]['last_name'], avatarColor: avatarColor});}}
                 name={name}
             />
             <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>

@@ -13,15 +13,16 @@ interface IHeaderProps {
     onHeaderLeftPress?: () => void;
     showAvatar?: boolean;
     name?: string;
+    avatarColor?: string;
 }
-const Header = ({title, headerRight, headerLeft, onHeaderRightPress, onHeaderLeftPress, showAvatar, name}: IHeaderProps) => {
+const Header = ({title, headerRight, headerLeft, onHeaderRightPress, onHeaderLeftPress, showAvatar, name, avatarColor}: IHeaderProps) => {
     const insets = useSafeAreaInsets();
 
     return (
         <View style={[styles.container, {paddingTop: insets.top}]}>
             {showAvatar &&
                 <TouchableOpacity onPress={onHeaderLeftPress}>
-                    <UserAvatar size={35} name={name} bgColor={theme.colors.tertiary}/>
+                    <UserAvatar size={35} name={name} bgColor={avatarColor}/>
                 </TouchableOpacity>
 
             }
