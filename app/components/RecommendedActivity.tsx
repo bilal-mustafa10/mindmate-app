@@ -22,6 +22,9 @@ const RecommendedActivity = ({activities, navigation}: ShortcutsProps) => {
         return !userActivityData.some((userActivity) => userActivity['activity_id'] === activity.id);
     }).slice(0, 4);
 
+    // TODO: Add facts and myths
+
+
 
 
     return (

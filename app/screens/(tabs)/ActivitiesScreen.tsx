@@ -37,7 +37,7 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
 
     return (
         <>
-            <Header title={'Activities'} image={headerImage} onPress={() => {setFavouriteSelected(!favouriteSelected); }} />
+            <Header title={'Activities'} headerRight={headerImage} onHeaderRightPress={() => {setFavouriteSelected(!favouriteSelected); }} />
             <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
                 {Object.entries(activitiesByTag).map(([tag, activities]) => {
 

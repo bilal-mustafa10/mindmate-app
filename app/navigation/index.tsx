@@ -13,7 +13,6 @@ import HubScreen from '../screens/(tabs)/HubScreen';
 import MindverseScreen from '../screens/(tabs)/MindverseScreen';
 import {theme} from '../constants/Theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import FastImage from 'react-native-fast-image';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 import AddMoodScreen from '../screens/(journal)/AddMoodScreen';
@@ -24,6 +23,7 @@ import IntroductionScreen from '../screens/(auth)/IntroductionScreen';
 import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
 import AllResourcesScreen from '../screens/(resources)/AllResourcesScreen';
 import ViewResourceScreen from '../screens/(resources)/ViewResourceScreen';
+import ProfileScreen from '../screens/(profile)/ProfileScreen';
 
 export default function Navigation() {
     return (
@@ -68,6 +68,18 @@ function RootNavigator() {
                 name="SignUp"
                 component={SignUp}
                 options={{headerShown: false, gestureEnabled: false}}
+            />
+            <Stack.Screen
+                name="Profile"
+                component={ProfileScreen}
+                options={{
+                    headerShown: true,
+                    headerTitle: '',
+                    headerTransparent: true,
+                    headerRight: () => (
+                        <Text style={{...theme.typography.title}}>Profile</Text>
+                    ),
+                }}
             />
             <Stack.Screen
                 name="ActivityCompleted"
@@ -215,28 +227,9 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 name="MindMate"
                 component={HomeScreen}
                 options={() => ({
-                    headerShown: true,
-                    headerTitleAlign: 'left',
-                    headerTitleStyle: {
-                        fontFamily: 'outfit-semibold',
-                        fontSize: 24,
-                        color: theme.colors.text,
-                        paddingHorizontal: '5%',
-                        marginBottom: 10,
-                    },
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
+                    headerShown: false,
                     tabBarLabelStyle: routeName === 'MindMate' ? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color, focused}) => tabBarIcon('cloud', focused, color),
-                    headerRightContainerStyle: {
-                        paddingHorizontal: '5%',
-                        marginBottom: 10,
-                    },
-                    headerRight: () => (
-                        <FastImage source={require('../assets/images/help.png')} style={{width: 30, height: 30}} />
-
-                    ),
                 })}
             />
             <BottomTab.Screen
@@ -244,26 +237,8 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 component={ActivitiesScreen}
                 options={() => ({
                     headerShown: false,
-                    headerTitleAlign: 'left',
-                    headerTitleStyle: {
-                        fontFamily: 'outfit-semibold',
-                        fontSize: 24,
-                        color: theme.colors.text,
-                        paddingHorizontal: '5%',
-                        marginBottom: 10,
-                    },
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
                     tabBarLabelStyle: routeName === 'Activities' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({color, focused}) => tabBarIcon('compass', focused, color),
-                    headerRightContainerStyle: {
-                        paddingHorizontal: '5%',
-                        marginBottom: 10,
-                    },
-                    headerRight: () => (
-                        <FastImage source={require('../assets/images/favourite.png')} style={{width: 30, height: 30}} />
-                    ),
+                    tabBarIcon: ({color, focused}) => tabBarIcon('compass', focused, color)
                 })}
             />
             <BottomTab.Screen

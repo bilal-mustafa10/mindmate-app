@@ -21,7 +21,7 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
     const [password, setPassword] = useState({value: 'Global1234@', error: ''});
     const [showError, setShowError] = useState(false);
     const user = useQuery('UserData');
-    console.log('user', user);
+
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -51,12 +51,9 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
 
             if (response && response.status === 200) {
                 const decoded = jwtDecode(response.data.access);
-
-
                 const activities = await getActivities();
                 dispatch(setActivity(activities));
 
-                console.log(user);
 
                 if (user.length > 0) {
                     navigation.navigate('Root');
@@ -65,7 +62,6 @@ export default function SignIn({navigation}: RootStackScreenProps<'SignIn'>) {
                 }
             }
         } catch (error) {
-            console.log(error);
             setShowError(true);
         }
     };
