@@ -7,16 +7,11 @@ interface InputProps extends TextInputProps {
     secureTextEntry?: boolean;
 }
 
-export const Input: React.FC<InputProps> = ({
-    label,
-    secureTextEntry,
-    ...rest
-}: InputProps) => {
+export const Input: React.FC<InputProps> = ({ label, ...rest }: InputProps) => {
     return (
         <TextInput
             placeholder={label}
             style={styles.input}
-            secureTextEntry={secureTextEntry}
             {...rest}
         />
     );
@@ -24,17 +19,17 @@ export const Input: React.FC<InputProps> = ({
 
 const styles = StyleSheet.create({
     input: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: 50,
+        alignSelf: 'stretch',
+        minHeight: 50,
         backgroundColor: '#FFFFFF',
-        borderRadius: 8,
-        paddingHorizontal: 16,
+        borderRadius: 12,
+        paddingHorizontal: theme.spacing.medium,
+        paddingVertical: theme.spacing.small,
         ...theme.typography.body,
-        color: theme.colors.text,
+        lineHeight: 22,
         borderWidth: 1,
-        borderColor: '#D9D9D9',
-        marginBottom: '5%'
-    }
+        borderColor: '#E6E6E6',
+        marginBottom: theme.spacing.small,
+        textAlignVertical: 'center',
+    },
 });

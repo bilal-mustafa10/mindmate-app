@@ -1,25 +1,29 @@
-import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../services/redux/store';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../services/redux/store';
 import Card from '../../components/Card';
-import {styles, theme} from '../../constants/Theme';
-import {RootStackScreenProps} from '../../navigation/types';
-import {RealmContext} from '../../services/realm/config';
-import {useState} from 'react';
+import { styles, theme } from '../../constants/Theme';
+import { RootStackScreenProps } from '../../navigation/types';
+import { RealmContext } from '../../services/realm/config';
+import { useState } from 'react';
 import Header from '../../components/Header';
+import {ActivityResults} from '../../services/redux/activitySlice';
+import SectionHeader from '../../components/SectionHeader';
 
+const { useQuery } = RealmContext;
 
-const {useQuery} = RealmContext;
-export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Root'>) {
-    const {results} = useSelector((state: RootState) => state.activity);
+export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'Root'>) {
+    const { results } = useSelector((state: RootState) => state.activity);
     const [favouriteSelected, setFavouriteSelected] = useState(false);
     const userActivityData = useQuery('UserActivity');
     const userFavoriteActivities = useQuery('UserActivityFavourite');
     const headerImage = favouriteSelected ? require('../../assets/images/favourite.png') : require('../../assets/images/favourite-empty.png');
 
-    const filteredResults = favouriteSelected ? results?.filter((activity) => {
-        return userFavoriteActivities.some((userFavourite) => userFavourite['activity_id'] === activity.id);
-    }) : null;
+    const filteredResults = favouriteSelected
+        ? results?.filter((activity) => {
+            return userFavoriteActivities.some((userFavourite) => userFavourite['activity_id'] === activity.id);
+        })
+        : null;
 
     const activitiesByTag = {
         'Keep Active': [],
@@ -30,60 +34,61 @@ export default function ActivitiesScreen({navigation}: RootStackScreenProps<'Roo
     };
 
     // Group activities by tag
-    (filteredResults || results)?.forEach(activity => {
+    (filteredResults || results)?.forEach((activity) => {
         activitiesByTag[activity.five_way_tag].push(activity);
     });
 
+    const renderActivities = (tag: string, activities: ActivityResults[]) => {
+        if (activities.length === 0) return null;
+
+        return (
+            <View key={tag}>
+                <SectionHeader title={tag}/>
+                <ScrollView
+                    horizontal
+                    contentContainerStyle={styles.rowScrollContainer}
+                    showsHorizontalScrollIndicator={false}
+                >
+                    {activities.map((activity, index) => {
+                        const isCompleted = userActivityData.some(
+                            (userActivity) => userActivity['activity_id'] === activity.id,
+                        );
+
+                        return (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => navigation.navigate('ViewActivity', {
+                                    activity: activity,
+                                    isCompleted: isCompleted
+                                })}
+                            >
+                                <Card
+                                    type={'medium'}
+                                    borderColor={theme.five_ways_theme[tag]}
+                                    logo={activity.logo}
+                                    title={activity.title}
+                                    isCompleted={isCompleted}
+                                />
+                            </TouchableOpacity>
+                        );
+                    })}
+                </ScrollView>
+            </View>
+        );
+    };
 
     return (
         <>
-            <Header title={'Activities'} headerRight={headerImage} onHeaderRightPress={() => {setFavouriteSelected(!favouriteSelected); }} />
-            <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
-                {Object.entries(activitiesByTag).map(([tag, activities]) => {
-
-                    return (
-                        <>
-                            {activities.length > 0 &&
-                                <View key={tag}>
-                                    <Text style={theme.typography.subTitle}>{tag}</Text>
-                                    <ScrollView
-                                        key={tag}
-                                        horizontal
-                                        contentContainerStyle={styles.rowScrollContainer}
-                                        showsHorizontalScrollIndicator={false}
-                                    >
-                                        {activities.map((activity, index) => {
-                                            const isCompleted = userActivityData.some(
-                                                (userActivity) => userActivity['activity_id'] === activity.id
-                                            );
-
-                                            return (
-                                                <TouchableOpacity
-                                                    key={index}
-                                                    onPress={() => navigation.navigate('ViewActivity', {
-                                                        activity: activity,
-                                                        isCompleted: isCompleted
-                                                    })}>
-                                                    <Card
-                                                        key={index}
-                                                        type={'medium'}
-                                                        borderColor={theme.five_ways_theme[tag]}
-                                                        logo={activity.logo}
-                                                        title={activity.title}
-                                                        isCompleted={isCompleted}
-                                                    />
-                                                </TouchableOpacity>
-                                            );
-
-                                        })}
-                                    </ScrollView>
-                                </View>
-                            }
-                        </>
-                    );
-                })}
+            <Header
+                title={'Activities'}
+                headerRight={headerImage}
+                onHeaderRightPress={() => {
+                    setFavouriteSelected(!favouriteSelected);
+                }}
+            />
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                {Object.entries(activitiesByTag).map(([tag, activities]) => renderActivities(tag, activities))}
             </ScrollView>
         </>
-
     );
 }

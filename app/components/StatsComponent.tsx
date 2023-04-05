@@ -1,17 +1,16 @@
 import React from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+import { View, StyleSheet, Text } from 'react-native';
 import CircularProgress from 'react-native-circular-progress-indicator';
-import {width} from '../constants/Theme';
+import { theme, width } from '../constants/Theme';
 
 interface StatsProps {
     value: number;
     label: string;
 }
 
-const Stats = ({value, label}: StatsProps) => {
+const Stats = ({ value, label }: StatsProps) => {
     return (
         <View style={styles.box}>
-            <Text style={styles.label}>{label}</Text>
             <CircularProgress
                 value={value}
                 duration={2000}
@@ -23,6 +22,7 @@ const Stats = ({value, label}: StatsProps) => {
                 maxValue={100}
                 radius={32}
             />
+            <Text style={styles.label}>{label}</Text>
         </View>
     );
 };
@@ -38,13 +38,16 @@ const styles = StyleSheet.create({
         borderColor: '#D9D9D9',
         justifyContent: 'center',
         alignItems: 'center',
+        flexDirection: 'column-reverse'
     },
     label: {
         marginVertical: 8,
-        fontSize: 12,
+        fontSize: 10,
         textAlign: 'center',
-        fontFamily: 'outfit-semibold',
+        ...theme.typography.captionSemiBold,
+        flex: 1
     },
 });
+
 
 export default Stats;

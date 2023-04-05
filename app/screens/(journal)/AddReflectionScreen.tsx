@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { Text } from 'react-native';
+import { Text, Platform, KeyboardAvoidingView } from 'react-native';
 import { Modalize } from 'react-native-modalize';
 import { theme } from '../../constants/Theme';
 import TextInput from '../../components/TextInput';
@@ -16,14 +16,13 @@ interface IReflectionProps {
 }
 
 const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTitle, onClose }: IReflectionProps) => {
-    const modalizeRef = useRef<Modalize>(null);
+    const modalRef = useRef<Modalize>(null);
     const [showError, setShowError] = React.useState(false);
 
     const handleAddReflection = (text: string) => {
         setShowError(false);
         setReflection(text);
     };
-
 
     const handleComplete = () => {
         if (title === '' || reflection === '') {
@@ -34,41 +33,44 @@ const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTi
     };
 
     useEffect(() => {
-        modalizeRef.current?.open();
+        modalRef.current?.open();
     }, []);
 
     return (
         <Modalize
-            ref={modalizeRef}
+            ref={modalRef}
             adjustToContentHeight={true}
             modalStyle={{ padding: '8%' }}
             onClose={onClose}
-
         >
-            <Text style={theme.typography.subTitle}>title</Text>
-            <Input
-                label={'title'}
-                keyboardType={'default'}
-                value={title}
-                onChangeText={(text) => setTitle(text)}
-                autoCapitalize="none"
-                autoCorrect={false}
-            />
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+            >
+                <Text style={[theme.typography.bodyBold, { marginBottom: 8 }]}>Title</Text>
+                <Input
+                    label={'Title'}
+                    keyboardType={'default'}
+                    value={title}
+                    onChangeText={(text) => setTitle(text)}
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                />
 
-            <Text style={theme.typography.subTitle}>Write your self-reflection</Text>
-            <TextInput data={reflection} onDataChange={handleAddReflection} type={'large'} />
-            {showError ?
-                <Button onPress={() => {console.log('error'); }} color={'error'} type={'large'} style={{marginVertical: '10%'}}>
-                    please fill in all fields
-                </Button>
-                :
-                <Button onPress={handleComplete} color={'secondary'} type={'medium'} style={{marginVertical: '10%'}}>
-                    Complete
-                </Button>
-            }
+                <Text style={[theme.typography.bodyBold, { marginTop: 16, marginBottom: 8 }]}>Write your self-reflection</Text>
+                <TextInput data={reflection} onDataChange={handleAddReflection} type={'large'} />
+                {showError ?
+                    <Button onPress={() => { console.log('error'); }} color={'error'} type={'large'} style={{ marginVertical: '10%' }}>
+                        Please fill in all fields
+                    </Button>
+                    :
+                    <Button onPress={handleComplete} color={'secondary'} type={'medium'} style={{ marginVertical: '10%' }}>
+                        Complete
+                    </Button>
+                }
+            </KeyboardAvoidingView>
         </Modalize>
     );
 };
-
 
 export default AddReflectionScreen;

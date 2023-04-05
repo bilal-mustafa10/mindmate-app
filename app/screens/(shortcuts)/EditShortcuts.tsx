@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import {ScrollView, View} from 'react-native';
 import { shortcuts } from '../../constants/Shortcuts';
 import { RealmContext } from '../../services/realm/config';
 import {ShortcutCard} from '../../components/ShortcutCard';
-import {styles, theme} from '../../constants/Theme';
+import {styles} from '../../constants/Theme';
+import SectionHeader from '../../components/SectionHeader';
+import Header from '../../components/Header';
+import {RootStackScreenProps} from '../../navigation/types';
 
 
 const { useRealm, useQuery } = RealmContext;
-export default function EditShortcutsScreen() {
+export default function EditShortcutsScreen({ navigation }: RootStackScreenProps<'EditShortcuts'>) {
     const userShortcutsData = useQuery('UserShortcut');
-    const insets = useSafeAreaInsets();
     const realm = useRealm();
     const [availableShortcuts, setAvailableShortcuts] = useState(shortcuts);
     const [userShortcuts, setUserShortcuts] = useState([]);
@@ -44,20 +45,29 @@ export default function EditShortcutsScreen() {
     };
 
     return (
-        <View style={[styles.container, { paddingTop: insets.top * 1.75 }]}>
-            <View>
-                <Text style={theme.typography.subTitle}>My Shortcuts</Text>
-                {userShortcuts.map((shortcut) => (
-                    <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={false} onAction={handleRemoveUserShortcut} />
-                ))}
-            </View>
-            <View>
-                <Text style={theme.typography.subTitle}>Available Shortcuts</Text>
-                {availableShortcuts.map((shortcut) => (
-                    <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={true} onAction={handleAddUserShortcut} />
-                ))}
-            </View>
-        </View>
+        <>
+            <Header
+                showAvatar={false}
+                onHeaderLeftPress={()=>{navigation.goBack(); }}
+                title={'Edit Shortcuts'}
+                showBackButton={true}
+            />
+            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+                <View>
+                    <SectionHeader title="My Shortcuts"/>
+                    {userShortcuts.map((shortcut) => (
+                        <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={false} onAction={handleRemoveUserShortcut} />
+                    ))}
+                </View>
+                <View>
+                    <SectionHeader title="Available Shortcuts"/>
+                    {availableShortcuts.map((shortcut) => (
+                        <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={true} onAction={handleAddUserShortcut} />
+                    ))}
+                </View>
+            </ScrollView>
+        </>
+
     );
 }
 

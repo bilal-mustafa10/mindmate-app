@@ -4,6 +4,7 @@ import {theme} from '../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import UserAvatar from 'react-native-user-avatar';
+import {Ionicons} from '@expo/vector-icons';
 
 interface IHeaderProps {
     title?: string;
@@ -14,12 +15,15 @@ interface IHeaderProps {
     showAvatar?: boolean;
     name?: string;
     avatarColor?: string;
+    showBackButton?: boolean;
+    transparent?: boolean;
+    showBottomBorder?: boolean;
 }
-const Header = ({title, headerRight, headerLeft, onHeaderRightPress, onHeaderLeftPress, showAvatar, name, avatarColor}: IHeaderProps) => {
+const Header = ({title, headerRight, headerLeft, onHeaderRightPress, onHeaderLeftPress, showAvatar, name, avatarColor, showBackButton, transparent, showBottomBorder}: IHeaderProps) => {
     const insets = useSafeAreaInsets();
 
     return (
-        <View style={[styles.container, {paddingTop: insets.top}]}>
+        <View style={[styles.container, {borderBottomWidth: showBottomBorder ? 0 : 0.6 , paddingTop:  insets.top, backgroundColor: transparent ? '#F5F4FF' : theme.colors.background}]}>
             {showAvatar &&
                 <TouchableOpacity onPress={onHeaderLeftPress}>
                     <UserAvatar size={35} name={name} bgColor={avatarColor}/>
@@ -32,8 +36,18 @@ const Header = ({title, headerRight, headerLeft, onHeaderRightPress, onHeaderLef
                 </TouchableOpacity>
             }
 
+            {showBackButton &&
+                <TouchableOpacity onPress={onHeaderLeftPress}>
+                    <View style={styles.backButtonContainer}>
+                        <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
+                        <Text style={theme.typography.bodyBold}>Back</Text>
+                    </View>
+                </TouchableOpacity>
+            }
+
+
             {title &&
-                <Text style={theme.typography.title}>{title}</Text>
+                <Text style={theme.typography.headingBold}>{title}</Text>
             }
 
             {headerRight &&
@@ -56,6 +70,10 @@ const styles = StyleSheet.create({
         borderBottomColor: 'lightgrey',
         borderBottomWidth: 0.6,
         paddingBottom: 10,
+    },
+    backButtonContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     image: {
         width: 30,

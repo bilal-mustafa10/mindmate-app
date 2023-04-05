@@ -11,10 +11,11 @@ import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
 import { logout } from '../../services/api/authEndpoints';
 import { RealmContext } from '../../services/realm/config';
+import {RouteProp} from '@react-navigation/native';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'Profile'>;
-    route: any;
+    route: RouteProp<RootStackParamList, 'Profile'>;
 };
 
 
@@ -96,7 +97,7 @@ export default function ProfileScreen({navigation, route}: Props) {
             <ColorOptionsModal visible={modalVisible}/>
 
             <View style={[styles.formContainer, {marginVertical:'5%'}]}>
-                <Text style={theme.typography.subTitle}>Personal Details</Text>
+                <Text style={theme.typography.bodyMedium}>Personal Details</Text>
                 <View>
                     <Input
                         label={'First Name'}

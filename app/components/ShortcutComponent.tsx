@@ -13,8 +13,7 @@ interface ShortcutsProps {
 }
 
 const ShortcutComponent = ({shortcuts, navigation}: ShortcutsProps) => {
-    const shortcutsToDisplay = shortcuts.slice(0, 3); // Limit the number of displayed shortcuts to 3
-
+    const shortcutsToDisplay = shortcuts.slice(0, 3);
 
     return (
         <View style={styles.shortcutsContainer}>
@@ -25,15 +24,13 @@ const ShortcutComponent = ({shortcuts, navigation}: ShortcutsProps) => {
                         key={index}
                         photo={shortcut.logo}
                         title={shortcut.name}
-                        borderColor={theme.card_theme[index]} // Pass the navigateTo prop if you want to use it as the border color
+                        borderColor={theme.card_theme[index]}
                     />
                 </TouchableOpacity>
 
             ))}
 
-            {shortcuts.length === 0 && (
-                <Text style={theme.typography.body}>No shortcuts.</Text>
-            )}
+            {shortcuts.length === 0 && <Text style={theme.typography.body}>No shortcuts.</Text>}
 
         </View>
     );

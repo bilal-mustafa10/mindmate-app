@@ -1,8 +1,8 @@
-import {useMemo} from 'react';
-import {Dimensions, StyleSheet, Text, View} from 'react-native';
+import React, { useMemo } from 'react';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import {Photo} from '../services/redux/activitySlice';
-import {theme} from '../constants/Theme';
+import { Photo } from '../services/redux/activitySlice';
+import { theme, width } from '../constants/Theme';
 
 interface SmallCardProps {
     logo?: Photo;
@@ -15,10 +15,10 @@ interface SmallCardProps {
 
 const screenWidth = Dimensions.get('window').width;
 
-const Card = ({logo, title, borderColor, photo, type, isCompleted}: SmallCardProps) => {
+const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardProps) => {
     const cardWidth = useMemo(() => {
         if (type === 'large') {
-            return screenWidth * 0.42;
+            return screenWidth * 0.425;
         } else if (type === 'medium') {
             return screenWidth * 0.33;
         } else if (type === 'small') {
@@ -40,44 +40,67 @@ const Card = ({logo, title, borderColor, photo, type, isCompleted}: SmallCardPro
         ];
     }, [borderColor, cardWidth, isCompleted]);
 
+    const imageSize = useMemo(() => {
+        if (type === 'large') {
+            return 40;
+        } else if (type === 'medium') {
+            return 35;
+        } else if (type === 'small') {
+            return 30;
+        }
+    }, [type]);
+
     return (
         <View style={boxStyle}>
-            {logo && (
-                <FastImage
-                    source={{uri: logo.file}}
-                    style={styles.activityImage}
-                    resizeMode={FastImage.resizeMode.contain}
-                />
-            )}
-            {photo && (
-                <FastImage
-                    source={photo}
-                    style={styles.activityImage}
-                    resizeMode={FastImage.resizeMode.contain}
-                />
-            )}
-            <Text style={styles.activityTitle}>{title}</Text>
+            <View style={styles.imageContainer}>
+                {logo && (
+                    <FastImage
+                        source={{ uri: logo.file }}
+                        style={{ width: imageSize, height: imageSize }}
+                        resizeMode={FastImage.resizeMode.contain}
+                    />
+                )}
+                {photo && (
+                    <FastImage
+                        source={photo}
+                        style={{ width: imageSize, height: imageSize }}
+                        resizeMode={FastImage.resizeMode.contain}
+                    />
+                )}
+            </View>
+            <View style={styles.textContainer}>
+                <Text style={styles.activityTitle}>{title}</Text>
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
     activityBox: {
-        height: 100,
+        height: width * 0.27,
         backgroundColor: '#ffffff',
-        padding: 10,
-        borderRadius: 8,
+        padding: width * 0.03,
+        borderRadius: 12,
         borderWidth: 1,
-        marginHorizontal: 4,
-        justifyContent: 'space-around',
+        marginHorizontal: width * 0.012,
     },
-    activityImage: {
-        width: 30,
-        height: 30,
+    imageContainer: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        alignItems: 'flex-start',
+    },
+    textContainer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-start',
     },
     activityTitle: {
-        ...theme.typography.caption,
+        ...theme.typography.captionSemiBold,
+        lineHeight: 14,
     },
 });
 
 export default Card;
+
+
+

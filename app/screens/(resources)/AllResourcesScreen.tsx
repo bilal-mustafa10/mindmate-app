@@ -1,23 +1,23 @@
 import React from 'react';
-import {ScrollView, Dimensions, TouchableOpacity} from 'react-native';
+import {Dimensions, ScrollView, TouchableOpacity} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import {useSelector} from 'react-redux';
 import {RootState} from '../../services/redux/store';
 import {styles, theme} from '../../constants/Theme';
 import {View} from '../../components/Themed';
 import Card from '../../components/Card';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import Header from '../../components/Header';
 
 
 export default function AllResourcesScreen({ navigation }: RootStackScreenProps<'AllResources'>) {
     const {results} = useSelector((state: RootState) => state.resources);
-    const insets = useSafeAreaInsets();
     const screenWidth = Dimensions.get('window').width;
-    const cardWidth = (screenWidth - 40) / 3; // Adjust the number according to your desired margin/padding
+    const cardWidth = (screenWidth - 43) / 3; // Adjust the number according to your desired margin/padding
 
     return (
         <>
-            <ScrollView style={[styles.container, {paddingTop: insets.top * 1.75}]}>
+            <Header onHeaderLeftPress={() => {navigation.goBack();}} title={'All Resources'} showBackButton={true}/>
+            <ScrollView style={styles.container}>
                 <View
                     style={{
                         flexDirection: 'row',
@@ -33,7 +33,7 @@ export default function AllResourcesScreen({ navigation }: RootStackScreenProps<
                             <TouchableOpacity
                                 key={index}
                                 onPress={() => navigation.navigate('ViewResource', {resource: resource, title: resource.title})}
-                                style={{width: cardWidth, backgroundColor: 'transparent', marginVertical: 10}}
+                                style={{width: cardWidth, backgroundColor: 'transparent', marginVertical: 10, alignItems: 'center'}}
                             >
                                 <Card
                                     key={index}

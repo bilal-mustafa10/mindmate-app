@@ -2,20 +2,19 @@ import {styles, theme} from '../../constants/Theme';
 import {View, Text} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import * as React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {moodImages} from '../../constants/Images';
 import MoodComponent from '../../components/MoodComponent';
 import TextInput from '../../components/TextInput';
 import {Button} from '../../components/Button';
 import {RealmContext} from '../../services/realm/config';
+import Header from '../../components/Header';
 
-const { useRealm, useQuery } = RealmContext;
+
 export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodScreen'>) {
-    const insets = useSafeAreaInsets();
-    const realm = useRealm();
+    const realm = RealmContext.useRealm();
     const [mood, setMood] = React.useState<string>('');
     const [notes, setNotes] = React.useState<string>('');
-    const userData = useQuery('UserData');
+    const userData = RealmContext.useQuery('UserData');
     const [firstName] = React.useState<string>(userData[0]['first_name']);
     const [showError, setShowError] = React.useState<boolean>(false);
 
@@ -52,37 +51,46 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
     };
 
     return (
-        <View style={[styles.container, styles.secondaryBackground, {paddingTop: insets.top * 1.5}]}>
-            <Text style={[theme.typography.bodyBold, {marginBottom: '5%'}]}>How are you feeling today {firstName}?</Text>
-            <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
-            <Text style={[theme.typography.bodyBold, {marginVertical: '5%'}]}>What made you feel like this?</Text>
-            <TextInput data={notes} onDataChange={onNotesChange} type={'medium'}/>
-            <View
-                style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    alignSelf: 'center',
-                    width: '100%',
-                    flexDirection: 'row',
-                    justifyContent: 'flex-end',
-                    marginBottom: '10%',
-                    backgroundColor: 'transparent'
-                }}
-            >
-                {/*<Button onPress={() => navigation.navigate('Root')} color={'tertiary'} type={'medium'}>
+        <>
+            <Header
+                onHeaderLeftPress={()=>{navigation.goBack();}}
+                title={''}
+                showBackButton={true}
+                transparent={true}
+                showBottomBorder={true}
+            />
+
+            <View style={{...styles.container, backgroundColor: '#F5F4FF'}}>
+                <Text style={[theme.typography.bodyBold, {marginBottom: '5%'}]}>How are you feeling today {firstName}?</Text>
+                <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
+                <Text style={[theme.typography.bodyBold, {marginVertical: '5%'}]}>What made you feel like this?</Text>
+                <TextInput data={notes} onDataChange={onNotesChange} type={'medium'}/>
+                <View
+                    style={{
+                        position: 'absolute',
+                        bottom: 0,
+                        alignSelf: 'center',
+                        width: '100%',
+                        flexDirection: 'row',
+                        justifyContent: 'flex-end',
+                        marginBottom: '10%',
+                        backgroundColor: 'transparent'
+                    }}
+                >
+                    {/*<Button onPress={() => navigation.navigate('Root')} color={'tertiary'} type={'medium'}>
                     Share with friends
                 </Button>*/}
-                {showError ?
-                    <Button onPress={() => {console.log('error'); }} color={'error'} type={'large'}>
-                        please select a mood
-                    </Button>
-                    :
-                    <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
-                        Complete
-                    </Button>
-                }
+                    {showError ?
+                        <Button onPress={() => {console.log('error'); }} color={'error'} type={'large'}>
+                            please select a mood
+                        </Button>
+                        :
+                        <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
+                            Complete
+                        </Button>
+                    }
+                </View>
             </View>
-        </View>
-
+        </>
     );
 }

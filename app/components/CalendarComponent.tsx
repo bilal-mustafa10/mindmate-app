@@ -2,13 +2,13 @@ import React, {useState} from 'react';
 import {FlatList, StyleSheet, Text, View} from 'react-native';
 import {theme} from '../constants/Theme';
 import {RectButton} from 'react-native-gesture-handler';
-import {Button} from './Button';
-import {MoodCard} from './MoodCard';
 import {ReflectionCard} from './ReflectionCard';
 import {NavigationProp} from '@react-navigation/native';
 import {RootStackParamList} from '../navigation/types';
 import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
 import {RealmContext} from '../services/realm/config';
+import SectionHeader from './SectionHeader';
+import MoodCard from './MoodCard';
 
 
 export interface IMoodDataProps {
@@ -166,10 +166,7 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
     return (
         <>
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={theme.typography.subTitle}>{displayedMonth}</Text>
-                    <Button onPress={handleAddNavigation} color={'secondary'} type={'pill'}>add {type}</Button>
-                </View>
+                <SectionHeader title={displayedMonth} buttonText={`add ${type}`} onButtonPress={handleAddNavigation} />
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -180,10 +177,11 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
                     onScroll={handleScroll}
                     scrollEventThrottle={16}
                 />
-                {selectedDate && (
+                {selectedDate &&
                     <View style={styles.selectedDateMoodData}>
                         {selectedDateData.length === 0 ? (
                             <Text style={styles.noDataText}>No data for the selected date.</Text>
+
                         ) : (
                             selectedDateData.map((data, index) => (
                                 type === 'mood' ?
@@ -199,7 +197,7 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
                             ))
                         )}
                     </View>
-                )}
+                }
             </View>
             <>
                 {type === 'reflection' && addReflectionModal &&
@@ -246,8 +244,9 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     noDataText: {
-        ...theme.typography.body,
-        fontStyle: 'italic',
+        ...theme.typography.bodyBold,
+        color: 'grey',
+        textAlign: 'center',
     },
     container: {
         paddingHorizontal: 8,

@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
     moodName: {
         marginTop: 12,
         textAlign: 'center',
-        fontFamily: 'outfit-regular',
+        fontFamily: 'nunito-semibold',
     },
 });
 

@@ -19,6 +19,7 @@ export const login = async (params: ILoginRequest) => {
     catch (e) {
         console.log('Error logging in.');
         console.log(e.response.data);
+        return e.response.data;
     }
 };
 

@@ -3,15 +3,16 @@ import {Text, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Button} from '../../components/Button';
 import {Input} from '../../components/Input';
-import {height, styles, theme} from '../../constants/Theme';
+import {styles, theme} from '../../constants/Theme';
 import {RootStackScreenProps} from '../../navigation/types';
 import {nameValidator} from '../../services/validator';
 import {RealmContext} from '../../services/realm/config';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
-const { useRealm } = RealmContext;
 export default function IntroductionScreen({navigation, route}: RootStackScreenProps<'Introduction'>) {
+    const insets = useSafeAreaInsets();
     const userId = route.params.userId;
-    const realm = useRealm();
+    const realm = RealmContext.useRealm();
     const [firstName, setFirstName] = React.useState({value: '', error: ''});
     const [lastName, setLastName] = React.useState({value: '', error: ''});
     const shortcuts = [1,2,3];
@@ -51,45 +52,46 @@ export default function IntroductionScreen({navigation, route}: RootStackScreenP
 
     return (
         <View style={styles.container}>
-            <View style={[styles.content, { height: height * 0.35, justifyContent: 'flex-end'}]}>
+            <View style={[styles.container, {paddingTop: insets.top}]}>
                 <FastImage
                     source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}
                     style={styles.logoWithoutContainer}
                 />
-            </View>
-            <View style={styles.formContainer}>
-                <Text style={[theme.typography.subTitle, {marginBottom: '2%', textAlign:'center'}]}>Begin your wellbeing journey!</Text>
-                <Text style={[theme.typography.body, {marginBottom: '5%', textAlign:'center'}]}>Share your details for customized support and tools.</Text>
-                <View>
-                    <Input
-                        label={'First Name'}
-                        keyboardType="default"
-                        inputMode={'text'}
-                        value={firstName.value}
-                        onChangeText={text => setFirstName({value: text, error: ''})}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                    />
-                    <Input
-                        label={'Last Name'}
-                        keyboardType="default"
-                        inputMode={'text'}
-                        value={lastName.value}
-                        onChangeText={text => setLastName({value: text, error: ''})}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                    />
+                <View style={styles.formContainer}>
+                    <Text style={[theme.typography.bodyBold, {marginBottom: '2%', textAlign:'left'}]}>Begin your wellbeing journey!</Text>
+                    <Text style={[theme.typography.captionSemiBold, {marginBottom: '5%', textAlign:'left'}]}>Share your details for customized support and tools.</Text>
+                    <View>
+                        <Input
+                            label={'First Name'}
+                            keyboardType="default"
+                            inputMode={'text'}
+                            value={firstName.value}
+                            onChangeText={text => setFirstName({value: text, error: ''})}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
+                        <Input
+                            label={'Last Name'}
+                            keyboardType="default"
+                            inputMode={'text'}
+                            value={lastName.value}
+                            onChangeText={text => setLastName({value: text, error: ''})}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                        />
 
-                    <Button type={'large'}
-                        onPress={handleContinue}
-                        style={{marginTop: '5%'}}
-                        color={'secondary'}
-                    >
-                        Continue
-                    </Button>
+                        <Button type={'large'}
+                            onPress={handleContinue}
+                            style={{marginTop: '5%'}}
+                            color={'secondary'}
+                        >
+                            Continue
+                        </Button>
+                    </View>
                 </View>
             </View>
+
         </View>
     );
 }

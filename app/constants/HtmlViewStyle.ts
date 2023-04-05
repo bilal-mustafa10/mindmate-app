@@ -1,11 +1,10 @@
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
+import { theme } from './Theme';
 
 export const htmlViewStyle = StyleSheet.create({
     p: {
-        fontFamily: 'outfit-regular',
-        fontSize: 14,
+        ...theme.typography.bodyMedium,
         lineHeight: 24,
         letterSpacing: 0.75,
-        backgroundColor: 'transparent',
     },
 });

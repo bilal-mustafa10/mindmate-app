@@ -1,15 +1,14 @@
 import {styles} from '../../constants/Theme';
-import {View} from 'react-native';
+import {ScrollView} from 'react-native';
 import {RootStackScreenProps} from '../../navigation/types';
 import * as React from 'react';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {CalendarComponent, IMoodDataProps} from '../../components/CalendarComponent';
 import {RealmContext} from '../../services/realm/config';
+import Header from '../../components/Header';
 
 
 const { useQuery } = RealmContext;
 export default function MoodJournal({navigation}: RootStackScreenProps<'MoodJournal'>) {
-    const insets = useSafeAreaInsets();
     const userMoodData = useQuery('UserMood');
     const [moodData, setMoodData] = React.useState<IMoodDataProps[] | null>(null);
 
@@ -27,9 +26,18 @@ export default function MoodJournal({navigation}: RootStackScreenProps<'MoodJour
 
 
     return (
-        <View style={[styles.container, {paddingTop: insets.top * 1.75}]}>
-            {moodData !== null && <CalendarComponent type='mood' data={moodData} navigation={navigation} />}
-        </View>
+        <>
+            <Header
+                showAvatar={false}
+                onHeaderLeftPress={()=>{navigation.goBack();}}
+                title={'Mood Journal'}
+                showBackButton={true}
+            />
+            <ScrollView style={styles.container}>
+                {moodData !== null && <CalendarComponent type='mood' data={moodData} navigation={navigation} />}
+            </ScrollView>
+        </>
+
 
     );
 }

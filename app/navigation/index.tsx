@@ -77,7 +77,7 @@ function RootNavigator() {
                     headerTitle: '',
                     headerTransparent: true,
                     headerRight: () => (
-                        <Text style={{...theme.typography.title}}>Profile</Text>
+                        <Text style={{...theme.typography.bodyBold}}>Profile</Text>
                     ),
                 }}
             />
@@ -89,7 +89,7 @@ function RootNavigator() {
             <Stack.Screen
                 name="MoodScreen"
                 component={AddMoodScreen}
-                options={{headerShown: true, gestureEnabled: false, headerTitle: '', headerTransparent: true}}
+                options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen
                 name="ReflectionScreen"
@@ -99,74 +99,26 @@ function RootNavigator() {
             <Stack.Screen
                 name="AllResources"
                 component={AllResourcesScreen}
-                options={{
-                    headerShown: true,
-                    headerTitle: '',
-                    headerTransparent: true,
-                    headerRight: () => (
-                        <Text style={{...theme.typography.title}}>All Resources</Text>
-                    ),
-                }}
+                options={{headerShown: false, gestureEnabled: false}}
             />
             <Stack.Screen
                 name="ViewResource"
                 component={ViewResourceScreen}
-                options={({route}) => ({
-                    headerShown: true,
-                    headerTitle: '',
-                    headerTransparent: false,
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
-                    headerRight: () => (
-                        <Text style={{...theme.typography.title}}>{route.params.title}</Text>
-                    ),
-                })}
+                options={{headerShown: false, gestureEnabled: false}}
             />
 
-
-            <Stack.Screen
-                name="MoodJournal"
-                component={MoodJournal}
-                options={{
-                    headerShown: true,
-                    headerTitle: '',
-                    headerTransparent: true,
-                    headerRight: () => (
-                        <Text style={{...theme.typography.title}}>Mood Journal</Text>
-                    ),
-                }}
-            />
-            <Stack.Screen
-                name="SelfReflectionJournal"
-                component={SelfReflectionJournal}
-                options={{
-                    headerShown: true,
-                    headerTitle: '',
-                    headerTransparent: true,
-                    headerRight: () => (
-                        <Text style={{...theme.typography.title}}>Self Reflection Journal</Text>
-                    ),
-                }}
-            />
-            <Stack.Screen
-                name="ViewActivity"
-                component={ViewActivityScreen}
-                options={{headerShown: true,
-                    gestureEnabled: true,
-                    headerTitle: '',
-                    headerTransparent: true,
-                }}
-            />
+            <Stack.Screen name="MoodJournal" component={MoodJournal} options={{headerShown: false, gestureEnabled: false}}/>
+            <Stack.Screen name="SelfReflectionJournal" component={SelfReflectionJournal} options={{headerShown: false, gestureEnabled: false}}/>
+            <Stack.Screen name="ViewActivity" component={ViewActivityScreen} options={{headerShown: false, gestureEnabled: true}}/>
             <Stack.Screen
                 name="EditShortcuts"
                 component={EditShortcutsScreen}
                 options={{
-                    headerShown: true,
+                    headerShown: false,
                     headerTitle: '',
                     headerTransparent: true,
                     headerRight: () => (
-                        <Text style={{...theme.typography.title}}>Edit Shortcuts</Text>
+                        <Text style={{...theme.typography.bodyBold}}>Edit Shortcuts</Text>
                     ),
                 }}
             />
@@ -182,13 +134,14 @@ function BottomTabNavigator({ route }: { route: unknown }) {
     const insets = useSafeAreaInsets();
 
     const activeTabLabelStyle = {
-        fontSize: 13,
-        fontFamily: 'outfit-semibold',
+        ...theme.typography.bodyBold,
+        fontSize: 12,
     };
 
     const inactiveTabLabelStyle = {
-        fontSize: 13,
-        fontFamily: 'outfit-regular',
+        ...theme.typography.bodyMedium,
+        fontSize: 10,
+
     };
 
     const tabBarIcon = (iconName: any, focused: boolean, color: string) => (
@@ -199,14 +152,13 @@ function BottomTabNavigator({ route }: { route: unknown }) {
         <BottomTab.Navigator
             initialRouteName="MindMate"
             screenOptions={{
-                tabBarActiveTintColor: '#5539A8',
+                tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: '#000',
                 tabBarStyle: {
-                    borderRadius: 0,
                     paddingTop: 10,
                     paddingBottom: insets.bottom - 10,
                     paddingHorizontal: 10,
-                    height: 60 + insets.bottom,
+                    height: 55 + insets.bottom,
                     backgroundColor: '#fff',
                     borderTopColor: '#fff',
                     marginBottom: 0,
@@ -247,12 +199,6 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: true,
                     headerTitleAlign: 'left',
-                    headerTitleStyle: {
-                        fontFamily: 'outfit-semibold',
-                        fontSize: 24,
-                        color: theme.colors.text,
-                        marginBottom: 10,
-                    },
                     headerStyle: {
                         backgroundColor: theme.colors.background,
                     },
@@ -264,17 +210,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 name="Mindverse"
                 component={MindverseScreen}
                 options={() => ({
-                    headerShown: true,
-                    headerTitleAlign: 'left',
-                    headerTitleStyle: {
-                        fontFamily: 'outfit-semibold',
-                        fontSize: 24,
-                        color: theme.colors.text,
-                        marginBottom: 10,
-                    },
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
+                    headerShown: false,
                     tabBarLabelStyle: routeName === 'Mindverse'? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({color, focused}) => tabBarIcon('heart', focused, color),
                 })}

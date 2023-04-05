@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@expo-google-fonts/nunito": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@primer/octicons-react": "^18.2.0",
     "@react-native-async-storage/async-storage": "1.17.11",

@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import {theme} from '../constants/Theme';
 
 interface TagProps {
     tags: string,
@@ -41,9 +42,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 3,
     },
     tagText: {
-        color: '#000',
-        fontFamily: 'outfit-regular',
-        fontSize: 12,
+        ...theme.typography.caption,
     },
 });
 

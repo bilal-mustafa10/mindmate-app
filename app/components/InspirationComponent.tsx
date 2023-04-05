@@ -1,4 +1,5 @@
 import {View, Text, StyleSheet} from 'react-native';
+import {theme} from '../constants/Theme';
 
 interface InspirationBoxComponentProps {
     inspiration: string;
@@ -14,26 +15,22 @@ const InspirationBoxComponent = ({inspiration}: InspirationBoxComponentProps) =>
 
 const styles = StyleSheet.create({
     boxContainer: {
-        padding: 15,
-        backgroundColor: '#FFFFFF',
-        borderColor: '#D9D9D9',
+        padding: theme.spacing.large,
+        backgroundColor:'white',
+        borderColor: theme.colors.borderColor,
         borderWidth: 1,
-        borderRadius: 8,
+        borderRadius: 20,
         shadowColor: '#000',
-        shadowOffset: {width: 0, height: 1},
+        shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
         shadowRadius: 4,
-        elevation: 1, // Only needed for Android to support boxShadow
-        marginBottom: 15,
+        elevation: 1,
         height: 130,
         justifyContent: 'center',
     },
     inspirationText: {
-        fontSize: 16,
+        ...theme.typography.bodySemiBold,
         textAlign: 'center',
-        fontFamily: 'outfit-regular',
-        lineHeight: 22,
-        letterSpacing: 0.5
     },
 });
 

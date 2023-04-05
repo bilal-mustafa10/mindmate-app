@@ -1,5 +1,5 @@
-import React, {useEffect} from 'react';
-import {ScrollView, StatusBar, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {ScrollView, StatusBar, Text, TouchableOpacity, View,} from 'react-native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {RootStackParamList} from '../../navigation/types';
 import {styles, theme, width} from '../../constants/Theme';
@@ -9,31 +9,30 @@ import {htmlViewStyle} from '../../constants/HtmlViewStyle';
 import {Ionicons} from '@expo/vector-icons';
 import {Button} from '../../components/Button';
 import TagComponent from '../../components/TagComponent';
-import {openCamera, openImageLibrary} from '../../services/camera';
+import {openCamera, openImageLibrary,} from '../../services/camera';
 import ImageViewer from '../../components/ImageViewerComponent';
 import {RealmContext} from '../../services/realm/config';
+import {RouteProp} from '@react-navigation/native';
+import Header from '../../components/Header';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewActivity'>;
-    route: any;
+    route: RouteProp<RootStackParamList, 'ViewActivity'>;
 };
 
-const { useRealm } = RealmContext;
 
 export default function ViewActivityScreen({ navigation, route }: Props) {
-    const realm = useRealm();
+    const insets = useSafeAreaInsets();
+    const realm = RealmContext.useRealm();
     const activity = route.params.activity;
     const isCompleted = route.params.isCompleted;
-    const [images, setImages] = React.useState<string[]>([]);
-    const [activityFavourite, setActivityFavourite] = React.useState<boolean>(false);
+    const [images, setImages] = useState<string[]>([]);
+    const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
 
-
-    const handleActivityComplete = () => {
-        navigation.navigate('ActivityCompleted');
-    };
 
     const handleOpenCamera = async () => {
         const response = await openCamera();
@@ -68,17 +67,18 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
     useEffect(() => {
         if (isCompleted) {
-            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
-            console.log('userActivity', userActivity['photos']);
+            const userActivity = realm
+                .objects('UserActivity')
+                .filtered(`activity_id = "${activity.id}"`)[0];
             setImages(userActivity['photos']);
         }
 
-        const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
+        const isFavourite = realm
+            .objects('UserActivityFavourite')
+            .filtered(`activity_id = "${activity.id}"`)[0];
         if (isFavourite) {
             setActivityFavourite(true);
         }
-
-
     }, []);
 
 
@@ -95,64 +95,85 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
     const handleRemoveFavourite = () => {
         realm.write(() => {
-            const userActivityFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
-            realm.delete(userActivityFavourite);
+            const userActivityFavourite = realm
+                .objects('UserActivityFavourite')
+                .filtered(`activity_id = "${activity.id}"`)[0];
+            if (userActivityFavourite) {
+                realm.delete(userActivityFavourite);
+                setActivityFavourite(false);
+            }
         });
-        setActivityFavourite(false);
+    };
+
+    const onHeaderLeftPress = () => {
+        navigation.goBack();
     };
 
     return (
         <>
+            <TouchableOpacity
+                style={{
+                    paddingTop: insets.top,
+                    position: 'absolute',
+                    left: 10,
+                    zIndex: 2,
+                    flexDirection: 'row',
+                    alignItems: 'center',
+                }}
+                onPress={onHeaderLeftPress}
+            >
+                <Ionicons name={'chevron-back-outline'} size={24} color={'blue'} />
+                <Text style={[theme.typography.bodyBold, { color: 'blue' }]}>Back</Text>
+            </TouchableOpacity>
             <ScrollView>
                 <StatusBar barStyle={isLight ? 'light-content' : 'dark-content'} />
                 <FastImage
-                    source={{
-                        uri: activity.photo.file,
-                        priority: FastImage.priority.high,
-                    }}
-                    style={{
-                        width: width,
-                        height: (width / (activity.photo.width / activity.photo.height)) * 1.5,
-                    }}
+                    source={{uri: activity.photo.file, priority: FastImage.priority.high, cache: FastImage.cacheControl.immutable}}
+                    style={{width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5}}
                 />
-                <View style={[styles.container, {marginBottom: '30%'}]}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center' }}>
-                        <View style={{marginTop: 15, marginBottom: 25}}>
-                            <Text style={[theme.typography.subTitle, {marginVertical: '2%'}]}>{activity.title}</Text>
-                            <TagComponent tags={activity.tags}/>
+                <View style={[styles.container, { marginBottom: '30%', backgroundColor: 'transparent' }]}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 15, marginBottom: 25 }}>
+                        <View>
+                            <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>{activity.title}</Text>
+                            <TagComponent tags={activity.tags} />
                         </View>
                         <TouchableOpacity onPress={activityFavourite ? handleRemoveFavourite : handleAddFavourite}>
                             <FastImage
-                                source={activityFavourite ? require('../../assets/images/favourite.png') : require('../../assets/images/favourite-empty.png')}
-                                style={{width: 25, height: 25}}
+                                source={
+                                    activityFavourite
+                                        ? require('../../assets/images/favourite.png')
+                                        : require('../../assets/images/favourite-empty.png')
+                                }
+                                style={{ width: 25, height: 25 }}
                             />
                         </TouchableOpacity>
-
                     </View>
-                    <HTMLView stylesheet={htmlViewStyle} value={activity.description}/>
-
-                    {images && images.length > 0 &&
+                    <HTMLView stylesheet={htmlViewStyle} value={activity.description} />
+                    {images.length > 0 && (
                         <View style={{ flexDirection: 'column' }}>
-                            <Text style={[theme.typography.subTitle, { marginVertical: '2%' }]}>Memories</Text>
+                            <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>Memories</Text>
                             <ImageViewer
                                 images={images}
                                 onDeleteImage={handleDeleteImage}
                                 showDelete={!isCompleted}
                             />
                         </View>
-                    }
-
+                    )}
                 </View>
             </ScrollView>
 
-            {!isCompleted &&
+            {!isCompleted && (
                 <View style={styles.activityContainer}>
-                    <View style={{ flexDirection: 'row' }}>
-                        <Ionicons name={'image-outline'} size={32} color={'#000000'} style={{ marginRight: 8 }} onPress={handleOpenImageLibrary} />
-                        <Ionicons name={'camera-outline'} size={32} color={'#000000'} onPress={handleOpenCamera} />
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity onPress={handleOpenImageLibrary} style={styles.iconButton}>
+                            <Ionicons name={'image-outline'} size={32} color={'#000000'} />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={handleOpenCamera} style={styles.iconButton}>
+                            <Ionicons name={'camera-outline'} size={32} color={'#000000'} />
+                        </TouchableOpacity>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button onPress={handleActivityComplete} color={'tertiary'} type={'small'}>
+                        <Button onPress={handleCompleteActivity} color={'tertiary'} type={'small'}>
                             Share
                         </Button>
                         <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
@@ -160,8 +181,8 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                         </Button>
                     </View>
                 </View>
-            }
 
+            )}
         </>
     );
 }

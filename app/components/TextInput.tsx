@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 6,
         fontSize: 16,
-        fontFamily: 'outfit-regular'
+        fontFamily: 'nunito-regular'
     },
 });
 

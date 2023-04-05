@@ -17,14 +17,10 @@ const {useQuery} = RealmContext;
 const RecommendedActivity = ({activities, navigation}: ShortcutsProps) => {
     const userActivityData = useQuery('UserActivity');
 
-    // Filter out activities that have already been completed
+
     const activitiesToDisplay = activities.filter((activity) => {
         return !userActivityData.some((userActivity) => userActivity['activity_id'] === activity.id);
     }).slice(0, 4);
-
-    // TODO: Add facts and myths
-
-
 
 
     return (

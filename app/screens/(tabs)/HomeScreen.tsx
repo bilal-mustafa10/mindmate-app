@@ -1,18 +1,17 @@
-import {useEffect, useState} from 'react';
-import {Text, View} from '../../components/Themed';
-import {styles, theme} from '../../constants/Theme';
-import {Button} from '../../components/Button';
-import {RootStackScreenProps} from '../../navigation/types';
+import { useEffect, useState } from 'react';
+import { styles as globalStyles } from '../../constants/Theme';
+import { RootStackScreenProps } from '../../navigation/types';
 import InspirationBoxComponent from '../../components/InspirationComponent';
-import {shortcuts} from '../../constants/Shortcuts';
+import { shortcuts } from '../../constants/Shortcuts';
 import ShortcutComponent from '../../components/ShortcutComponent';
 import RecommendedActivity from '../../components/RecommendedActivity';
-import {ScrollView} from 'react-native';
-import {quotes} from '../../constants/quotes';
-import {RealmContext} from '../../services/realm/config';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../services/redux/store';
+import { ScrollView } from 'react-native';
+import { quotes } from '../../constants/quotes';
+import { RealmContext } from '../../services/realm/config';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../services/redux/store';
 import Header from '../../components/Header';
+import SectionHeader from '../../components/SectionHeader';
 
 
 const { useQuery } = RealmContext;
@@ -37,7 +36,6 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
     // TODO: write your own inspiration
 
 
-
     return (
         <>
             <Header
@@ -48,25 +46,13 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
                 onHeaderLeftPress={()=>{navigation.navigate('Profile', {id: userData[0]['username'], firstName: userData[0]['first_name'], lastName: userData[0]['last_name'], avatarColor: avatarColor});}}
                 name={name}
             />
-            <ScrollView style={[styles.container]} showsVerticalScrollIndicator={false}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
-                    <Text style={theme.typography.subTitle}>Daily Inspiration</Text>
-                    <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'pill'}>
-                        share
-                    </Button>
-                </View>
-                <InspirationBoxComponent inspiration={inspiration}/>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
-                    <Text style={theme.typography.subTitle}>Shortcuts</Text>
-                    <Button onPress={() => navigation.navigate('EditShortcuts')} color={'secondary'} type={'pill'}>
-                        edit
-                    </Button>
-                </View>
+            <ScrollView style={globalStyles.container} showsVerticalScrollIndicator={false}>
+                <SectionHeader title="Daily Inspiration" buttonText="share" onButtonPress={() => navigation.navigate('Root')} />
+                <InspirationBoxComponent inspiration={inspiration} />
+                <SectionHeader title="Shortcuts" buttonText="edit" onButtonPress={() => navigation.navigate('EditShortcuts')} />
                 <ShortcutComponent shortcuts={userShortcuts} navigation={navigation} />
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems:'center', backgroundColor:'transparent'}}>
-                    <Text style={theme.typography.subTitle}>Recommended Activities</Text>
-                </View>
-                <RecommendedActivity activities={results} navigation={navigation}/>
+                <SectionHeader title="Recommended Activities"/>
+                <RecommendedActivity activities={results} navigation={navigation} />
             </ScrollView>
         </>
     );

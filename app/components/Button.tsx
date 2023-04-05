@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Pressable, StyleSheet, Text, ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, Text, ViewStyle, Dimensions } from 'react-native';
 import { theme } from '../constants/Theme';
 
+const { width } = Dimensions.get('window');
+
 interface ButtonProps {
-    type: 'large' | 'medium' | 'small'| 'pill';
+    type: 'large' | 'medium' | 'small' | 'pill';
     onPress: () => void;
     color: 'secondary' | 'tertiary' | 'error' | 'primary';
     children: React.ReactNode;
@@ -11,78 +13,62 @@ interface ButtonProps {
 }
 
 const styles = StyleSheet.create({
-    largeButton: {
+    button: {
         alignItems: 'center',
-        borderRadius: 8,
+        borderRadius: 12,
         borderWidth: 0.5,
         borderColor: '#D9D9D9',
-        height: 50,
         justifyContent: 'center',
-        width: '100%',
+        paddingHorizontal: 12,
+        marginVertical: 8,
     },
-    largeButtonText: {
-        ...theme.typography.button,
-        color: theme.colors.textSecondary,
-    },
-    mediumButton: {
-        alignItems: 'center',
-        borderRadius: 8,
-        borderWidth: 0.5,
-        borderColor: '#D9D9D9',
-        height: 50,
-        justifyContent: 'center',
-        width: '45%',
-    },
-    mediumButtonText: {
-        ...theme.typography.button,
-    },
-    smallButton: {
-        alignItems: 'center',
-        borderRadius: 8,
-        borderWidth: 0.5,
-        borderColor: '#D9D9D9',
-        height: 35,
-        justifyContent: 'center',
-        width: '32%',
-        margin: 5,
-    },
-    smallButtonText: {
-        ...theme.typography.caption,
-        color: theme.colors.textSecondary,
+    buttonText: {
+        ...theme.typography.bodyBold,
+        color: '#FFFFFF',
     },
     buttonTextPressed: {
         opacity: 0.6,
-    },
-    pillButton: {
-        alignItems: 'center',
-        borderRadius: 8,
-        height: 25,
-        minWidth: 50,
-        justifyContent: 'center',
-        paddingHorizontal: 16,
-    },
-    pillButtonText: {
-        ...theme.typography.caption,
-        color: theme.colors.textSecondary,
     },
 });
 
 const buttonSizeStyles = {
     large: {
-        button: styles.largeButton,
-        text: styles.largeButtonText,
+        button: {
+            height: 50,
+            width: '100%',
+        },
+        text: {
+            fontSize: 18,
+        },
     },
     medium: {
-        button: styles.mediumButton,
-        text: styles.mediumButtonText,
+        button: {
+            height: 45,
+            width: width * 0.40,
+        },
+        text: {
+            fontSize: 16,
+        },
     },
     small: {
-        button: styles.smallButton,
-        text: styles.smallButtonText,
+        button: {
+            height: 35,
+            width: width * 0.28,
+            margin: 5,
+        },
+        text: {
+            fontSize: 14,
+        },
     },
     pill: {
-        button: styles.pillButton,
-        text: styles.pillButtonText,
+        button: {
+            height: 25,
+            minWidth: 60,
+        },
+        text: {
+            fontSize: 12,
+            lineHeight: 15,
+        },
     },
 };
 
@@ -90,6 +76,7 @@ export const Button = ({ type, onPress, color, children, style }: ButtonProps) =
     const [isPressed, setIsPressed] = React.useState(false);
 
     const buttonStyle = StyleSheet.flatten([
+        styles.button,
         buttonSizeStyles[type]?.button || buttonSizeStyles.medium.button,
         { backgroundColor: theme.colors[color] },
         style,
@@ -97,7 +84,8 @@ export const Button = ({ type, onPress, color, children, style }: ButtonProps) =
     ]);
 
     const textStyle = StyleSheet.flatten([
-        buttonSizeStyles[type]?.text || buttonSizeStyles.medium.text,
+        styles.buttonText,
+        buttonSizeStyles[type]?.text || {},
         isPressed && styles.buttonTextPressed,
     ]);
 
