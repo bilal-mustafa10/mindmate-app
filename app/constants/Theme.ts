@@ -156,4 +156,28 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
     },
+    inspirationBox: {
+        borderWidth: 1,
+        borderColor: 'black',
+        padding: 10,
+        margin: 10,
+    },
+    fullScreenContainer: {
+        paddingTop: 50,
+        flex: 1,
+    },
+    closeButton: {
+        position: 'absolute',
+        top: 10,
+        right: 10,
+        padding: 5,
+        marginTop: 50,
+        backgroundColor: 'white',
+        borderWidth: 1,
+        borderColor: 'black',
+        borderRadius: 5,
+    },
+    closeButtonText: {
+        fontSize: 16,
+    },
 });
