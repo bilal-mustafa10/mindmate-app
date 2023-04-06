@@ -1,26 +1,24 @@
-import React, {useEffect, useState} from 'react';
-import {ScrollView, StatusBar, Text, TouchableOpacity, View,} from 'react-native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
-import {RootStackParamList} from '../../navigation/types';
-import {styles, theme, width} from '../../constants/Theme';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../navigation/types';
+import { styles, theme, width } from '../../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import HTMLView from 'react-native-htmlview';
-import {htmlViewStyle} from '../../constants/HtmlViewStyle';
-import {Ionicons} from '@expo/vector-icons';
-import {Button} from '../../components/Button';
+import { htmlViewStyle } from '../../constants/HtmlViewStyle';
+import { Ionicons } from '@expo/vector-icons';
+import { Button } from '../../components/Button';
 import TagComponent from '../../components/TagComponent';
-import {openCamera, openImageLibrary,} from '../../services/camera';
+import { openCamera, openImageLibrary } from '../../services/camera';
 import ImageViewer from '../../components/ImageViewerComponent';
-import {RealmContext} from '../../services/realm/config';
-import {RouteProp} from '@react-navigation/native';
-import Header from '../../components/Header';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import { RealmContext } from '../../services/realm/config';
+import { RouteProp } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewActivity'>;
     route: RouteProp<RootStackParamList, 'ViewActivity'>;
 };
-
 
 export default function ViewActivityScreen({ navigation, route }: Props) {
     const insets = useSafeAreaInsets();
@@ -32,7 +30,6 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
-
 
     const handleOpenCamera = async () => {
         const response = await openCamera();
@@ -56,31 +53,24 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 completed_at: new Date(),
                 photos: images.length > 0 ? images : undefined,
                 is_shared: false,
-                likes: 0
+                likes: 0,
             };
             realm.create('UserActivity', userActivity);
         });
         navigation.navigate('ActivityCompleted');
     };
 
-
-
     useEffect(() => {
         if (isCompleted) {
-            const userActivity = realm
-                .objects('UserActivity')
-                .filtered(`activity_id = "${activity.id}"`)[0];
+            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
             setImages(userActivity['photos']);
         }
 
-        const isFavourite = realm
-            .objects('UserActivityFavourite')
-            .filtered(`activity_id = "${activity.id}"`)[0];
+        const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
         if (isFavourite) {
             setActivityFavourite(true);
         }
-    }, []);
-
+    }, [activity.id, isCompleted, realm]);
 
     const handleAddFavourite = () => {
         realm.write(() => {
@@ -122,17 +112,29 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 }}
                 onPress={onHeaderLeftPress}
             >
-                <Ionicons name={'chevron-back-outline'} size={24} color={'blue'} />
-                <Text style={[theme.typography.bodyBold, { color: 'blue' }]}>Back</Text>
+                <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
+                <Text style={theme.typography.bodyBold}>Back</Text>
             </TouchableOpacity>
             <ScrollView>
                 <StatusBar barStyle={isLight ? 'light-content' : 'dark-content'} />
                 <FastImage
-                    source={{uri: activity.photo.file, priority: FastImage.priority.high, cache: FastImage.cacheControl.immutable}}
-                    style={{width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5}}
+                    source={{
+                        uri: activity.photo.file,
+                        priority: FastImage.priority.high,
+                        cache: FastImage.cacheControl.immutable,
+                    }}
+                    style={{ width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5 }}
                 />
                 <View style={[styles.container, { marginBottom: '30%', backgroundColor: 'transparent' }]}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 15, marginBottom: 25 }}>
+                    <View
+                        style={{
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginTop: 15,
+                            marginBottom: 25,
+                        }}
+                    >
                         <View>
                             <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>{activity.title}</Text>
                             <TagComponent tags={activity.tags} />
@@ -152,11 +154,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     {images.length > 0 && (
                         <View style={{ flexDirection: 'column' }}>
                             <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>Memories</Text>
-                            <ImageViewer
-                                images={images}
-                                onDeleteImage={handleDeleteImage}
-                                showDelete={!isCompleted}
-                            />
+                            <ImageViewer images={images} onDeleteImage={handleDeleteImage} showDelete={!isCompleted} />
                         </View>
                     )}
                 </View>
@@ -181,7 +179,6 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                         </Button>
                     </View>
                 </View>
-
             )}
         </>
     );

@@ -1,18 +1,17 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { theme } from '../constants/Theme';
 
 interface WelcomeTextProps {
     title: string;
     description: string;
-    titleStyle?: object;
-    descriptionStyle?: object;
 }
 
-const WelcomeText: React.FC<WelcomeTextProps> = ({title, description, titleStyle, descriptionStyle}) => {
+const WelcomeText: React.FC<WelcomeTextProps> = ({ title, description }) => {
     return (
         <View style={styles.container}>
-            <Text style={[titleStyle]}>{title}</Text>
-            <Text style={[descriptionStyle]}>{description}</Text>
+            <Text style={styles.textStyle}>{title}</Text>
+            <Text style={styles.descriptionStyle}>{description}</Text>
         </View>
     );
 };
@@ -21,6 +20,15 @@ const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
         marginTop: '5%',
+    },
+    descriptionStyle: {
+        ...theme.typography.subtitle,
+        textAlign: 'center',
+    },
+    textStyle: {
+        ...theme.typography.headingBold,
+        marginVertical: '5%',
+        textAlign: 'center',
     },
 });
 

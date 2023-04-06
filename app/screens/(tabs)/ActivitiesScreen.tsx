@@ -7,7 +7,7 @@ import { RootStackScreenProps } from '../../navigation/types';
 import { RealmContext } from '../../services/realm/config';
 import { useState } from 'react';
 import Header from '../../components/Header';
-import {ActivityResults} from '../../services/redux/activitySlice';
+import { ActivityResults } from '../../services/redux/activitySlice';
 import SectionHeader from '../../components/SectionHeader';
 
 const { useQuery } = RealmContext;
@@ -17,12 +17,14 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
     const [favouriteSelected, setFavouriteSelected] = useState(false);
     const userActivityData = useQuery('UserActivity');
     const userFavoriteActivities = useQuery('UserActivityFavourite');
-    const headerImage = favouriteSelected ? require('../../assets/images/favourite.png') : require('../../assets/images/favourite-empty.png');
+    const headerImage = favouriteSelected
+        ? require('../../assets/images/favourite.png')
+        : require('../../assets/images/favourite-empty.png');
 
     const filteredResults = favouriteSelected
         ? results?.filter((activity) => {
-            return userFavoriteActivities.some((userFavourite) => userFavourite['activity_id'] === activity.id);
-        })
+              return userFavoriteActivities.some((userFavourite) => userFavourite['activity_id'] === activity.id);
+          })
         : null;
 
     const activitiesByTag = {
@@ -43,24 +45,26 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
 
         return (
             <View key={tag}>
-                <SectionHeader title={tag}/>
+                <SectionHeader title={tag} />
                 <ScrollView
                     horizontal
                     contentContainerStyle={styles.rowScrollContainer}
                     showsHorizontalScrollIndicator={false}
                 >
-                    {activities.map((activity, index) => {
+                    {activities.map((activity) => {
                         const isCompleted = userActivityData.some(
-                            (userActivity) => userActivity['activity_id'] === activity.id,
+                            (userActivity) => userActivity['activity_id'] === activity.id
                         );
 
                         return (
                             <TouchableOpacity
-                                key={index}
-                                onPress={() => navigation.navigate('ViewActivity', {
-                                    activity: activity,
-                                    isCompleted: isCompleted
-                                })}
+                                key={activity.id}
+                                onPress={() =>
+                                    navigation.navigate('ViewActivity', {
+                                        activity: activity,
+                                        isCompleted: isCompleted,
+                                    })
+                                }
                             >
                                 <Card
                                     type={'medium'}

@@ -8,10 +8,13 @@ export const theme = {
         error: '#A83944',
         background: '#F9F9F9',
         secondaryBackground: '#F5F4FF',
+        whiteBackground: '#FFFFFF',
         text: '#333333',
         textSecondary: '#666666',
         disabled: '#C0C0C0',
         borderColor: '#E5E5E5',
+        shadowColor: '#000',
+        transparentBackground: 'transparent',
     },
     typography: {
         body: {
@@ -58,6 +61,11 @@ export const theme = {
             fontFamily: 'nunito-semibold',
             fontSize: 12,
         },
+        error: {
+            fontFamily: 'nunito-bold',
+            fontSize: 16,
+            color: '#A83944',
+        },
     },
     five_ways_theme: {
         'Keep Active': '#2B61C4',
@@ -76,108 +84,125 @@ export const theme = {
         small: 8,
         medium: 16,
         large: 24,
+        xxs: 4,
+        xs: 8,
+        sm: 12,
+        md: 16,
+        lg: 24,
+        xl: 32,
+        xxl: 48,
     },
 };
 
 export const { width, height } = Dimensions.get('window');
+const cardWidth = (width - 43) / 3;
 
 export const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: theme.colors.background,
-        paddingHorizontal: '5%',
-    },
-    content: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: '10%',
-    },
-    formContainer: {
-        paddingVertical: '5%',
-        flex: 1,
-        backgroundColor: theme.colors.background,
-    },
-    rowScrollContainer: {
-        flexDirection: 'row',
-        overflow: 'scroll',
-        alignItems: 'center',
-        justifyContent: 'flex-start',
-    },
-    secondaryBackground: {
-        backgroundColor: theme.colors.secondaryBackground,
-    },
-    primaryBackground: {
-        backgroundColor: theme.colors.background,
-    },
-    logo: {
-        marginTop: 40,
-        width: width * 0.8,
-        height: width * 0.8,
-    },
-    activityLogo: {
-        width: width * 0.35,
-        height: width * 0.35,
-        marginBottom: 20,
-    },
-    logoWithoutContainer: {
-        width: width * 0.5,
-        height: width * 0.5 * 0.5,
-    },
-    leadPhoto: {
-        width: width,
-        height: undefined,
-        aspectRatio: 1,
-    },
     activityContainer: {
-        height: 60,
-        backgroundColor: 'white',
-        borderRadius: 12,
-        paddingHorizontal: '3%',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
         alignItems: 'center',
-        shadowColor: '#000',
+        alignSelf: 'center',
+        backgroundColor: theme.colors.whiteBackground,
+        borderRadius: 12,
+        bottom: 35,
+        elevation: 5,
+        flexDirection: 'row',
+        height: 60,
+        justifyContent: 'space-between',
+        paddingHorizontal: '3%',
+        position: 'absolute',
+        shadowColor: theme.colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 2,
         },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
-        elevation: 5,
-        position: 'absolute',
-        bottom: 35,
         width: '90%',
-        alignSelf: 'center',
+    },
+    activityLogo: {
+        height: width * 0.35,
+        marginBottom: 20,
+        width: width * 0.35,
+    },
+    allResourcesCardContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
+        marginVertical: 10,
+        width: cardWidth,
+    },
+    allResourcesContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'flex-start',
+    },
+    backButtonContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    container: {
+        paddingHorizontal: '5%',
+    },
+    content: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingHorizontal: '10%',
+    },
+    formContainer: {
+        paddingVertical: '5%',
+    },
+    fullScreenContainer: {
+        flex: 1,
+        paddingTop: 50,
     },
     iconButton: {
         marginRight: 8,
     },
-    backButtonContainer: {
-        flexDirection: 'row',
+    landingBottomContainer: {
         alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-around',
+        paddingHorizontal: '10%',
     },
-    inspirationBox: {
-        borderWidth: 1,
-        borderColor: 'black',
-        padding: 10,
-        margin: 10,
-    },
-    fullScreenContainer: {
-        paddingTop: 50,
+    landingContainer: {
+        backgroundColor: theme.colors.background,
         flex: 1,
     },
-    closeButton: {
-        position: 'absolute',
-        top: 10,
-        right: 10,
-        padding: 5,
-        marginTop: 50,
-        backgroundColor: 'white',
-        borderWidth: 1,
-        borderColor: 'black',
-        borderRadius: 5,
+    logo: {
+        height: width * 0.8,
+        marginTop: 40,
+        width: width * 0.8,
     },
-    closeButtonText: {
-        fontSize: 16,
+    logoWithoutContainer: {
+        height: width * 0.5 * 0.5,
+        width: width * 0.5,
+    },
+    marginBottom: {
+        marginBottom: '5%',
+    },
+    marginTop: {
+        marginTop: '5%',
+    },
+    mindStatsContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    primaryBackground: {
+        backgroundColor: theme.colors.background,
+    },
+    rowScrollContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'flex-start',
+        overflow: 'scroll',
+    },
+    secondaryBackground: {
+        backgroundColor: theme.colors.secondaryBackground,
+    },
+    transparentBackground: {
+        backgroundColor: theme.colors.transparentBackground,
     },
 });

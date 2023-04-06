@@ -1,11 +1,11 @@
-import {View, Text, StyleSheet} from 'react-native';
-import {theme} from '../constants/Theme';
+import { View, Text, StyleSheet } from 'react-native';
+import { theme } from '../constants/Theme';
 
 interface InspirationBoxComponentProps {
     inspiration: string;
 }
 
-const InspirationBoxComponent = ({inspiration}: InspirationBoxComponentProps) => {
+const InspirationBoxComponent = ({ inspiration }: InspirationBoxComponentProps) => {
     return (
         <View style={styles.boxContainer}>
             <Text style={styles.inspirationText}>{inspiration}</Text>
@@ -15,18 +15,18 @@ const InspirationBoxComponent = ({inspiration}: InspirationBoxComponentProps) =>
 
 const styles = StyleSheet.create({
     boxContainer: {
-        padding: theme.spacing.large,
-        backgroundColor:'white',
+        backgroundColor: theme.colors.whiteBackground,
         borderColor: theme.colors.borderColor,
-        borderWidth: 1,
         borderRadius: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 0.05,
-        shadowRadius: 4,
+        borderWidth: 1,
         elevation: 1,
         height: 130,
         justifyContent: 'center',
+        padding: theme.spacing.large,
+        shadowColor: theme.colors.shadowColor,
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 4,
     },
     inspirationText: {
         ...theme.typography.bodySemiBold,

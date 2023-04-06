@@ -1,7 +1,7 @@
-import {Text, View} from '../../components/Themed';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../services/redux/store';
-import {styles} from '../../constants/Theme';
+import { Text, View } from '../../components/Themed';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../services/redux/store';
+import { styles } from '../../constants/Theme';
 
 export default function HubScreen() {
     // get the current user from the redux store
@@ -12,4 +12,3 @@ export default function HubScreen() {
         </View>
     );
 }
-

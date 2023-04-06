@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import {ScrollView, View} from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { shortcuts } from '../../constants/Shortcuts';
 import { RealmContext } from '../../services/realm/config';
-import {ShortcutCard} from '../../components/ShortcutCard';
-import {styles} from '../../constants/Theme';
+import { ShortcutCard } from '../../components/ShortcutCard';
+import { styles } from '../../constants/Theme';
 import SectionHeader from '../../components/SectionHeader';
 import Header from '../../components/Header';
-import {RootStackScreenProps} from '../../navigation/types';
-
+import { RootStackScreenProps } from '../../navigation/types';
 
 const { useRealm, useQuery } = RealmContext;
 export default function EditShortcutsScreen({ navigation }: RootStackScreenProps<'EditShortcuts'>) {
@@ -48,27 +47,36 @@ export default function EditShortcutsScreen({ navigation }: RootStackScreenProps
         <>
             <Header
                 showAvatar={false}
-                onHeaderLeftPress={()=>{navigation.goBack(); }}
+                onHeaderLeftPress={() => {
+                    navigation.goBack();
+                }}
                 title={'Edit Shortcuts'}
                 showBackButton={true}
             />
             <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
                 <View>
-                    <SectionHeader title="My Shortcuts"/>
+                    <SectionHeader title="My Shortcuts" />
                     {userShortcuts.map((shortcut) => (
-                        <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={false} onAction={handleRemoveUserShortcut} />
+                        <ShortcutCard
+                            key={shortcut.id}
+                            shortcut={shortcut}
+                            isAdd={false}
+                            onAction={handleRemoveUserShortcut}
+                        />
                     ))}
                 </View>
                 <View>
-                    <SectionHeader title="Available Shortcuts"/>
+                    <SectionHeader title="Available Shortcuts" />
                     {availableShortcuts.map((shortcut) => (
-                        <ShortcutCard key={shortcut.id} shortcut={shortcut} isAdd={true} onAction={handleAddUserShortcut} />
+                        <ShortcutCard
+                            key={shortcut.id}
+                            shortcut={shortcut}
+                            isAdd={true}
+                            onAction={handleAddUserShortcut}
+                        />
                     ))}
                 </View>
             </ScrollView>
         </>
-
     );
 }
-
-

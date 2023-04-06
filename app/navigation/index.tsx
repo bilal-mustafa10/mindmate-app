@@ -1,9 +1,8 @@
-import {Ionicons} from '@expo/vector-icons';
-import {Text} from 'react-native';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import {DefaultTheme, NavigationContainer, getFocusedRouteNameFromRoute} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {RootStackParamList, RootTabParamList} from './types';
+import { Ionicons } from '@expo/vector-icons';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { DefaultTheme, NavigationContainer, getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { RootStackParamList, RootTabParamList } from './types';
 import LandingScreen from '../screens/LandingScreen';
 import HomeScreen from '../screens/(tabs)/HomeScreen';
 import SignIn from '../screens/(auth)/SignIn';
@@ -11,7 +10,7 @@ import SignUp from '../screens/(auth)/SignUp';
 import ActivitiesScreen from '../screens/(tabs)/ActivitiesScreen';
 import HubScreen from '../screens/(tabs)/HubScreen';
 import MindverseScreen from '../screens/(tabs)/MindverseScreen';
-import {theme} from '../constants/Theme';
+import { theme } from '../constants/Theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
@@ -28,7 +27,7 @@ import ProfileScreen from '../screens/(profile)/ProfileScreen';
 export default function Navigation() {
     return (
         <NavigationContainer theme={DefaultTheme}>
-            <RootNavigator/>
+            <RootNavigator />
         </NavigationContainer>
     );
 }
@@ -40,92 +39,86 @@ export default function Navigation() {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 // create a composite navigator
 
-
 function RootNavigator() {
     return (
         <Stack.Navigator initialRouteName={'LandingPage'}>
             <Stack.Screen
                 name="Root"
                 component={BottomTabNavigator}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="LandingPage"
                 component={LandingScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
-            <Stack.Screen
-                name="SignIn"
-                component={SignIn}
-                options={{headerShown: false, gestureEnabled: false}}
-            />
+            <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false, gestureEnabled: false }} />
             <Stack.Screen
                 name="Introduction"
                 component={IntroductionScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
-            <Stack.Screen
-                name="SignUp"
-                component={SignUp}
-                options={{headerShown: false, gestureEnabled: false}}
-            />
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false, gestureEnabled: false }} />
             <Stack.Screen
                 name="Profile"
                 component={ProfileScreen}
                 options={{
-                    headerShown: true,
-                    headerTitle: '',
-                    headerTransparent: true,
-                    headerRight: () => (
-                        <Text style={{...theme.typography.bodyBold}}>Profile</Text>
-                    ),
+                    headerShown: false,
+                    gestureEnabled: false,
                 }}
             />
             <Stack.Screen
                 name="ActivityCompleted"
                 component={ActivityCompleted}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="MoodScreen"
                 component={AddMoodScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="ReflectionScreen"
                 component={AddReflectionScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="AllResources"
                 component={AllResourcesScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
             <Stack.Screen
                 name="ViewResource"
                 component={ViewResourceScreen}
-                options={{headerShown: false, gestureEnabled: false}}
+                options={{ headerShown: false, gestureEnabled: false }}
             />
 
-            <Stack.Screen name="MoodJournal" component={MoodJournal} options={{headerShown: false, gestureEnabled: false}}/>
-            <Stack.Screen name="SelfReflectionJournal" component={SelfReflectionJournal} options={{headerShown: false, gestureEnabled: false}}/>
-            <Stack.Screen name="ViewActivity" component={ViewActivityScreen} options={{headerShown: false, gestureEnabled: true}}/>
+            <Stack.Screen
+                name="MoodJournal"
+                component={MoodJournal}
+                options={{ headerShown: false, gestureEnabled: false }}
+            />
+            <Stack.Screen
+                name="SelfReflectionJournal"
+                component={SelfReflectionJournal}
+                options={{ headerShown: false, gestureEnabled: false }}
+            />
+            <Stack.Screen
+                name="ViewActivity"
+                component={ViewActivityScreen}
+                options={{ headerShown: false, gestureEnabled: true }}
+            />
             <Stack.Screen
                 name="EditShortcuts"
                 component={EditShortcutsScreen}
                 options={{
                     headerShown: false,
-                    headerTitle: '',
-                    headerTransparent: true,
-                    headerRight: () => (
-                        <Text style={{...theme.typography.bodyBold}}>Edit Shortcuts</Text>
-                    ),
+                    gestureEnabled: false,
                 }}
             />
         </Stack.Navigator>
     );
 }
-
 
 const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
@@ -141,7 +134,6 @@ function BottomTabNavigator({ route }: { route: unknown }) {
     const inactiveTabLabelStyle = {
         ...theme.typography.bodyMedium,
         fontSize: 10,
-
     };
 
     const tabBarIcon = (iconName: any, focused: boolean, color: string) => (
@@ -181,7 +173,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'MindMate' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({color, focused}) => tabBarIcon('cloud', focused, color),
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('cloud', focused, color),
                 })}
             />
             <BottomTab.Screen
@@ -190,7 +182,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'Activities' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({color, focused}) => tabBarIcon('compass', focused, color)
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('compass', focused, color),
                 })}
             />
             <BottomTab.Screen
@@ -202,8 +194,8 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                     headerStyle: {
                         backgroundColor: theme.colors.background,
                     },
-                    tabBarLabelStyle: routeName === 'Hub'? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({color, focused}) => tabBarIcon('people', focused, color),
+                    tabBarLabelStyle: routeName === 'Hub' ? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('people', focused, color),
                 })}
             />
             <BottomTab.Screen
@@ -211,12 +203,10 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 component={MindverseScreen}
                 options={() => ({
                     headerShown: false,
-                    tabBarLabelStyle: routeName === 'Mindverse'? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({color, focused}) => tabBarIcon('heart', focused, color),
+                    tabBarLabelStyle: routeName === 'Mindverse' ? activeTabLabelStyle : inactiveTabLabelStyle,
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('heart', focused, color),
                 })}
             />
         </BottomTab.Navigator>
     );
 }
-
-
