@@ -1,4 +1,9 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, ViewStyle } from 'react-native';
+
+const createTypographyStyles = (fontFamily: string, fontSize: number) => ({
+    fontFamily,
+    fontSize,
+});
 
 export const theme = {
     colors: {
@@ -17,53 +22,19 @@ export const theme = {
         transparentBackground: 'transparent',
     },
     typography: {
-        body: {
-            fontFamily: 'nunito-regular',
-            fontSize: 16,
-        },
-        bodyMedium: {
-            fontFamily: 'nunito-medium',
-            fontSize: 16,
-        },
-        bodySemiBold: {
-            fontFamily: 'nunito-semibold',
-            fontSize: 16,
-        },
-        bodyBold: {
-            fontFamily: 'nunito-bold',
-            fontSize: 16,
-        },
-        heading: {
-            fontFamily: 'nunito-semibold',
-            fontSize: 24,
-        },
-        headingBold: {
-            fontFamily: 'nunito-bold',
-            fontSize: 24,
-        },
-        subtitle: {
-            fontFamily: 'nunito-regular',
-            fontSize: 18,
-        },
-        subtitleMedium: {
-            fontFamily: 'nunito-medium',
-            fontSize: 18,
-        },
-        caption: {
-            fontFamily: 'nunito-regular',
-            fontSize: 12,
-        },
-        captionMedium: {
-            fontFamily: 'nunito-medium',
-            fontSize: 12,
-        },
-        captionSemiBold: {
-            fontFamily: 'nunito-semibold',
-            fontSize: 12,
-        },
+        body: createTypographyStyles('nunito-regular', 16),
+        bodyMedium: createTypographyStyles('nunito-medium', 16),
+        bodySemiBold: createTypographyStyles('nunito-semibold', 16),
+        bodyBold: createTypographyStyles('nunito-bold', 16),
+        heading: createTypographyStyles('nunito-semibold', 24),
+        headingBold: createTypographyStyles('nunito-bold', 24),
+        subtitle: createTypographyStyles('nunito-regular', 18),
+        subtitleMedium: createTypographyStyles('nunito-medium', 18),
+        caption: createTypographyStyles('nunito-regular', 12),
+        captionMedium: createTypographyStyles('nunito-medium', 12),
+        captionSemiBold: createTypographyStyles('nunito-semibold', 12),
         error: {
-            fontFamily: 'nunito-bold',
-            fontSize: 16,
+            ...createTypographyStyles('nunito-bold', 16),
             color: '#A83944',
         },
     },
@@ -84,26 +55,28 @@ export const theme = {
         small: 8,
         medium: 16,
         large: 24,
-        xxs: 4,
-        xs: 8,
-        sm: 12,
-        md: 16,
-        lg: 24,
-        xl: 32,
-        xxl: 48,
     },
 };
 
 export const { width, height } = Dimensions.get('window');
 const cardWidth = (width - 43) / 3;
 
+const baseContainer: ViewStyle = {
+    alignItems: 'center',
+    backgroundColor: theme.colors.transparentBackground,
+};
+
 export const styles = StyleSheet.create({
-    activityContainer: {
+    activityButtonContainer: {
         alignItems: 'center',
+        flexDirection: 'row',
+    },
+    activityContainer: {
+        ...baseContainer,
         alignSelf: 'center',
         backgroundColor: theme.colors.whiteBackground,
-        borderRadius: 12,
-        bottom: 35,
+        borderRadius: 20,
+        bottom: 20,
         elevation: 5,
         flexDirection: 'row',
         height: 60,
@@ -119,20 +92,25 @@ export const styles = StyleSheet.create({
         shadowRadius: 3.84,
         width: '90%',
     },
+    activityHeader: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 25,
+        marginTop: 15,
+    },
     activityLogo: {
         height: width * 0.35,
         marginBottom: 20,
         width: width * 0.35,
     },
     allResourcesCardContainer: {
-        alignItems: 'center',
-        backgroundColor: theme.colors.transparentBackground,
+        ...baseContainer,
         marginVertical: 10,
         width: cardWidth,
     },
     allResourcesContainer: {
-        alignItems: 'center',
-        backgroundColor: theme.colors.transparentBackground,
+        ...baseContainer,
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'flex-start',
@@ -141,13 +119,24 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
     },
+    backHeaderLeft: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        left: 10,
+        position: 'absolute',
+        zIndex: 2,
+    },
     container: {
         paddingHorizontal: '5%',
     },
     content: {
-        alignItems: 'center',
+        ...baseContainer,
         justifyContent: 'center',
         paddingHorizontal: '10%',
+    },
+    favouriteLogo: {
+        height: 30,
+        width: 30,
     },
     formContainer: {
         paddingVertical: '5%',
@@ -160,7 +149,7 @@ export const styles = StyleSheet.create({
         marginRight: 8,
     },
     landingBottomContainer: {
-        alignItems: 'center',
+        ...baseContainer,
         flex: 1,
         justifyContent: 'space-around',
         paddingHorizontal: '10%',
@@ -185,8 +174,7 @@ export const styles = StyleSheet.create({
         marginTop: '5%',
     },
     mindStatsContainer: {
-        alignItems: 'center',
-        backgroundColor: theme.colors.transparentBackground,
+        ...baseContainer,
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
@@ -194,7 +182,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.background,
     },
     rowScrollContainer: {
-        alignItems: 'center',
+        ...baseContainer,
         flexDirection: 'row',
         justifyContent: 'flex-start',
         overflow: 'scroll',
@@ -202,7 +190,14 @@ export const styles = StyleSheet.create({
     secondaryBackground: {
         backgroundColor: theme.colors.secondaryBackground,
     },
+    switchContainer: {
+        marginHorizontal: '2%',
+    },
     transparentBackground: {
         backgroundColor: theme.colors.transparentBackground,
+    },
+    viewActivityContainer: {
+        marginBottom: '30%',
+        paddingHorizontal: '5%',
     },
 });

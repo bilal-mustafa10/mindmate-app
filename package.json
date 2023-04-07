@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@develondigital/react-native-lightning-modal": "^2.1.0",
     "@expo-google-fonts/nunito": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",
     "@primer/octicons-react": "^18.2.0",
@@ -39,8 +40,10 @@
     "react-native-gesture-handler": "~2.9.0",
     "react-native-htmlview": "^0.16.0",
     "react-native-image-picker": "^5.3.1",
+    "react-native-lightning-modal": "^2.0.1",
     "react-native-modal": "^13.0.1",
     "react-native-modalize": "^2.1.1",
+    "react-native-paper": "^5.6.0",
     "react-native-progress": "^5.0.0",
     "react-native-reanimated": "~2.14.4",
     "react-native-reanimated-carousel": "^3.3.0",
@@ -52,12 +55,14 @@
     "react-native-svg-transformer": "^1.0.0",
     "react-native-svg-uri": "^1.2.3",
     "react-native-swipe-cards-deck": "^0.3.0",
+    "react-native-switch": "^1.5.1",
     "react-native-text-input-interactive": "^0.1.4",
     "react-native-user-avatar": "^1.0.8",
     "react-redux": "^8.0.5",
     "realm": "^11.7.0",
     "redux": "^4.2.1",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "rn-fetch-blob": "^0.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

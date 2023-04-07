@@ -1,10 +1,10 @@
-import {height, styles, theme} from '../../constants/Theme';
-import {Text, TouchableOpacity, View} from 'react-native';
-import {RootStackScreenProps} from '../../navigation/types';
+import { styles, theme } from '../../constants/Theme';
+import { Text, View } from 'react-native';
+import { RootStackScreenProps } from '../../navigation/types';
 import FastImage from 'react-native-fast-image';
-import {Button} from '../../components/Button';
+import { Button } from '../../components/Button';
 import * as React from 'react';
-import {Input} from '../../components/Input';
+import { Input } from '../../components/Input';
 
 export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
     const [firstName, setFirstName] = React.useState('');
@@ -12,10 +12,9 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
     const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
 
-
     return (
         <View style={styles.container}>
-            <View style={[styles.content, { height: height * 0.35, justifyContent: 'flex-end'}]}>
+            <View style={styles.content}>
                 <FastImage
                     source={require('../../assets/images/logo-wc.png')}
                     resizeMode={FastImage.resizeMode.contain}
@@ -23,7 +22,7 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={[theme.typography.subTitle, {marginBottom: '5%'}]}>Sign up to MindMate</Text>
+                <Text style={theme.typography.bodySemiBold}>Sign up to MindMate</Text>
                 <View>
                     <Input
                         label={'First Name'}
@@ -61,25 +60,10 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                         autoCorrect={false}
                     />
 
-                    <Button type={'large'}
-                        onPress={() => navigation.replace('Root')}
-                        style={{marginTop: '5%'}}
-                        color={'secondary'}
-                    >
+                    <Button type={'large'} onPress={() => navigation.replace('Root')} color={'secondary'}>
                         Sign Up
                     </Button>
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate('SignIn')}>
-                    <Text style={[{
-                        ...theme.typography.body,
-                        textAlign: 'center',
-                        marginTop: '10%',
-                        color: theme.colors.text
-                    }]}>
-                        Already have an account? <Text
-                            style={{...theme.typography.bodyBold, color: theme.colors.secondary}}>Sign in</Text>
-                    </Text>
-                </TouchableOpacity>
             </View>
         </View>
     );

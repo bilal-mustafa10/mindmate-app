@@ -11,12 +11,10 @@ class UserMood extends Realm.Object<UserMood> {
             mood: 'string',
             notes: 'string',
             is_shared: 'bool',
-            tags: { type: 'list', optional: true, objectType: 'string'},
+            tags: { type: 'list', optional: true, objectType: 'string' },
             likes: { type: 'int', optional: true },
         },
     };
 }
 
 export default UserMood;
-
-

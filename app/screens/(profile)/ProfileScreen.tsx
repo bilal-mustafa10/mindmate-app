@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: theme.spacing.lg,
+        marginBottom: theme.spacing.large,
         position: 'relative',
     },
     container: {
@@ -90,23 +90,23 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
         justifyContent: 'flex-start',
-        padding: theme.spacing.md,
-        paddingTop: theme.spacing.lg,
+        padding: theme.spacing.medium,
+        paddingTop: theme.spacing.large,
     },
     editIcon: {
         bottom: 0,
         position: 'absolute',
-        right: -theme.spacing.sm,
+        right: -theme.spacing.small,
     },
     inputGroup: {
-        marginBottom: theme.spacing.md,
+        marginBottom: theme.spacing.medium,
     },
     logoutButton: {
-        marginTop: theme.spacing.md,
+        marginTop: theme.spacing.medium,
     },
     personalDetailsContainer: {
-        marginBottom: theme.spacing.lg,
-        paddingHorizontal: theme.spacing.sm,
+        marginBottom: theme.spacing.large,
+        paddingHorizontal: theme.spacing.small,
         width: '100%',
     },
 });

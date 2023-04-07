@@ -14,6 +14,8 @@ import ImageViewer from '../../components/ImageViewerComponent';
 import { RealmContext } from '../../services/realm/config';
 import { RouteProp } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Switch } from 'react-native-paper';
+import { addPhoto, addToHub } from '../../services/api/userEndpoints';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewActivity'>;
@@ -27,6 +29,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const isCompleted = route.params.isCompleted;
     const [images, setImages] = useState<string[]>([]);
     const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
+    const [share, setShare] = useState<boolean>(false);
 
     const backgroundColor = '#000000'; // Replace this with your desired background color
     const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
@@ -45,7 +48,27 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         setImages(images.filter((_, index) => index !== indexToDelete));
     };
 
-    const handleCompleteActivity = () => {
+    const handleCompleteActivity = async () => {
+        if (share) {
+            const images_id = [];
+            for (const image of images) {
+                const index = images.indexOf(image);
+                const fileName = `activity-${activity.id}-${index}.jpg`;
+                const id = await addPhoto(image, fileName);
+                images_id.push(id);
+            }
+
+            await addToHub(
+                1,
+                new Date().toISOString(),
+                activity.id,
+                null,
+                null,
+                null,
+                images.length > 0 ? images_id : undefined
+            );
+        }
+
         realm.write(() => {
             const userActivity = {
                 _id: new Realm.BSON.UUID(),
@@ -57,6 +80,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
             };
             realm.create('UserActivity', userActivity);
         });
+
         navigation.navigate('ActivityCompleted');
     };
 
@@ -101,17 +125,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
     return (
         <>
-            <TouchableOpacity
-                style={{
-                    paddingTop: insets.top,
-                    position: 'absolute',
-                    left: 10,
-                    zIndex: 2,
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                }}
-                onPress={onHeaderLeftPress}
-            >
+            <TouchableOpacity style={[styles.backHeaderLeft, { paddingTop: insets.top }]} onPress={onHeaderLeftPress}>
                 <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
                 <Text style={theme.typography.bodyBold}>Back</Text>
             </TouchableOpacity>
@@ -125,18 +139,10 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     }}
                     style={{ width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5 }}
                 />
-                <View style={[styles.container, { marginBottom: '30%', backgroundColor: 'transparent' }]}>
-                    <View
-                        style={{
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                            marginTop: 15,
-                            marginBottom: 25,
-                        }}
-                    >
+                <View style={styles.viewActivityContainer}>
+                    <View style={styles.activityHeader}>
                         <View>
-                            <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>{activity.title}</Text>
+                            <Text style={theme.typography.bodyBold}>{activity.title}</Text>
                             <TagComponent tags={activity.tags} />
                         </View>
                         <TouchableOpacity onPress={activityFavourite ? handleRemoveFavourite : handleAddFavourite}>
@@ -146,14 +152,14 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                                         ? require('../../assets/images/favourite.png')
                                         : require('../../assets/images/favourite-empty.png')
                                 }
-                                style={{ width: 25, height: 25 }}
+                                style={styles.favouriteLogo}
                             />
                         </TouchableOpacity>
                     </View>
                     <HTMLView stylesheet={htmlViewStyle} value={activity.description} />
                     {images.length > 0 && (
-                        <View style={{ flexDirection: 'column' }}>
-                            <Text style={{ ...theme.typography.bodyBold, marginVertical: '2%' }}>Memories</Text>
+                        <View>
+                            <Text style={theme.typography.bodyBold}>Memories</Text>
                             <ImageViewer images={images} onDeleteImage={handleDeleteImage} showDelete={!isCompleted} />
                         </View>
                     )}
@@ -162,18 +168,20 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
             {!isCompleted && (
                 <View style={styles.activityContainer}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <View style={styles.backButtonContainer}>
                         <TouchableOpacity onPress={handleOpenImageLibrary} style={styles.iconButton}>
                             <Ionicons name={'image-outline'} size={32} color={'#000000'} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleOpenCamera} style={styles.iconButton}>
+                        <TouchableOpacity onPress={handleOpenCamera}>
                             <Ionicons name={'camera-outline'} size={32} color={'#000000'} />
                         </TouchableOpacity>
                     </View>
-                    <View style={{ flexDirection: 'row', justifyContent: 'flex-end' }}>
-                        <Button onPress={handleCompleteActivity} color={'tertiary'} type={'small'}>
-                            Share
-                        </Button>
+                    <View style={styles.activityButtonContainer}>
+                        <Text style={theme.typography.captionMedium}>Share</Text>
+                        <View style={styles.switchContainer}>
+                            <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
+                        </View>
+
                         <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
                             Complete
                         </Button>

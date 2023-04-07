@@ -1,16 +1,15 @@
-import {styles, theme} from '../../constants/Theme';
-import {View, Text} from 'react-native';
-import {RootStackScreenProps} from '../../navigation/types';
+import { styles, theme } from '../../constants/Theme';
+import { View, Text } from 'react-native';
+import { RootStackScreenProps } from '../../navigation/types';
 import * as React from 'react';
-import {moodImages} from '../../constants/Images';
+import { moodImages } from '../../constants/Images';
 import MoodComponent from '../../components/MoodComponent';
 import TextInput from '../../components/TextInput';
-import {Button} from '../../components/Button';
-import {RealmContext} from '../../services/realm/config';
+import { Button } from '../../components/Button';
+import { RealmContext } from '../../services/realm/config';
 import Header from '../../components/Header';
 
-
-export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodScreen'>) {
+export default function AddMoodScreen({ navigation }: RootStackScreenProps<'MoodScreen'>) {
     const realm = RealmContext.useRealm();
     const [mood, setMood] = React.useState<string>('');
     const [notes, setNotes] = React.useState<string>('');
@@ -27,9 +26,7 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
         setNotes(notes);
     };
 
-
     const handleAddUserMood = () => {
-
         if (mood === '') {
             setShowError(true);
             return;
@@ -53,18 +50,22 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
     return (
         <>
             <Header
-                onHeaderLeftPress={()=>{navigation.goBack();}}
+                onHeaderLeftPress={() => {
+                    navigation.goBack();
+                }}
                 title={''}
                 showBackButton={true}
                 transparent={true}
                 showBottomBorder={true}
             />
 
-            <View style={{...styles.container, backgroundColor: '#F5F4FF'}}>
-                <Text style={[theme.typography.bodyBold, {marginBottom: '5%'}]}>How are you feeling today {firstName}?</Text>
+            <View style={{ ...styles.container, backgroundColor: '#F5F4FF' }}>
+                <Text style={[theme.typography.bodyBold, { marginBottom: '5%' }]}>
+                    How are you feeling today {firstName}?
+                </Text>
                 <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
-                <Text style={[theme.typography.bodyBold, {marginVertical: '5%'}]}>What made you feel like this?</Text>
-                <TextInput data={notes} onDataChange={onNotesChange} type={'medium'}/>
+                <Text style={[theme.typography.bodyBold, { marginVertical: '5%' }]}>What made you feel like this?</Text>
+                <TextInput data={notes} onDataChange={onNotesChange} type={'medium'} inputPurpose={'moodLog'} />
                 <View
                     style={{
                         position: 'absolute',
@@ -74,21 +75,27 @@ export default function AddMoodScreen({navigation}: RootStackScreenProps<'MoodSc
                         flexDirection: 'row',
                         justifyContent: 'flex-end',
                         marginBottom: '10%',
-                        backgroundColor: 'transparent'
+                        backgroundColor: 'transparent',
                     }}
                 >
                     {/*<Button onPress={() => navigation.navigate('Root')} color={'tertiary'} type={'medium'}>
                     Share with friends
                 </Button>*/}
-                    {showError ?
-                        <Button onPress={() => {console.log('error'); }} color={'error'} type={'large'}>
+                    {showError ? (
+                        <Button
+                            onPress={() => {
+                                console.log('error');
+                            }}
+                            color={'error'}
+                            type={'large'}
+                        >
                             please select a mood
                         </Button>
-                        :
+                    ) : (
                         <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
                             Complete
                         </Button>
-                    }
+                    )}
                 </View>
             </View>
         </>

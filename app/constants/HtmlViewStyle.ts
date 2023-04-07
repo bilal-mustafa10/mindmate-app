@@ -4,7 +4,7 @@ import { theme } from './Theme';
 export const htmlViewStyle = StyleSheet.create({
     p: {
         ...theme.typography.bodyMedium,
-        lineHeight: 24,
         letterSpacing: 0.75,
+        lineHeight: 24,
     },
 });

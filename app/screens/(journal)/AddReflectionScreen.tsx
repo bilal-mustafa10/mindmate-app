@@ -37,16 +37,8 @@ const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTi
     }, []);
 
     return (
-        <Modalize
-            ref={modalRef}
-            adjustToContentHeight={true}
-            modalStyle={{ padding: '8%' }}
-            onClose={onClose}
-        >
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
-            >
+        <Modalize ref={modalRef} adjustToContentHeight={true} modalStyle={{ padding: '8%' }} onClose={onClose}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={{ flex: 1 }}>
                 <Text style={[theme.typography.bodyBold, { marginBottom: 8 }]}>Title</Text>
                 <Input
                     label={'Title'}
@@ -57,17 +49,36 @@ const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTi
                     autoCorrect={false}
                 />
 
-                <Text style={[theme.typography.bodyBold, { marginTop: 16, marginBottom: 8 }]}>Write your self-reflection</Text>
-                <TextInput data={reflection} onDataChange={handleAddReflection} type={'large'} />
-                {showError ?
-                    <Button onPress={() => { console.log('error'); }} color={'error'} type={'large'} style={{ marginVertical: '10%' }}>
+                <Text style={[theme.typography.bodyBold, { marginTop: 16, marginBottom: 8 }]}>
+                    Write your self-reflection
+                </Text>
+                <TextInput
+                    data={reflection}
+                    onDataChange={handleAddReflection}
+                    type={'large'}
+                    inputPurpose={'selfReflection'}
+                />
+                {showError ? (
+                    <Button
+                        onPress={() => {
+                            console.log('error');
+                        }}
+                        color={'error'}
+                        type={'large'}
+                        style={{ marginVertical: '10%' }}
+                    >
                         Please fill in all fields
                     </Button>
-                    :
-                    <Button onPress={handleComplete} color={'secondary'} type={'medium'} style={{ marginVertical: '10%' }}>
+                ) : (
+                    <Button
+                        onPress={handleComplete}
+                        color={'secondary'}
+                        type={'medium'}
+                        style={{ marginVertical: '10%' }}
+                    >
                         Complete
                     </Button>
-                }
+                )}
             </KeyboardAvoidingView>
         </Modalize>
     );

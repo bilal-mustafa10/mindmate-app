@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { height, styles as globalStyles } from '../constants/Theme';
+import { height, styles } from '../constants/Theme';
 import { Button } from '../components/Button';
 import { RootStackScreenProps } from '../navigation/types';
 import { isLoggedIn } from 'react-native-axios-jwt';
@@ -38,11 +38,11 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
     }, [dispatch, navigation]);
 
     return (
-        <ScrollView contentContainerStyle={globalStyles.landingContainer}>
-            <View style={[globalStyles.content, globalStyles.secondaryBackground, { height: height * 0.6 }]}>
-                <FastImage source={require('../assets/images/logo.png')} style={globalStyles.logo} />
+        <ScrollView contentContainerStyle={styles.landingContainer}>
+            <View style={[styles.content, styles.secondaryBackground, { height: height * 0.6 }]}>
+                <FastImage source={require('../assets/images/logo.png')} style={styles.logo} />
             </View>
-            <View style={globalStyles.landingBottomContainer}>
+            <View style={styles.landingBottomContainer}>
                 <WelcomeText
                     title="Welcome to MindMate"
                     description="Take control of your mental health, anytime, anywhere"
