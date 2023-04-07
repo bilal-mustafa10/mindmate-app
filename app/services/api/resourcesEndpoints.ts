@@ -1,9 +1,9 @@
-import {axiosInstance} from './api';
-import {IResourcesRequest} from '../redux/resourcesSlice';
+import { axiosInstance } from './api';
+import { IResourcesRequest } from '../redux/resourcesSlice';
 
 export const getMentalHealthResources = async () => {
     const config = {
-        timeout: 10000,
+        timeout: 30000,
     };
     try {
         const response = await axiosInstance.get<IResourcesRequest>('/resources/', config);

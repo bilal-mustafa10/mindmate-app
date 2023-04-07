@@ -29,7 +29,7 @@ export const InspirationModal = ({ showModal, quote, setQuote, onClose }: IInspi
                             onPress={onClose}
                         />
                         <Text style={styles.inspirationText}>Create a new quote</Text>
-                        <TextInput data={quote} onDataChange={setQuote} type={'large'} inputPurpose={'inspiration'} />
+                        <TextInput data={quote} onDataChange={setQuote} type={'medium'} inputPurpose={'inspiration'} />
                         <Button type={'large'} onPress={onClose} color={'secondary'}>
                             Save
                         </Button>
@@ -64,6 +64,6 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.whiteBackground,
         borderRadius: 12,
         padding: '5%',
-        width: '80%',
+        width: '90%',
     },
 });
