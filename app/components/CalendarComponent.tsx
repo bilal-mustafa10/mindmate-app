@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
-import {FlatList, StyleSheet, Text, View} from 'react-native';
-import {theme} from '../constants/Theme';
-import {RectButton} from 'react-native-gesture-handler';
-import {ReflectionCard} from './ReflectionCard';
-import {NavigationProp} from '@react-navigation/native';
-import {RootStackParamList} from '../navigation/types';
+import React, { useState } from 'react';
+import { FlatList, StyleSheet, Text, View } from 'react-native';
+import { theme } from '../constants/Theme';
+import { RectButton } from 'react-native-gesture-handler';
+import { ReflectionCard } from './ReflectionCard';
+import { NavigationProp } from '@react-navigation/native';
+import { RootStackParamList } from '../navigation/types';
 import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
-import {RealmContext} from '../services/realm/config';
+import { RealmContext } from '../services/realm/config';
 import SectionHeader from './SectionHeader';
 import MoodCard from './MoodCard';
-
 
 export interface IMoodDataProps {
     date: string;
@@ -62,14 +61,34 @@ const getCalendarDates = (earliestDate) => {
     return datesInRange;
 };
 
-
 const getMonthName = (date) => {
-    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const monthNames = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+    ];
     return monthNames[date.getMonth()];
 };
 
 const { useRealm } = RealmContext;
-export function CalendarComponent<T extends DataProps>({type, data, navigation}: {type: 'mood'|'reflection', data: T[], navigation: NavigationProp<RootStackParamList>}) {
+export function CalendarComponent<T extends DataProps>({
+    type,
+    data,
+    navigation,
+}: {
+    type: 'mood' | 'reflection';
+    data: T[];
+    navigation: NavigationProp<RootStackParamList>;
+}) {
     const realm = useRealm();
     const currentDate = new Date();
     currentDate.setHours(currentDate.getHours() + 1);
@@ -89,7 +108,6 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
         date.setHours(date.getHours() + 1);
 
         realm.write(() => {
-
             realm.create('UserReflection', {
                 _id: new Realm.BSON.UUID(),
                 title: reflectionTitle,
@@ -102,8 +120,6 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
 
         setAddReflectionModal(false);
     };
-
-
 
     const handleAddNavigation = () => {
         if (type === 'mood') {
@@ -120,7 +136,6 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
 
     const selectedDateData = selectedDate ? getDataForDate(selectedDate) : [];
 
-
     const handleScroll = (event) => {
         const scrollX = event.nativeEvent.contentOffset.x;
         const dateContainerWidth = 60;
@@ -135,26 +150,31 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
         }
     };
 
-
     const renderItem = ({ item: date, index }) => {
         const dateObj = new Date(date);
         const dayOfWeek = weekdays[dateObj.getDay()];
 
-        const isSelectedDate = selectedDate && dateObj.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
+        const isSelectedDate =
+            selectedDate && dateObj.toISOString().split('T')[0] === selectedDate.toISOString().split('T')[0];
 
         const dateGroupStyle = isSelectedDate
-            ? { ...styles.dateGroup, backgroundColor: theme.colors.tertiary}
+            ? { ...styles.dateGroup, backgroundColor: theme.colors.tertiary }
             : { ...styles.dateGroup };
 
         const dateTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'white'}
+            ? { ...theme.typography.bodyBold, color: 'white' }
             : { ...theme.typography.bodyBold };
         const dayTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'white'}
+            ? { ...theme.typography.bodyBold, color: 'white' }
             : { ...theme.typography.body };
 
         return (
-            <RectButton style={styles.dateButton} key={index} onPress={() => setSelectedDate(dateObj)} underlayColor={'white'}>
+            <RectButton
+                style={styles.dateButton}
+                key={index}
+                onPress={() => setSelectedDate(dateObj)}
+                underlayColor={'white'}
+            >
                 <View style={dateGroupStyle}>
                     <Text style={dateTextStyle}>{date.split('-')[2]}</Text>
                     <Text style={dayTextStyle}>{dayOfWeek}</Text>
@@ -177,30 +197,27 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
                     onScroll={handleScroll}
                     scrollEventThrottle={16}
                 />
-                {selectedDate &&
+                {selectedDate && (
                     <View style={styles.selectedDateMoodData}>
                         {selectedDateData.length === 0 ? (
                             <Text style={styles.noDataText}>No data for the selected date.</Text>
-
                         ) : (
-                            selectedDateData.map((data, index) => (
-                                type === 'mood' ?
-                                    <MoodCard
-                                        key={`mood-${index}`}
-                                        moodData={data as IMoodDataProps}
-                                    />
-                                    :
+                            selectedDateData.map((data, index) =>
+                                type === 'mood' ? (
+                                    <MoodCard key={`mood-${index}`} moodData={data as IMoodDataProps} />
+                                ) : (
                                     <ReflectionCard
                                         key={`reflection-${index}`}
                                         reflectionData={data as IReflectionDataProps}
                                     />
-                            ))
+                                )
+                            )
                         )}
                     </View>
-                }
+                )}
             </View>
             <>
-                {type === 'reflection' && addReflectionModal &&
+                {type === 'reflection' && addReflectionModal && (
                     <AddReflectionScreen
                         title={reflectionTitle}
                         setTitle={setReflectionTitle}
@@ -209,47 +226,34 @@ export function CalendarComponent<T extends DataProps>({type, data, navigation}:
                         onAction={handleAddReflection}
                         onClose={() => setAddReflectionModal(false)}
                     />
-                }
+                )}
             </>
         </>
-
     );
 }
 
 const styles = StyleSheet.create({
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
-        marginVertical: '2%',
+    container: {
+        paddingHorizontal: 8,
     },
     dateButton: {
         paddingHorizontal: 4,
     },
     dateGroup: {
-        backgroundColor: 'white',
-        borderRadius: 10,
-        paddingVertical: 10,
         alignItems: 'center',
-        minWidth: 60,
+        backgroundColor: theme.colors.whiteBackground,
+        borderColor: theme.colors.borderColor,
+        borderRadius: 10,
         borderWidth: 1,
-        borderColor: '#D9D9D9',
+        minWidth: 60,
+        paddingVertical: 10,
     },
-    dateText: {
-        fontSize: 10,
-        fontFamily:'outfit-light'
+    noDataText: {
+        ...theme.typography.bodyBold,
+        color: theme.colors.disabled,
+        textAlign: 'center',
     },
     selectedDateMoodData: {
         marginTop: 20,
     },
-    noDataText: {
-        ...theme.typography.bodyBold,
-        color: 'grey',
-        textAlign: 'center',
-    },
-    container: {
-        paddingHorizontal: 8,
-    },
 });
-
