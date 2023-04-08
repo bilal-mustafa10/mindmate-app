@@ -1,10 +1,10 @@
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 
 export const openCamera = async () => {
-    const result = await launchCamera({mediaType: 'photo'});
+    const result = await launchCamera({ mediaType: 'photo' });
 
-    if (result.didCancel){
-        return;
+    if (result.didCancel) {
+        return null;
     }
 
     return result.assets[0].uri;
@@ -12,13 +12,13 @@ export const openCamera = async () => {
 
 // Photo Library
 export const openImageLibrary = async () => {
-    const result = await launchImageLibrary({mediaType: 'photo'});
+    const result = await launchImageLibrary({ mediaType: 'photo' });
 
-    if (result.didCancel){
-        return;
+    if (result.didCancel) {
+        return null;
     }
 
-    console.log('result: ',result.assets[0].uri);
+    console.log('result: ', result.assets[0].uri);
     return result.assets[0].uri;
 };
 

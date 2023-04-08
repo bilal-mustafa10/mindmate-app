@@ -3,37 +3,43 @@ import { theme } from '../constants/Theme';
 
 interface InspirationBoxComponentProps {
     quote: string;
-    author: string;
+    author?: string;
 }
 
 const InspirationBoxComponent = ({ quote, author }: InspirationBoxComponentProps) => {
-    const [name, source] = author.split(', ');
-
-    return (
-        <View style={styles.boxContainer}>
-            <Text style={styles.inspirationText}>{quote}</Text>
-            <Text style={styles.authorText}>
-                {name} - {source}
-            </Text>
-        </View>
-    );
+    if (author) {
+        const [name, source] = author.split(', ');
+        return (
+            <View style={styles.boxContainer}>
+                <Text style={styles.inspirationText}>{quote}</Text>
+                <Text style={styles.authorText}>
+                    {name} - {source}
+                </Text>
+            </View>
+        );
+    } else {
+        return (
+            <View style={styles.boxContainer}>
+                <Text style={styles.inspirationText}>{quote}</Text>
+            </View>
+        );
+    }
 };
 
 const styles = StyleSheet.create({
     authorText: {
-        ...theme.typography.captionMedium,
-        fontSize: 10,
+        ...theme.typography.Caption,
         textAlign: 'right',
     },
     boxContainer: {
         backgroundColor: theme.colors.whiteBackground,
         borderColor: theme.colors.borderColor,
-        borderRadius: 20,
+        borderRadius: 15,
         borderWidth: 0.5,
         elevation: 1,
         justifyContent: 'center',
-        maxHeight: 160,
-        minHeight: 130,
+        maxHeight: 180,
+        minHeight: 150,
         padding: theme.spacing.large,
         shadowColor: theme.colors.shadowColor,
         shadowOffset: { width: 0, height: 1 },
@@ -41,9 +47,8 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
     },
     inspirationText: {
-        ...theme.typography.bodyBold,
-        fontSize: 14,
-        marginBottom: theme.spacing.small,
+        ...theme.typography.BodyMedium,
+        paddingBottom: '5%',
         textAlign: 'center',
     },
 });

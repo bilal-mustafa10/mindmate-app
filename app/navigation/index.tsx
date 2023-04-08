@@ -70,38 +70,38 @@ function RootNavigator() {
             <Stack.Screen
                 name="ActivityCompleted"
                 component={ActivityCompleted}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="MoodScreen"
                 component={AddMoodScreen}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="ReflectionScreen"
                 component={AddReflectionScreen}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="AllResources"
                 component={AllResourcesScreen}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="ViewResource"
                 component={ViewResourceScreen}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
 
             <Stack.Screen
                 name="MoodJournal"
                 component={MoodJournal}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="SelfReflectionJournal"
                 component={SelfReflectionJournal}
-                options={{ headerShown: false, gestureEnabled: false }}
+                options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
                 name="ViewActivity"
@@ -113,7 +113,7 @@ function RootNavigator() {
                 component={EditShortcutsScreen}
                 options={{
                     headerShown: false,
-                    gestureEnabled: false,
+                    gestureEnabled: true,
                 }}
             />
         </Stack.Navigator>
@@ -127,12 +127,12 @@ function BottomTabNavigator({ route }: { route: unknown }) {
     const insets = useSafeAreaInsets();
 
     const activeTabLabelStyle = {
-        ...theme.typography.bodyBold,
+        ...theme.typography.BodyBold,
         fontSize: 12,
     };
 
     const inactiveTabLabelStyle = {
-        ...theme.typography.bodyMedium,
+        ...theme.typography.Body,
         fontSize: 10,
     };
 

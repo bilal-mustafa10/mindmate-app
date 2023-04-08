@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { ScrollView, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
-import { height, styles } from '../constants/Theme';
+import { styles } from '../constants/Theme';
 import { Button } from '../components/Button';
 import { RootStackScreenProps } from '../navigation/types';
 import { isLoggedIn } from 'react-native-axios-jwt';
@@ -38,8 +38,8 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
     }, [dispatch, navigation]);
 
     return (
-        <ScrollView contentContainerStyle={styles.landingContainer}>
-            <View style={[styles.content, styles.secondaryBackground, { height: height * 0.6 }]}>
+        <ScrollView contentContainerStyle={styles.mainContainer}>
+            <View style={styles.landingLogoContainer}>
                 <FastImage source={require('../assets/images/logo.png')} style={styles.logo} />
             </View>
             <View style={styles.landingBottomContainer}>

@@ -9,12 +9,12 @@ export default function ActivityCompleted({ navigation }: RootStackScreenProps<'
     const insets = useSafeAreaInsets();
     return (
         <View style={[styles.container, styles.primaryBackground, { paddingTop: insets.top, flex: 1 }]}>
-            <View style={[styles.content, styles.primaryBackground, { height: height * 0.65 }]}>
+            <View style={[styles.content, styles.primaryBackground, { height: height * 0.75 }]}>
                 <FastImage source={require('../../assets/images/activity-completed.png')} style={styles.activityLogo} />
-                <Text style={{ ...theme.typography.headingBold, textAlign: 'center' }}>Congratulations!</Text>
-                <Text style={[theme.typography.bodyMedium, { textAlign: 'center', marginVertical: '10%' }]}>
-                    You have successfully completed the activity. Thank you for taking the time to participate and
-                    engage in this activity.
+                <Text style={{ ...theme.typography.Heading, textAlign: 'center' }}>Congratulations!</Text>
+                <Text style={[theme.typography.Text, { textAlign: 'center', marginVertical: '5%' }]}>
+                    You have completed the activity. Thank you for taking the time to participate and engage in this
+                    activity.
                 </Text>
             </View>
             <View

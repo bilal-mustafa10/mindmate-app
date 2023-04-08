@@ -44,8 +44,8 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
         if (activities.length === 0) return null;
 
         return (
-            <View key={tag}>
-                <SectionHeader title={tag} />
+            <View key={tag} style={styles.tagContainer}>
+                <SectionHeader title={tag} backgroundColor={theme.five_ways_theme[tag]} />
                 <ScrollView
                     horizontal
                     contentContainerStyle={styles.rowScrollContainer}
@@ -90,7 +90,7 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
                     setFavouriteSelected(!favouriteSelected);
                 }}
             />
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <ScrollView style={{ paddingLeft: '2%' }} showsVerticalScrollIndicator={false}>
                 {Object.entries(activitiesByTag).map(([tag, activities]) => renderActivities(tag, activities))}
             </ScrollView>
         </>

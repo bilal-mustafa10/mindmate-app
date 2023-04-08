@@ -3,8 +3,8 @@ import { theme } from './Theme';
 
 export const htmlViewStyle = StyleSheet.create({
     p: {
-        ...theme.typography.bodyMedium,
-        letterSpacing: 0.75,
-        lineHeight: 24,
+        ...theme.typography.Text,
+        letterSpacing: 0.8,
+        lineHeight: 26,
     },
 });

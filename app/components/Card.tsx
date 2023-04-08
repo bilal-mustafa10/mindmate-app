@@ -9,7 +9,7 @@ interface SmallCardProps {
     photo?: any;
     title: string;
     borderColor?: string;
-    type: 'large' | 'medium' | 'small';
+    type: 'large' | 'medium' | 'small' | 'empty';
     isCompleted?: boolean;
 }
 
@@ -23,6 +23,8 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardP
             return screenWidth * 0.33;
         } else if (type === 'small') {
             return screenWidth * 0.28;
+        } else if (type === 'empty') {
+            return screenWidth * 0.8;
         }
     }, [type]);
 
@@ -77,30 +79,23 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardP
 
 const styles = StyleSheet.create({
     activityBox: {
-        height: width * 0.27,
-        backgroundColor: '#ffffff',
-        padding: width * 0.03,
-        borderRadius: 12,
+        borderRadius: 15,
         borderWidth: 1,
+        height: width * 0.28,
         marginHorizontal: width * 0.012,
     },
+    activityTitle: {
+        ...theme.typography.CardText,
+    },
     imageContainer: {
-        flex: 1,
-        justifyContent: 'flex-start',
         alignItems: 'flex-start',
+        justifyContent: 'flex-start',
+        padding: width * 0.03,
     },
     textContainer: {
-        flex: 1,
         justifyContent: 'flex-end',
-        alignItems: 'flex-start',
-    },
-    activityTitle: {
-        ...theme.typography.captionSemiBold,
-        lineHeight: 14,
+        padding: width * 0.03,
     },
 });
 
 export default Card;
-
-
-

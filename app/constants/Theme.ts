@@ -22,6 +22,18 @@ export const theme = {
         transparentBackground: 'transparent',
     },
     typography: {
+        Heading: createTypographyStyles('outfit-bold', 32),
+        SubHeading: createTypographyStyles('outfit-bold', 22),
+        BodyBold: createTypographyStyles('outfit-bold', 18),
+        BodyMedium: createTypographyStyles('outfit-medium', 18),
+        Body: createTypographyStyles('outfit-regular', 18),
+        Error: {
+            ...createTypographyStyles('outfit-bold', 16),
+            color: '#A83944',
+        },
+        Text: createTypographyStyles('outfit-regular', 16),
+        CardText: createTypographyStyles('outfit-medium', 12),
+        Caption: createTypographyStyles('outfit-regular', 12),
         body: createTypographyStyles('nunito-regular', 18),
         bodyMedium: createTypographyStyles('nunito-medium', 18),
         bodySemiBold: createTypographyStyles('nunito-semibold', 18),
@@ -72,32 +84,20 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     activityContainer: {
-        ...baseContainer,
-        alignSelf: 'center',
+        alignItems: 'center',
         backgroundColor: theme.colors.whiteBackground,
-        borderRadius: 20,
-        bottom: 20,
-        elevation: 5,
+        borderTopColor: theme.colors.borderColor,
+        borderTopWidth: 2,
         flexDirection: 'row',
-        height: 60,
         justifyContent: 'space-between',
-        paddingHorizontal: '3%',
-        position: 'absolute',
-        shadowColor: theme.colors.shadowColor,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        width: '90%',
+        padding: 16,
     },
     activityHeader: {
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         marginBottom: 25,
-        marginTop: 15,
+        marginTop: 20,
     },
     activityLogo: {
         height: width * 0.35,
@@ -118,6 +118,7 @@ export const styles = StyleSheet.create({
     backButtonContainer: {
         alignItems: 'center',
         flexDirection: 'row',
+        justifyContent: 'space-evenly',
     },
     backHeaderLeft: {
         alignItems: 'center',
@@ -146,37 +147,66 @@ export const styles = StyleSheet.create({
         paddingTop: 50,
     },
     iconButton: {
-        marginRight: 8,
+        marginHorizontal: '3%',
     },
     landingBottomContainer: {
-        ...baseContainer,
         flex: 1,
-        justifyContent: 'space-around',
-        paddingHorizontal: '10%',
+        justifyContent: 'space-between',
+        marginVertical: '5%',
     },
     landingContainer: {
         backgroundColor: theme.colors.background,
         flex: 1,
     },
+    landingLogoContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.secondaryBackground,
+        height: height * 0.6,
+        justifyContent: 'center',
+    },
     logo: {
+        alignSelf: 'center',
         height: width * 0.8,
-        marginTop: 40,
+        justifyContent: 'center',
         width: width * 0.8,
     },
     logoWithoutContainer: {
         height: width * 0.5 * 0.5,
         width: width * 0.5,
     },
-    marginBottom: {
+    mainContainer: {
+        backgroundColor: theme.colors.background,
+        flex: 1,
+        paddingHorizontal: '5%',
+    },
+    marginBottomLarge: {
+        marginBottom: '10%',
+    },
+    marginBottomMedium: {
         marginBottom: '5%',
     },
-    marginTop: {
+    marginBottomSmall: {
+        marginBottom: '2%',
+    },
+    marginTopLarge: {
+        marginTop: '10%',
+    },
+    marginTopMedium: {
         marginTop: '5%',
+    },
+    marginTopSmall: {
+        marginTop: '2%',
     },
     mindStatsContainer: {
         ...baseContainer,
         flexDirection: 'row',
         justifyContent: 'space-between',
+    },
+    paddingBottomLarge: {
+        paddingBottom: '30%',
+    },
+    paddingTop: {
+        paddingTop: '20',
     },
     primaryBackground: {
         backgroundColor: theme.colors.background,
@@ -191,13 +221,27 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.colors.secondaryBackground,
     },
     switchContainer: {
-        marginHorizontal: '2%',
+        marginHorizontal: '5%',
+    },
+    tagContainer: {
+        backgroundColor: theme.colors.whiteBackground,
+        borderRadius: 15,
+        elevation: 5,
+        marginVertical: 5,
+        paddingBottom: 15,
+        paddingHorizontal: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
     },
     transparentBackground: {
         backgroundColor: theme.colors.transparentBackground,
     },
     viewActivityContainer: {
+        backgroundColor: '#F5F5F5',
         marginBottom: '30%',
-        paddingHorizontal: '5%',
+        // paddingHorizontal: '5%',
+        padding: 16,
     },
 });

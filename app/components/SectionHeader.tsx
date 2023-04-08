@@ -8,14 +8,20 @@ interface SectionHeaderProps {
     title: string;
     buttonText?: string;
     onButtonPress?: () => void;
+    backgroundColor?: string;
 }
 
-const SectionHeader: React.FC<SectionHeaderProps> = ({ title, buttonText, onButtonPress }) => {
+const SectionHeader: React.FC<SectionHeaderProps> = ({ title, buttonText, onButtonPress, backgroundColor }) => {
     return (
         <View style={styles.sectionHeaderContainer}>
-            <Text style={[theme.typography.bodyBold, styles.titleText]}>{title}</Text>
+            <View style={{ backgroundColor: theme.colors.transparentBackground, borderRadius: 10, padding: 5 }}>
+                <Text style={[theme.typography.SubHeading, styles.marginLeft, { color: backgroundColor }]}>
+                    {title}
+                </Text>
+            </View>
+
             {buttonText ? (
-                <Button onPress={onButtonPress} color={'secondary'} type={'pill'}>
+                <Button onPress={onButtonPress} color={'primary'} type={'pill'}>
                     {buttonText}
                 </Button>
             ) : (
@@ -26,22 +32,22 @@ const SectionHeader: React.FC<SectionHeaderProps> = ({ title, buttonText, onButt
 };
 
 const styles = StyleSheet.create({
+    emptyButtonSpace: {
+        backgroundColor: theme.colors.transparentBackground,
+        height: 25,
+        marginVertical: 8,
+        paddingHorizontal: 12,
+        width: '25%',
+    },
+    marginLeft: {
+        marginLeft: '2%',
+    },
     sectionHeaderContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        backgroundColor: 'transparent',
         marginVertical: '2.5%',
-    },
-    titleText: {
-        marginLeft: '3%',
-    },
-    emptyButtonSpace: {
-        width: '25%',
-        height: 25,
-        paddingHorizontal: 12,
-        marginVertical: 8,
-        backgroundColor: 'transparent',
     },
 });
 

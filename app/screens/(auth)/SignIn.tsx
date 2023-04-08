@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, Platform, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import {
+    Text,
+    View,
+    Platform,
+    KeyboardAvoidingView,
+    TouchableWithoutFeedback,
+    Keyboard,
+    ScrollView,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -62,16 +70,21 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     };
 
     return (
-        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.container}>
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={[styles.mainContainer, { paddingTop: insets.top }]}
+        >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                <View style={[styles.container, { paddingTop: insets.top }]}>
+                <ScrollView>
                     <FastImage
                         source={require('../../assets/images/logo-wc.png')}
                         resizeMode={FastImage.resizeMode.contain}
                         style={styles.logoWithoutContainer}
                     />
-                    <View style={styles.formContainer}>
-                        <Text style={[theme.typography.bodyBold, styles.marginBottom]}>Sign in to your account</Text>
+                    <View>
+                        <Text style={[theme.typography.SubHeading, styles.marginBottomMedium]}>
+                            Sign in to your account
+                        </Text>
                         <View>
                             <Input
                                 label={'Username'}
@@ -82,7 +95,9 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                                 autoCapitalize="none"
                                 autoCorrect={false}
                             />
-                            {username.error ? <Text style={theme.typography.caption}>{username.error}</Text> : null}
+                            {username.error ? (
+                                <Text style={[theme.typography.Error, styles.marginBottomSmall]}>{username.error}</Text>
+                            ) : null}
                             <Input
                                 label={'Password'}
                                 secureTextEntry
@@ -91,13 +106,22 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                                 autoCapitalize="none"
                                 autoCorrect={false}
                             />
-                            {password.error ? <Text style={theme.typography.caption}>{password.error}</Text> : null}
+                            {password.error ? (
+                                <Text style={[theme.typography.Error, styles.marginBottomSmall]}>{password.error}</Text>
+                            ) : null}
 
-                            <Button type={'large'} onPress={handleSignIn} color={'secondary'} style={styles.marginTop}>
+                            <Button
+                                type={'large'}
+                                onPress={handleSignIn}
+                                color={'secondary'}
+                                style={styles.marginBottomMedium}
+                            >
                                 Sign In
                             </Button>
                             {showError && (
-                                <Text style={[theme.typography.error, styles.marginTop]}>Failure Logging In</Text>
+                                <Text style={[theme.typography.error, styles.marginBottomSmall]}>
+                                    Failure Logging In
+                                </Text>
                             )}
                         </View>
                         {/*<TouchableOpacity onPress={() => navigation.navigate('SignUp')}>
@@ -110,7 +134,7 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                         </Text>
                     </TouchableOpacity>*/}
                     </View>
-                </View>
+                </ScrollView>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );

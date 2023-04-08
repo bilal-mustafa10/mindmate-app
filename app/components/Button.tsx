@@ -15,16 +15,16 @@ interface ButtonProps {
 const styles = StyleSheet.create({
     button: {
         alignItems: 'center',
-        borderRadius: 12,
+        borderColor: theme.colors.borderColor,
+        borderRadius: 15,
         borderWidth: 0.5,
-        borderColor: '#D9D9D9',
         justifyContent: 'center',
-        paddingHorizontal: 12,
         marginVertical: 8,
+        paddingHorizontal: 12,
     },
     buttonText: {
-        ...theme.typography.bodyBold,
-        color: '#FFFFFF',
+        ...theme.typography.BodyBold,
+        color: theme.colors.whiteBackground,
     },
     buttonTextPressed: {
         opacity: 0.6,
@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
 const buttonSizeStyles = {
     large: {
         button: {
-            height: 50,
+            height: 55,
             width: '100%',
         },
         text: {
@@ -43,8 +43,8 @@ const buttonSizeStyles = {
     },
     medium: {
         button: {
-            height: 45,
-            width: width * 0.40,
+            height: 50,
+            minWidth: width * 0.45,
         },
         text: {
             fontSize: 16,
@@ -62,12 +62,11 @@ const buttonSizeStyles = {
     },
     pill: {
         button: {
-            height: 25,
+            height: 35,
             minWidth: 60,
         },
         text: {
-            fontSize: 12,
-            lineHeight: 15,
+            fontSize: 14,
         },
     },
 };
@@ -98,12 +97,7 @@ export const Button = ({ type, onPress, color, children, style }: ButtonProps) =
     };
 
     return (
-        <Pressable
-            style={buttonStyle}
-            onPress={onPress}
-            onPressIn={handlePressIn}
-            onPressOut={handlePressOut}
-        >
+        <Pressable style={buttonStyle} onPress={onPress} onPressIn={handlePressIn} onPressOut={handlePressOut}>
             <Text style={textStyle}>{children}</Text>
         </Pressable>
     );

@@ -8,27 +8,20 @@ interface InputProps extends TextInputProps {
 }
 
 export const Input: React.FC<InputProps> = ({ label, ...rest }: InputProps) => {
-    return (
-        <TextInput
-            placeholder={label}
-            style={styles.input}
-            {...rest}
-        />
-    );
+    return <TextInput placeholder={label} style={styles.input} {...rest} />;
 };
 
 const styles = StyleSheet.create({
     input: {
         alignSelf: 'stretch',
-        minHeight: 50,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
+        backgroundColor: theme.colors.whiteBackground,
+        borderRadius: 15,
+        minHeight: 60,
         paddingHorizontal: theme.spacing.medium,
         paddingVertical: theme.spacing.small,
-        ...theme.typography.body,
-        lineHeight: 22,
+        ...theme.typography.Text,
+        borderColor: theme.colors.borderColor,
         borderWidth: 1,
-        borderColor: '#E6E6E6',
         marginBottom: theme.spacing.small,
         textAlignVertical: 'center',
     },

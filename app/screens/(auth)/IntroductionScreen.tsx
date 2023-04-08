@@ -1,5 +1,13 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import {
+    Keyboard,
+    KeyboardAvoidingView,
+    Platform,
+    ScrollView,
+    Text,
+    TouchableWithoutFeedback,
+    View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -50,44 +58,61 @@ export default function IntroductionScreen({ navigation, route }: RootStackScree
     };
 
     return (
-        <View style={styles.container}>
-            <View style={[styles.container, { paddingTop: insets.top }]}>
-                <FastImage
-                    source={require('../../assets/images/logo-wc.png')}
-                    resizeMode={FastImage.resizeMode.contain}
-                    style={styles.logoWithoutContainer}
-                />
-                <View style={styles.formContainer}>
-                    <Text style={[theme.typography.bodyBold, styles.marginBottom]}>Begin your wellbeing journey!</Text>
-                    <Text style={[theme.typography.captionSemiBold, styles.marginBottom]}>
-                        Share your details for customized support and tools.
-                    </Text>
-                    <View>
-                        <Input
-                            label={'First Name'}
-                            keyboardType="default"
-                            inputMode={'text'}
-                            value={firstName.value}
-                            onChangeText={(text) => setFirstName({ value: text, error: '' })}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
-                        <Input
-                            label={'Last Name'}
-                            keyboardType="default"
-                            inputMode={'text'}
-                            value={lastName.value}
-                            onChangeText={(text) => setLastName({ value: text, error: '' })}
-                            autoCapitalize="none"
-                            autoCorrect={false}
-                        />
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={[styles.mainContainer, { paddingTop: insets.top }]}
+        >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <ScrollView>
+                    <FastImage
+                        source={require('../../assets/images/logo-wc.png')}
+                        resizeMode={FastImage.resizeMode.contain}
+                        style={styles.logoWithoutContainer}
+                    />
+                    <View style={styles.formContainer}>
+                        <Text style={[theme.typography.Body, styles.marginBottomMedium]}>
+                            Share your details for customized tools.
+                        </Text>
+                        <View>
+                            <Input
+                                label={'First Name'}
+                                keyboardType="default"
+                                inputMode={'text'}
+                                value={firstName.value}
+                                onChangeText={(text) => setFirstName({ value: text, error: '' })}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+                            {firstName.error ? (
+                                <Text style={[theme.typography.Error, styles.marginBottomSmall]}>
+                                    {firstName.error}
+                                </Text>
+                            ) : null}
+                            <Input
+                                label={'Last Name'}
+                                keyboardType="default"
+                                inputMode={'text'}
+                                value={lastName.value}
+                                onChangeText={(text) => setLastName({ value: text, error: '' })}
+                                autoCapitalize="none"
+                                autoCorrect={false}
+                            />
+                            {lastName.error ? (
+                                <Text style={[theme.typography.Error, styles.marginBottomSmall]}>{lastName.error}</Text>
+                            ) : null}
 
-                        <Button type={'large'} onPress={handleContinue} style={styles.marginTop} color={'secondary'}>
-                            Continue
-                        </Button>
+                            <Button
+                                type={'large'}
+                                onPress={handleContinue}
+                                style={styles.marginTopMedium}
+                                color={'secondary'}
+                            >
+                                Continue
+                            </Button>
+                        </View>
                     </View>
-                </View>
-            </View>
-        </View>
+                </ScrollView>
+            </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     );
 }

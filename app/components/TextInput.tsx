@@ -3,13 +3,21 @@ import { View, TextInput, Text, StyleSheet } from 'react-native';
 import { theme } from '../constants/Theme';
 
 interface CustomTextInputProps {
+    placeholder?: string;
     data?: string;
     onDataChange?: (text: string) => void;
     type: 'medium' | 'large';
     inputPurpose: 'inspiration' | 'moodLog' | 'selfReflection';
 }
 
-const CustomTextInput: React.FC<CustomTextInputProps> = ({ data, onDataChange, type, inputPurpose, ...props }) => {
+const CustomTextInput: React.FC<CustomTextInputProps> = ({
+    placeholder,
+    data,
+    onDataChange,
+    type,
+    inputPurpose,
+    ...props
+}) => {
     const [wordCount, setWordCount] = React.useState<number>(0);
 
     const handleChange = (text: string) => {
@@ -44,6 +52,7 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({ data, onDataChange, t
                 style={[styles.textInput, type === 'large' ? styles.largeInput : styles.mediumInput]}
                 multiline={true}
                 textAlignVertical="top"
+                placeholder={placeholder ? placeholder : 'Enter text here'}
                 {...props}
             />
             <Text style={[styles.wordCount, wordCount > getWordLimit(inputPurpose) ? styles.wordCountExceeded : null]}>
@@ -61,20 +70,20 @@ const styles = StyleSheet.create({
         height: 200,
     },
     mediumInput: {
-        height: 115,
+        height: 150,
     },
     textInput: {
         backgroundColor: theme.colors.whiteBackground,
         borderColor: theme.colors.borderColor,
         borderRadius: 12,
         borderWidth: 1,
-        fontFamily: 'nunito-regular',
-        fontSize: 14,
+        ...theme.typography.Text,
+        paddingTop: '4%',
         padding: '5%',
         width: '100%',
     },
     wordCount: {
-        ...theme.typography.captionMedium,
+        ...theme.typography.Text,
         alignSelf: 'flex-end',
         marginVertical: '2%',
     },

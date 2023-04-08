@@ -9,7 +9,7 @@ export const passwordValidator = (password: string) => {
 export const nameValidator = (name: string) => {
     const re = /^[a-zA-Z ]+$/;
     if (!name || name.length <= 0) {
-        return 'Name cannot be empty.';
+        return 'First or Last Name cannot be empty.';
     }
 
     if (!re.test(name)) {
@@ -34,7 +34,9 @@ export const usernameValidator = (username: string) => {
 };
 
 export const emailValidator = (email: string) => {
-    const re = new RegExp(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    const re = new RegExp(
+        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
     if (!email || email.length <= 0) {
         return 'Email cannot be empty.';
     }

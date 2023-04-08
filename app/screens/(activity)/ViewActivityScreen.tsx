@@ -36,12 +36,18 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
     const handleOpenCamera = async () => {
         const response = await openCamera();
-        setImages([...images, response]);
+
+        if (response !== null) {
+            setImages([...images, response]);
+        }
     };
 
     const handleOpenImageLibrary = async () => {
         const response = await openImageLibrary();
-        setImages([...images, response]);
+
+        if (response !== null) {
+            setImages([...images, response]);
+        }
     };
 
     const handleDeleteImage = (indexToDelete: number) => {
@@ -135,14 +141,16 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     source={{
                         uri: activity.photo.file,
                         priority: FastImage.priority.high,
-                        cache: FastImage.cacheControl.immutable,
+                        cache: FastImage.cacheControl.web,
                     }}
                     style={{ width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5 }}
                 />
-                <View style={styles.viewActivityContainer}>
+                <View style={[styles.mainContainer, styles.paddingBottomLarge]}>
                     <View style={styles.activityHeader}>
                         <View>
-                            <Text style={theme.typography.bodyBold}>{activity.title}</Text>
+                            <Text style={[theme.typography.SubHeading, styles.marginBottomSmall]}>
+                                {activity.title}
+                            </Text>
                             <TagComponent tags={activity.tags} />
                         </View>
                         <TouchableOpacity onPress={activityFavourite ? handleRemoveFavourite : handleAddFavourite}>
@@ -170,19 +178,19 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 <View style={styles.activityContainer}>
                     <View style={styles.backButtonContainer}>
                         <TouchableOpacity onPress={handleOpenImageLibrary} style={styles.iconButton}>
-                            <Ionicons name={'image-outline'} size={32} color={'#000000'} />
+                            <Ionicons name={'image-outline'} size={36} color={'#000000'} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleOpenCamera}>
-                            <Ionicons name={'camera-outline'} size={32} color={'#000000'} />
+                        <TouchableOpacity onPress={handleOpenCamera} style={styles.iconButton}>
+                            <Ionicons name={'camera-outline'} size={36} color={'#000000'} />
                         </TouchableOpacity>
                     </View>
                     <View style={styles.activityButtonContainer}>
-                        <Text style={theme.typography.captionMedium}>Share</Text>
+                        {/*<Text style={theme.typography.captionMedium}>Share</Text>
                         <View style={styles.switchContainer}>
                             <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
-                        </View>
+                        </View>*/}
 
-                        <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
+                        <Button onPress={handleCompleteActivity} color={'secondary'} type={'medium'}>
                             Complete
                         </Button>
                     </View>

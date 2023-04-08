@@ -19,14 +19,13 @@ const WelcomeText: React.FC<WelcomeTextProps> = ({ title, description }) => {
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        marginTop: '5%',
     },
     descriptionStyle: {
-        ...theme.typography.subtitle,
+        ...theme.typography.Body,
         textAlign: 'center',
     },
     textStyle: {
-        ...theme.typography.headingBold,
+        ...theme.typography.Heading,
         marginVertical: '5%',
         textAlign: 'center',
     },
