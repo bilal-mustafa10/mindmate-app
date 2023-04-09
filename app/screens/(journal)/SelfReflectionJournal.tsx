@@ -14,9 +14,12 @@ export default function SelfReflectionJournal({ navigation }: RootStackScreenPro
     React.useEffect(() => {
         const reflectData: IReflectionDataProps[] = userReflectionData.map((mood) => {
             return {
+                id: mood['_id'],
                 date: mood['date'].toISOString(),
                 title: mood['title'],
                 note: mood['notes'],
+                is_shared: mood['is_shared'],
+                hub_id: mood['hub_id'],
             };
         });
         setReflectionData(reflectData);

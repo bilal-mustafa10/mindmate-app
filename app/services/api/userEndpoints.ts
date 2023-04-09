@@ -53,7 +53,21 @@ export const addToHub = async (
     };
 
     try {
-        await axiosInstance.post('/hub/', data, config);
+        const response = await axiosInstance.post('/hub/', data, config);
+        return response.data.id;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+};
+
+export const removeFromHub = async (id: number) => {
+    const config = {
+        timeout: 10000,
+    };
+
+    try {
+        await axiosInstance.delete(`/hub/${id}/`, config);
     } catch (e) {
         console.log(e);
         return null;

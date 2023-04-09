@@ -1,4 +1,4 @@
-import {createRealmContext} from '@realm/react';
+import { createRealmContext } from '@realm/react';
 import UserShortcut from './models/UserShortcut';
 import UserActivity from './models/UserActivity';
 import UserActivityFavourite from './models/UserActivityFavourite';
@@ -7,5 +7,5 @@ import UserData from './models/UserData';
 import UserReflection from './models/UserReflection';
 export const RealmContext = createRealmContext({
     schema: [UserShortcut, UserActivity, UserActivityFavourite, UserMood, UserData, UserReflection],
-    schemaVersion: 12,
+    schemaVersion: 13,
 });

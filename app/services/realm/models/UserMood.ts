@@ -13,6 +13,7 @@ class UserMood extends Realm.Object<UserMood> {
             is_shared: 'bool',
             tags: { type: 'list', optional: true, objectType: 'string' },
             likes: { type: 'int', optional: true },
+            hub_id: { type: 'int', optional: true },
         },
     };
 }

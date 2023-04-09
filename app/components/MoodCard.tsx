@@ -6,7 +6,7 @@ import { theme } from '../constants/Theme';
 import { RealmContext } from '../services/realm/config';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
-import { addToHub } from '../services/api/userEndpoints';
+import { addToHub, removeFromHub } from '../services/api/userEndpoints';
 
 interface MoodCardProps {
     moodData: {
@@ -15,6 +15,7 @@ interface MoodCardProps {
         date: string;
         note: string;
         is_shared: boolean;
+        hub_id?: number;
     };
 }
 
@@ -30,21 +31,25 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
         .replace(/(\d)([AP]M)/i, '$1 $2');
 
     const shareToHub = async () => {
-        await addToHub(1, new Date().toISOString(), null, moodData.mood, null, null, []);
+        const hub_id = await addToHub(1, new Date().toISOString(), null, moodData.mood, null, null, []);
 
         console.log('Mood Object: ', moodObject);
 
         if (moodObject) {
             realm.write(() => {
                 moodObject['is_shared'] = true;
+                moodObject['hub_id'] = hub_id;
             });
         }
     };
 
-    const removeFromHub = async () => {
+    const removeMoodFromHub = async () => {
+        await removeFromHub(moodData.hub_id);
+
         if (moodObject) {
             realm.write(() => {
                 moodObject['is_shared'] = false;
+                moodObject['hub_id'] = null;
             });
         }
 
@@ -52,6 +57,10 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
     };
 
     const deleteMood = async () => {
+        if (moodData.is_shared) {
+            await removeFromHub(moodData.hub_id);
+        }
+
         if (moodObject) {
             realm.write(() => {
                 realm.delete(moodObject);
@@ -60,8 +69,6 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
 
         setShowOptions(false);
     };
-
-    console.log('Mood Is Shared: ', moodData.is_shared);
 
     return (
         <>
@@ -109,7 +116,7 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
                 {showOptions && (
                     <View style={styles.optionsContainer}>
                         {moodData.is_shared && (
-                            <Button type={'small'} onPress={removeFromHub} color={'tertiary'}>
+                            <Button type={'small'} onPress={removeMoodFromHub} color={'tertiary'}>
                                 Unshare
                             </Button>
                         )}

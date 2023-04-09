@@ -15,6 +15,7 @@ export interface IMoodDataProps {
     mood: string;
     note: string;
     is_shared: boolean;
+    hub_id?: number;
 }
 
 export interface IReflectionDataProps {

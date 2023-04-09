@@ -12,10 +12,9 @@ class UserActivity extends Realm.Object<UserActivity> {
             photos: { type: 'string[]', optional: true },
             is_shared: 'bool',
             likes: { type: 'int', optional: true },
+            hub_id: { type: 'int', optional: true },
         },
     };
 }
 
 export default UserActivity;
-
-

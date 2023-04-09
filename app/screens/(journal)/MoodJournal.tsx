@@ -19,6 +19,7 @@ export default function MoodJournal({ navigation }: RootStackScreenProps<'MoodJo
                 mood: mood['mood'],
                 note: mood['notes'],
                 is_shared: mood['is_shared'],
+                hub_id: mood['hub_id'],
             };
         });
         setMoodData(moodData);
