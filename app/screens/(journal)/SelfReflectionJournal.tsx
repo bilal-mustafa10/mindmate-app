@@ -32,7 +32,7 @@ export default function SelfReflectionJournal({ navigation }: RootStackScreenPro
                 title={'Self Reflection Journal'}
                 showBackButton={true}
             />
-            <View style={styles.container}>
+            <View style={styles.mainContainer}>
                 {reflectionData !== null && (
                     <CalendarComponent type="reflection" data={reflectionData} navigation={navigation} />
                 )}

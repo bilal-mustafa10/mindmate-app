@@ -183,6 +183,9 @@ export function CalendarComponent<T extends DataProps>({
         );
     };
 
+    // Todo: Voice-to-Text Input
+    // Todo: Reflection Tags: Allow users to add tags to their reflections, which can help them categorize and search for specific topics later.
+
     return (
         <>
             <View style={styles.container}>
