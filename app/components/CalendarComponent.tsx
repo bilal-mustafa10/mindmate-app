@@ -6,14 +6,15 @@ import { ReflectionCard } from './ReflectionCard';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
 import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
-import { RealmContext } from '../services/realm/config';
 import SectionHeader from './SectionHeader';
 import MoodCard from './MoodCard';
 
 export interface IMoodDataProps {
+    id: string;
     date: string;
     mood: string;
     note: string;
+    is_shared: boolean;
 }
 
 export interface IReflectionDataProps {
@@ -79,7 +80,6 @@ const getMonthName = (date) => {
     return monthNames[date.getMonth()];
 };
 
-const { useRealm } = RealmContext;
 export function CalendarComponent<T extends DataProps>({
     type,
     data,
@@ -89,7 +89,6 @@ export function CalendarComponent<T extends DataProps>({
     data: T[];
     navigation: NavigationProp<RootStackParamList>;
 }) {
-    const realm = useRealm();
     const currentDate = new Date();
     currentDate.setHours(currentDate.getHours() + 1);
     const currentMonth = getMonthName(currentDate);
@@ -100,26 +99,6 @@ export function CalendarComponent<T extends DataProps>({
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
 
     const [addReflectionModal, setAddReflectionModal] = useState(false);
-    const [reflectionTitle, setReflectionTitle] = useState(`${currentDate.getDay()} Reflection`);
-    const [reflectionNote, setReflectionNote] = useState('');
-
-    const handleAddReflection = () => {
-        const date = new Date();
-        date.setHours(date.getHours() + 1);
-
-        realm.write(() => {
-            realm.create('UserReflection', {
-                _id: new Realm.BSON.UUID(),
-                title: reflectionTitle,
-                notes: reflectionNote,
-                date: date,
-                is_shared: false,
-                likes: 0,
-            });
-        });
-
-        setAddReflectionModal(false);
-    };
 
     const handleAddNavigation = () => {
         if (type === 'mood') {
@@ -221,14 +200,7 @@ export function CalendarComponent<T extends DataProps>({
             </View>
             <>
                 {type === 'reflection' && addReflectionModal && (
-                    <AddReflectionScreen
-                        title={reflectionTitle}
-                        setTitle={setReflectionTitle}
-                        reflection={reflectionNote}
-                        setReflection={setReflectionNote}
-                        onAction={handleAddReflection}
-                        onClose={() => setAddReflectionModal(false)}
-                    />
+                    <AddReflectionScreen onClose={() => setAddReflectionModal(false)} />
                 )}
             </>
         </>

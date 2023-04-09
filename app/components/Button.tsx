@@ -53,7 +53,7 @@ const buttonSizeStyles = {
     small: {
         button: {
             height: 35,
-            width: width * 0.28,
+            minWidth: width * 0.28,
             margin: 5,
         },
         text: {

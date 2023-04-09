@@ -5,10 +5,14 @@ import { styles, theme } from '../../constants/Theme';
 import TextInput from '../../components/TextInput';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
+import { RealmContext } from '../../services/realm/config';
 
-const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTitle, onClose }) => {
+const AddReflectionScreen = ({ onClose }) => {
+    const realm = RealmContext.useRealm();
     const modalRef = useRef<Modalize>(null);
     const [showError, setShowError] = React.useState(false);
+    const [title, setTitle] = React.useState('');
+    const [reflection, setReflection] = React.useState('');
 
     const handleAddReflection = (text: string) => {
         setShowError(false);
@@ -20,7 +24,22 @@ const AddReflectionScreen = ({ onAction, title, reflection, setReflection, setTi
             setShowError(true);
             return;
         }
-        onAction();
+
+        const date = new Date();
+        date.setHours(date.getHours() + 1);
+
+        realm.write(() => {
+            realm.create('UserReflection', {
+                _id: new Realm.BSON.UUID(),
+                title: title,
+                notes: reflection,
+                date: date,
+                is_shared: false,
+                likes: 0,
+            });
+        });
+
+        onClose();
     };
 
     useEffect(() => {

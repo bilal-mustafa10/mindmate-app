@@ -3,16 +3,25 @@ import { View, Text, Image, StyleSheet } from 'react-native';
 import { Button } from './Button';
 import { moodImages } from '../constants/Images';
 import { theme } from '../constants/Theme';
+import { RealmContext } from '../services/realm/config';
+import FastImage from 'react-native-fast-image';
+import { Ionicons } from '@expo/vector-icons';
+import { addToHub } from '../services/api/userEndpoints';
 
 interface MoodCardProps {
     moodData: {
+        id: string;
         mood: string;
         date: string;
         note: string;
+        is_shared: boolean;
     };
 }
 
 const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
+    const realm = RealmContext.useRealm();
+    const moodObject = RealmContext.useObject('UserMood', moodData.id);
+    const [showOptions, setShowOptions] = React.useState(false);
     const time = new Date(moodData.date)
         .toLocaleTimeString([], {
             hour: 'numeric',
@@ -20,35 +29,105 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
         })
         .replace(/(\d)([AP]M)/i, '$1 $2');
 
+    const shareToHub = async () => {
+        await addToHub(1, new Date().toISOString(), null, moodData.mood, null, null, []);
+
+        console.log('Mood Object: ', moodObject);
+
+        if (moodObject) {
+            realm.write(() => {
+                moodObject['is_shared'] = true;
+            });
+        }
+    };
+
+    const removeFromHub = async () => {
+        if (moodObject) {
+            realm.write(() => {
+                moodObject['is_shared'] = false;
+            });
+        }
+
+        setShowOptions(false);
+    };
+
+    const deleteMood = async () => {
+        if (moodObject) {
+            realm.write(() => {
+                realm.delete(moodObject);
+            });
+        }
+
+        setShowOptions(false);
+    };
+
+    console.log('Mood Is Shared: ', moodData.is_shared);
+
     return (
-        <View style={styles.container}>
-            <View style={[styles.moodContainer, moodData.note !== '' ? { marginBottom: 12 } : {}]}>
-                <View style={styles.moodImageContainer}>
-                    <Image
-                        style={styles.moodImage}
-                        source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
-                    />
-                </View>
-                <View style={styles.moodTextContainer}>
-                    <Text style={styles.moodText}>{moodData.mood}</Text>
-                    <Text style={styles.dateText}>{time}</Text>
-                </View>
-            </View>
-            {moodData.note !== '' && (
-                <View style={styles.noteContainer}>
-                    <Text style={styles.noteText}>{moodData.note}</Text>
-                    <View style={styles.shareButton}>
-                        <Button onPress={() => console.log('press')} color={'secondary'} type={'pill'}>
-                            Share
-                        </Button>
+        <>
+            <View style={styles.container}>
+                <View style={[styles.moodContainer, moodData.note !== '' ? { marginBottom: 12 } : {}]}>
+                    <View style={styles.moodImageContainer}>
+                        <Image
+                            style={styles.moodImage}
+                            source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
+                        />
+                    </View>
+                    <View style={styles.moodTextContainer}>
+                        <View>
+                            <Text style={styles.moodText}>{moodData.mood}</Text>
+                            <Text style={styles.dateText}>{time}</Text>
+                        </View>
+                        <Ionicons
+                            name={'ellipsis-horizontal-outline'}
+                            size={24}
+                            color={'#A4A4A4'}
+                            onPress={() => {
+                                setShowOptions(!showOptions);
+                            }}
+                        />
                     </View>
                 </View>
-            )}
-        </View>
+
+                {moodData.note !== '' && (
+                    <View style={styles.noteContainer}>
+                        <Text style={styles.noteText}>{moodData.note}</Text>
+                        <View style={styles.buttonContainer}>
+                            {moodData.is_shared === undefined || moodData.is_shared === false ? (
+                                <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
+                                    Share
+                                </Button>
+                            ) : (
+                                <FastImage
+                                    source={require('../assets/images/favourite.png')}
+                                    style={styles.moodImage}
+                                />
+                            )}
+                        </View>
+                    </View>
+                )}
+                {showOptions && (
+                    <View style={styles.optionsContainer}>
+                        {moodData.is_shared && (
+                            <Button type={'small'} onPress={removeFromHub} color={'tertiary'}>
+                                Unshare
+                            </Button>
+                        )}
+                        <Button type={'small'} onPress={deleteMood} color={'error'}>
+                            Delete
+                        </Button>
+                    </View>
+                )}
+            </View>
+        </>
     );
 };
 
 const styles = StyleSheet.create({
+    buttonContainer: {
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
     container: {
         backgroundColor: '#FFFFFF',
         borderRadius: 12,
@@ -89,7 +168,9 @@ const styles = StyleSheet.create({
     },
     moodTextContainer: {
         alignItems: 'flex-start',
-        flexDirection: 'column',
+        flexDirection: 'row',
+        flex: 1,
+        justifyContent: 'space-between',
     },
     noteContainer: {
         alignItems: 'center',
@@ -105,8 +186,13 @@ const styles = StyleSheet.create({
         marginRight: 12,
         textAlign: 'left',
     },
-    shareButton: {
-        marginLeft: 12,
+    optionsContainer: {
+        backgroundColor: theme.colors.secondaryBackground,
+        borderRadius: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginTop: 12,
+        padding: 5,
     },
 });
 
