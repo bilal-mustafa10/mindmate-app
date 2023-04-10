@@ -202,6 +202,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
     },
+    noDataContainer: {
+        alignItems: 'center',
+        flex: 1,
+        height: '100%',
+        justifyContent: 'center',
+    },
     paddingBottomLarge: {
         paddingBottom: '30%',
     },

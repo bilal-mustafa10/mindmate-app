@@ -1,7 +1,7 @@
 import { styles, theme } from '../../constants/Theme';
 import Header from '../../components/Header';
-import { ScrollView, View, Text } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { ScrollView, View, Text, RefreshControl } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { getHub } from '../../services/api/userEndpoints';
 import { IHubData } from '../../services/interface/IHubData';
 import ActivityCard from '../../components/AcyivityCard';
@@ -10,21 +10,38 @@ import { IMoodDataProps } from '../../components/CalendarComponent';
 
 export default function HubScreen() {
     const [hubData, setHubData] = useState<IHubData>(null);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const getHubData = useCallback(async () => {
+        setRefreshing(true);
+        const hubData = await getHub();
+        // order by date
+        hubData.results.sort((a, b) => {
+            const dateA = new Date(a.datetime);
+            const dateB = new Date(b.datetime);
+            return dateB.getTime() - dateA.getTime();
+        });
+        setHubData(hubData);
+        setRefreshing(false);
+    }, []);
+
+    const onRefresh = () => {
+        getHubData();
+    };
 
     useEffect(() => {
-        const getHubData = async () => {
-            const hubData = await getHub();
-            setHubData(hubData);
-        };
-
         getHubData();
-    }, []);
+    }, [getHubData]);
 
     return (
         <>
             <Header title={'MindSpace'} />
             {hubData !== null && hubData.results.length > 0 ? (
-                <ScrollView style={styles.mainContainer} showsVerticalScrollIndicator={false}>
+                <ScrollView
+                    style={styles.mainContainer}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                >
                     {hubData.results.map((data, index) => {
                         if (data.type === 'activity') {
                             return (
@@ -53,14 +70,7 @@ export default function HubScreen() {
                     })}
                 </ScrollView>
             ) : (
-                <View
-                    style={{
-                        flex: 1,
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        height: '100%',
-                    }}
-                >
+                <View style={styles.noDataContainer}>
                     <Text style={theme.typography.SubHeading}>No Data</Text>
                 </View>
             )}
