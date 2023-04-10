@@ -1,31 +1,57 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Button } from './Button';
 import { theme } from '../constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
 import { RealmContext } from '../services/realm/config';
-import { addToHub, removeFromHub } from '../services/api/userEndpoints';
+import { addToHub, getHubDataById, removeFromHub, updateLikes } from '../services/api/userEndpoints';
 import FastImage from 'react-native-fast-image';
 
 interface ReflectionCardProps {
     reflectionData: {
-        id: string;
-        title: string;
+        id?: string;
         date: string;
+        title: string;
         note: string;
         is_shared: boolean;
+        likes?: number[];
         hub_id?: number;
+        type: 'hub' | 'journal';
     };
 }
 
 export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }) => {
-    const [showOptions, setShowOptions] = React.useState(false);
     const realm = RealmContext.useRealm();
-    const reflectionObject = RealmContext.useObject('UserReflection', reflectionData.id);
+    const user = RealmContext.useQuery('UserData')[0]['username'];
+    const [showOptions, setShowOptions] = React.useState(false);
+    const [isLiked, setIsLiked] = useState(reflectionData.likes ? reflectionData.likes.includes(user) : false);
+    const [likes, setLikes] = useState(0);
 
-    const shareToHub = async () => {
+    const reflectionObject = React.useMemo(() => {
+        if (reflectionData.type === 'journal') {
+            return realm.objectForPrimaryKey('UserReflection', reflectionData.id);
+        } else {
+            return null;
+        }
+    }, [realm, reflectionData.type, reflectionData.id]);
+
+    const getReflectionDataFromHub = useCallback(async () => {
+        const data = await getHubDataById(reflectionData.hub_id);
+        if (data.likes !== null && data.likes.length > 0) {
+            setLikes(data.likes.length);
+        }
+    }, [reflectionData.hub_id]);
+
+    useEffect(() => {
+        if (reflectionData.type === 'journal' && reflectionData.is_shared && reflectionData.hub_id) {
+            getReflectionDataFromHub();
+        }
+    }, [reflectionData, reflectionData.type, reflectionData.is_shared, reflectionData.hub_id]);
+
+    const shareToHub = useCallback(async () => {
         const hub_id = await addToHub(
             1,
+            'reflection',
             new Date().toISOString(),
             null,
             null,
@@ -34,15 +60,19 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
             []
         );
 
+        if (hub_id === null) {
+            return;
+        }
+
         if (reflectionObject) {
             realm.write(() => {
                 reflectionObject['is_shared'] = true;
                 reflectionObject['hub_id'] = hub_id;
             });
         }
-    };
+    }, [reflectionObject, realm]);
 
-    const removeReflectionFromHub = async () => {
+    const removeReflectionFromHub = useCallback(async () => {
         await removeFromHub(reflectionData.hub_id);
 
         if (reflectionObject) {
@@ -53,9 +83,9 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
         }
 
         setShowOptions(false);
-    };
+    }, [reflectionObject, reflectionData.hub_id, realm]);
 
-    const deleteReflection = async () => {
+    const deleteReflection = useCallback(async () => {
         if (reflectionData.is_shared) {
             await removeFromHub(reflectionData.hub_id);
         }
@@ -67,7 +97,7 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
         }
 
         setShowOptions(false);
-    };
+    }, [reflectionObject, reflectionData.hub_id, reflectionData.is_shared, realm]);
 
     const time = new Date(reflectionData.date)
         .toLocaleTimeString([], {
@@ -76,31 +106,61 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
         })
         .replace(/(\d)([AP]M)/i, '$1 $2');
 
+    const onPressLike = useCallback(async () => {
+        if (isLiked) {
+            const updatedLikes = reflectionData.likes.filter((like) => like !== user);
+            await updateLikes(reflectionData.hub_id, updatedLikes);
+            setIsLiked(false);
+        } else {
+            const updatedLikes = [...reflectionData.likes, user];
+            await updateLikes(reflectionData.hub_id, updatedLikes);
+            setIsLiked(true);
+        }
+    }, [isLiked, reflectionData.hub_id, reflectionData.likes, user]);
+
     return (
         <View style={styles.reflectionDataContainer}>
             <View style={styles.iconTextContainer}>
                 <Text style={styles.titleText}>{reflectionData.title}</Text>
-                <Ionicons
-                    name={'ellipsis-horizontal-outline'}
-                    size={24}
-                    color={'#A4A4A4'}
-                    onPress={() => {
-                        setShowOptions(!showOptions);
-                    }}
-                />
+                {reflectionData.type === 'journal' && (
+                    <Ionicons
+                        name={'ellipsis-horizontal-outline'}
+                        size={24}
+                        color={'#A4A4A4'}
+                        onPress={() => {
+                            setShowOptions(!showOptions);
+                        }}
+                    />
+                )}
             </View>
 
             <Text style={styles.dateText}>{time}</Text>
             <Text style={styles.noteText}>{reflectionData.note}</Text>
-            <View style={styles.buttonContainer}>
-                {reflectionData.is_shared === undefined || reflectionData.is_shared === false ? (
-                    <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
-                        Share
-                    </Button>
-                ) : (
-                    <FastImage source={require('../assets/images/favourite.png')} style={styles.image} />
-                )}
-            </View>
+            {reflectionData.type === 'journal' ? (
+                <View style={styles.buttonContainer}>
+                    {reflectionData.is_shared === undefined || reflectionData.is_shared === false ? (
+                        <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
+                            Share
+                        </Button>
+                    ) : (
+                        <>
+                            <Text>{likes} x </Text>
+                            <FastImage source={require('../assets/images/favourite.png')} style={styles.image} />
+                        </>
+                    )}
+                </View>
+            ) : (
+                <TouchableOpacity style={styles.buttonContainer} onPress={onPressLike}>
+                    <FastImage
+                        source={
+                            isLiked
+                                ? require('../assets/images/favourite.png')
+                                : require('../assets/images/favourite-empty.png')
+                        }
+                        style={styles.image}
+                    />
+                </TouchableOpacity>
+            )}
 
             {showOptions && (
                 <View style={styles.optionsContainer}>

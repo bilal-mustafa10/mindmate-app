@@ -21,9 +21,14 @@ export interface IMoodDataProps {
 }
 
 export interface IReflectionDataProps {
+    id?: string;
     date: string;
     title: string;
     note: string;
+    is_shared: boolean;
+    likes?: number[];
+    hub_id?: number;
+    type: 'hub' | 'journal';
 }
 
 type DataProps = IMoodDataProps | IReflectionDataProps;

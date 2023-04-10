@@ -20,6 +20,7 @@ export default function SelfReflectionJournal({ navigation }: RootStackScreenPro
                 note: mood['notes'],
                 is_shared: mood['is_shared'],
                 hub_id: mood['hub_id'],
+                type: 'journal',
             };
         });
         setReflectionData(reflectData);

@@ -6,7 +6,8 @@ import { getHub } from '../../services/api/userEndpoints';
 import { IHubData } from '../../services/interface/IHubData';
 import ActivityCard from '../../components/AcyivityCard';
 import MoodCard from '../../components/MoodCard';
-import { IMoodDataProps } from '../../components/CalendarComponent';
+import { IMoodDataProps, IReflectionDataProps } from '../../components/CalendarComponent';
+import { ReflectionCard } from '../../components/ReflectionCard';
 
 export default function HubScreen() {
     const [hubData, setHubData] = useState<IHubData>(null);
@@ -38,7 +39,7 @@ export default function HubScreen() {
             <Header title={'MindSpace'} />
             {hubData !== null && hubData.results.length > 0 ? (
                 <ScrollView
-                    style={styles.mainContainer}
+                    style={[styles.mainContainer, styles.paddingTop]}
                     showsVerticalScrollIndicator={false}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
@@ -65,7 +66,19 @@ export default function HubScreen() {
                                 type: 'hub',
                             };
 
-                            return <MoodCard key={`mood-${index}`} moodData={moodData as IMoodDataProps} />;
+                            return <MoodCard key={`mood-${index}`} moodData={moodData} />;
+                        } else if (data.type === 'reflection') {
+                            const reflectionData: IReflectionDataProps = {
+                                date: data.datetime,
+                                title: data.title,
+                                note: data.notes,
+                                is_shared: true,
+                                likes: data.likes,
+                                hub_id: data.id,
+                                type: 'hub',
+                            };
+
+                            return <ReflectionCard key={`reflection-${index}`} reflectionData={reflectionData} />;
                         }
                     })}
                 </ScrollView>

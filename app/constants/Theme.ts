@@ -215,7 +215,7 @@ export const styles = StyleSheet.create({
         padding: '10%',
     },
     paddingTop: {
-        paddingTop: '20',
+        paddingTop: 20,
     },
     primaryBackground: {
         backgroundColor: theme.colors.background,
