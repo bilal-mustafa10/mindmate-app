@@ -18,7 +18,6 @@ export const openImageLibrary = async () => {
         return null;
     }
 
-    console.log('result: ', result.assets[0].uri);
     return result.assets[0].uri;
 };
 

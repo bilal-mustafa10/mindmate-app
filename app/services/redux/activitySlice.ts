@@ -1,7 +1,7 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface ActivitySlice {
-    results?: (ActivityResults)[] | null;
+    results?: ActivityResults[] | null;
 }
 export interface ActivityResults {
     id: number;
@@ -20,21 +20,18 @@ export interface Photo {
     height: number;
 }
 
-
-
 const initialState: ActivitySlice = {
-    results: []
+    results: [],
 };
 
 export const activitySlice = createSlice({
-    name:'activity',
+    name: 'activity',
     initialState,
     reducers: {
         setActivity: (state, action: PayloadAction<ActivitySlice>) => {
             state.results = action.payload.results;
-        }
-    }
+        },
+    },
 });
 
 export const { setActivity } = activitySlice.actions;
-

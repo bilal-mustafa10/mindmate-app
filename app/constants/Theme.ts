@@ -8,7 +8,7 @@ const createTypographyStyles = (fontFamily: string, fontSize: number) => ({
 export const theme = {
     colors: {
         primary: '#5539A8',
-        secondary: '#1F9429',
+        secondary: '#39A873',
         tertiary: '#2B61C4',
         error: '#A83944',
         background: '#F9F9F9',

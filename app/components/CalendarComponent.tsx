@@ -10,12 +10,14 @@ import SectionHeader from './SectionHeader';
 import MoodCard from './MoodCard';
 
 export interface IMoodDataProps {
-    id: string;
-    date: string;
+    id?: string;
     mood: string;
+    date: string;
     note: string;
     is_shared: boolean;
+    likes?: number[];
     hub_id?: number;
+    type: 'hub' | 'journal';
 }
 
 export interface IReflectionDataProps {

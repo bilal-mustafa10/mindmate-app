@@ -64,7 +64,7 @@ function RootNavigator() {
                 component={ProfileScreen}
                 options={{
                     headerShown: false,
-                    gestureEnabled: false,
+                    gestureEnabled: true,
                 }}
             />
             <Stack.Screen
@@ -146,11 +146,14 @@ function BottomTabNavigator({ route }: { route: unknown }) {
             screenOptions={{
                 tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: '#000',
+                tabBarShowLabel: true,
                 tabBarStyle: {
+                    borderTopRightRadius: 20,
+                    borderTopLeftRadius: 20,
                     paddingTop: 10,
                     paddingBottom: insets.bottom - 10,
                     paddingHorizontal: 10,
-                    height: 55 + insets.bottom,
+                    height: 50 + insets.bottom,
                     backgroundColor: '#fff',
                     borderTopColor: '#fff',
                     marginBottom: 0,
@@ -189,11 +192,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 name="Hub"
                 component={HubScreen}
                 options={() => ({
-                    headerShown: true,
-                    headerTitleAlign: 'left',
-                    headerStyle: {
-                        backgroundColor: theme.colors.background,
-                    },
+                    headerShown: false,
                     tabBarLabelStyle: routeName === 'Hub' ? activeTabLabelStyle : inactiveTabLabelStyle,
                     tabBarIcon: ({ color, focused }) => tabBarIcon('people', focused, color),
                 })}

@@ -1,28 +1,54 @@
-import React from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Button } from './Button';
 import { moodImages } from '../constants/Images';
 import { theme } from '../constants/Theme';
 import { RealmContext } from '../services/realm/config';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
-import { addToHub, removeFromHub } from '../services/api/userEndpoints';
+import { addToHub, getHubDataById, removeFromHub, updateLikes } from '../services/api/userEndpoints';
 
-interface MoodCardProps {
+export interface MoodCardProps {
     moodData: {
-        id: string;
+        id?: string;
         mood: string;
         date: string;
         note: string;
         is_shared: boolean;
+        likes?: number[];
         hub_id?: number;
+        type: 'hub' | 'journal';
     };
 }
 
 const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
     const realm = RealmContext.useRealm();
-    const moodObject = RealmContext.useObject('UserMood', moodData.id);
-    const [showOptions, setShowOptions] = React.useState(false);
+    const user = RealmContext.useQuery('UserData')[0]['username'];
+    const [isLiked, setIsLiked] = useState(moodData.likes ? moodData.likes.includes(user) : false);
+    const [likes, setLikes] = useState(0);
+    const [showOptions, setShowOptions] = useState(false);
+
+    const getMoodDataFromHub = useCallback(async () => {
+        const data = await getHubDataById(moodData.hub_id);
+        if (data.likes !== null && data.likes.length > 0) {
+            setLikes(data.likes.length);
+        }
+    }, [moodData.hub_id]);
+
+    useEffect(() => {
+        if (moodData.type === 'journal' && moodData.is_shared && moodData.hub_id) {
+            getMoodDataFromHub();
+        }
+    }, [getMoodDataFromHub, moodData.type, moodData.is_shared, moodData.hub_id]);
+
+    const moodObject = React.useMemo(() => {
+        if (moodData.type === 'journal') {
+            return realm.objectForPrimaryKey('UserMood', moodData.id);
+        } else {
+            return null;
+        }
+    }, [realm, moodData.type, moodData.id]);
+
     const time = new Date(moodData.date)
         .toLocaleTimeString([], {
             hour: 'numeric',
@@ -30,10 +56,21 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
         })
         .replace(/(\d)([AP]M)/i, '$1 $2');
 
-    const shareToHub = async () => {
-        const hub_id = await addToHub(1, new Date().toISOString(), null, moodData.mood, null, null, []);
+    const shareToHub = useCallback(async () => {
+        const hub_id = await addToHub(
+            1,
+            'mood',
+            new Date().toISOString(),
+            null,
+            moodData.mood,
+            moodData.note,
+            null,
+            []
+        );
 
-        console.log('Mood Object: ', moodObject);
+        if (hub_id === null) {
+            return;
+        }
 
         if (moodObject) {
             realm.write(() => {
@@ -41,9 +78,9 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
                 moodObject['hub_id'] = hub_id;
             });
         }
-    };
+    }, [moodObject, realm]);
 
-    const removeMoodFromHub = async () => {
+    const removeMoodFromHub = useCallback(async () => {
         await removeFromHub(moodData.hub_id);
 
         if (moodObject) {
@@ -54,9 +91,9 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
         }
 
         setShowOptions(false);
-    };
+    }, [moodObject, moodData.hub_id, realm]);
 
-    const deleteMood = async () => {
+    const deleteMood = useCallback(async () => {
         if (moodData.is_shared) {
             await removeFromHub(moodData.hub_id);
         }
@@ -68,49 +105,81 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
         }
 
         setShowOptions(false);
-    };
+    }, [moodObject, moodData.hub_id, moodData.is_shared, realm]);
+
+    const onPressLike = useCallback(async () => {
+        if (isLiked) {
+            const updatedLikes = moodData.likes.filter((like) => like !== user);
+            await updateLikes(moodData.hub_id, updatedLikes);
+            setIsLiked(false);
+        } else {
+            const updatedLikes = [...moodData.likes, user];
+            await updateLikes(moodData.hub_id, updatedLikes);
+            setIsLiked(true);
+        }
+    }, [isLiked, moodData.hub_id, moodData.likes, user]);
+
+    const moodImageSource = useMemo(
+        () => moodImages.find((moodImage) => moodImage.name === moodData.mood).image,
+        [moodData.mood]
+    );
 
     return (
         <>
             <View style={styles.container}>
                 <View style={[styles.moodContainer, moodData.note !== '' ? { marginBottom: 12 } : {}]}>
                     <View style={styles.moodImageContainer}>
-                        <Image
-                            style={styles.moodImage}
-                            source={moodImages.find((moodImage) => moodImage.name === moodData.mood).image}
-                        />
+                        <Image style={styles.moodImage} source={moodImageSource} />
                     </View>
                     <View style={styles.moodTextContainer}>
                         <View>
                             <Text style={styles.moodText}>{moodData.mood}</Text>
                             <Text style={styles.dateText}>{time}</Text>
                         </View>
-                        <Ionicons
-                            name={'ellipsis-horizontal-outline'}
-                            size={24}
-                            color={'#A4A4A4'}
-                            onPress={() => {
-                                setShowOptions(!showOptions);
-                            }}
-                        />
+                        {moodData.type === 'journal' && (
+                            <Ionicons
+                                name={'ellipsis-horizontal-outline'}
+                                size={24}
+                                color={'#A4A4A4'}
+                                onPress={() => {
+                                    setShowOptions(!showOptions);
+                                }}
+                            />
+                        )}
                     </View>
                 </View>
 
                 {moodData.note !== '' && (
                     <View style={styles.noteContainer}>
                         <Text style={styles.noteText}>{moodData.note}</Text>
-                        <View style={styles.buttonContainer}>
-                            {moodData.is_shared === undefined || moodData.is_shared === false ? (
-                                <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
-                                    Share
-                                </Button>
-                            ) : (
+                        {moodData.type === 'journal' ? (
+                            <View style={styles.buttonContainer}>
+                                {moodData.is_shared === undefined || moodData.is_shared === false ? (
+                                    <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
+                                        Share
+                                    </Button>
+                                ) : (
+                                    <>
+                                        <Text>{likes} x </Text>
+                                        <FastImage
+                                            source={require('../assets/images/favourite.png')}
+                                            style={styles.moodImage}
+                                        />
+                                    </>
+                                )}
+                            </View>
+                        ) : (
+                            <TouchableOpacity onPress={onPressLike}>
                                 <FastImage
-                                    source={require('../assets/images/favourite.png')}
+                                    source={
+                                        isLiked
+                                            ? require('../assets/images/favourite.png')
+                                            : require('../assets/images/favourite-empty.png')
+                                    }
                                     style={styles.moodImage}
                                 />
-                            )}
-                        </View>
+                            </TouchableOpacity>
+                        )}
                     </View>
                 )}
                 {showOptions && (

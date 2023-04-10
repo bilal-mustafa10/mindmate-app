@@ -1,5 +1,6 @@
 import { axiosInstance } from './api';
 import { Platform } from 'react-native';
+import { IHubData } from '../interface/IHubData';
 
 export const addPhoto = async (uri: string, name: string) => {
     const config = {
@@ -31,6 +32,7 @@ export const addPhoto = async (uri: string, name: string) => {
 
 export const addToHub = async (
     user_id: number,
+    type: string,
     date: string,
     activity_id: number | null,
     mood: string | null,
@@ -44,12 +46,13 @@ export const addToHub = async (
 
     const data = {
         user: user_id,
+        type: type,
         datetime: date,
         activity_id: activity_id,
+        photos: photos,
         mood: mood,
         notes: notes,
         title: title,
-        photos: photos,
     };
 
     try {
@@ -68,6 +71,48 @@ export const removeFromHub = async (id: number) => {
 
     try {
         await axiosInstance.delete(`/hub/${id}/`, config);
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+};
+
+export const getHub = async () => {
+    const config = {
+        timeout: 10000,
+    };
+
+    try {
+        const response = await axiosInstance.get<IHubData>(`/hub/`, config);
+        return response.data;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+};
+
+export const updateLikes = async (id: number, like: number[]) => {
+    const config = {
+        timeout: 10000,
+    };
+
+    try {
+        const response = await axiosInstance.patch(`/hub/${id}/`, { likes: like }, config);
+        return response.data.likes;
+    } catch (e) {
+        console.log(e);
+        return null;
+    }
+};
+
+export const getHubDataById = async (id: number) => {
+    const config = {
+        timeout: 10000,
+    };
+
+    try {
+        const response = await axiosInstance.get(`/hub/${id}/`, config);
+        return response.data;
     } catch (e) {
         console.log(e);
         return null;
