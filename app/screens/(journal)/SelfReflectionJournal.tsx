@@ -1,5 +1,5 @@
 import { styles } from '../../constants/Theme';
-import { View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigation/types';
 import * as React from 'react';
 import { CalendarComponent, IReflectionDataProps } from '../../components/CalendarComponent';
@@ -36,11 +36,11 @@ export default function SelfReflectionJournal({ navigation }: RootStackScreenPro
                 title={'Self Reflection Journal'}
                 showBackButton={true}
             />
-            <View style={styles.mainContainer}>
+            <ScrollView style={styles.mainContainer}>
                 {reflectionData !== null && (
                     <CalendarComponent type="reflection" data={reflectionData} navigation={navigation} />
                 )}
-            </View>
+            </ScrollView>
         </>
     );
 }

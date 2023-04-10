@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native';
 import { Button } from './Button';
 import { theme } from '../constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -118,63 +118,71 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
         }
     }, [isLiked, reflectionData.hub_id, reflectionData.likes, user]);
 
+    const closeOptions = () => {
+        if (showOptions) {
+            setShowOptions(false);
+        }
+    };
+
     return (
-        <View style={styles.reflectionDataContainer}>
-            <View style={styles.iconTextContainer}>
-                <Text style={styles.titleText}>{reflectionData.title}</Text>
-                {reflectionData.type === 'journal' && (
-                    <Ionicons
-                        name={'ellipsis-horizontal-outline'}
-                        size={24}
-                        color={'#A4A4A4'}
-                        onPress={() => {
-                            setShowOptions(!showOptions);
-                        }}
-                    />
+        <Pressable onPress={closeOptions} style={styles.outerPressable}>
+            <View style={styles.reflectionDataContainer}>
+                <View style={styles.iconTextContainer}>
+                    <Text style={styles.titleText}>{reflectionData.title}</Text>
+                    {reflectionData.type === 'journal' && (
+                        <Ionicons
+                            name={'ellipsis-horizontal-outline'}
+                            size={24}
+                            color={'#A4A4A4'}
+                            onPress={() => {
+                                setShowOptions(!showOptions);
+                            }}
+                        />
+                    )}
+                </View>
+
+                <Text style={styles.dateText}>{time}</Text>
+                <Text style={styles.noteText}>{reflectionData.note}</Text>
+                {reflectionData.type === 'journal' ? (
+                    <View style={styles.buttonContainer}>
+                        {reflectionData.is_shared === undefined || reflectionData.is_shared === false ? (
+                            <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
+                                Share
+                            </Button>
+                        ) : (
+                            <>
+                                <Text>{likes} x </Text>
+                                <FastImage source={require('../assets/images/favourite.png')} style={styles.image} />
+                            </>
+                        )}
+                    </View>
+                ) : (
+                    <TouchableOpacity style={styles.buttonContainer} onPress={onPressLike}>
+                        <FastImage
+                            source={
+                                isLiked
+                                    ? require('../assets/images/favourite.png')
+                                    : require('../assets/images/favourite-empty.png')
+                            }
+                            style={styles.image}
+                        />
+                    </TouchableOpacity>
+                )}
+
+                {showOptions && (
+                    <View style={styles.optionsContainer}>
+                        {reflectionData.is_shared && (
+                            <Button type={'small'} onPress={removeReflectionFromHub} color={'tertiary'}>
+                                Unshare
+                            </Button>
+                        )}
+                        <Button type={'small'} onPress={deleteReflection} color={'error'}>
+                            Delete
+                        </Button>
+                    </View>
                 )}
             </View>
-
-            <Text style={styles.dateText}>{time}</Text>
-            <Text style={styles.noteText}>{reflectionData.note}</Text>
-            {reflectionData.type === 'journal' ? (
-                <View style={styles.buttonContainer}>
-                    {reflectionData.is_shared === undefined || reflectionData.is_shared === false ? (
-                        <Button onPress={shareToHub} color={'secondary'} type={'pill'}>
-                            Share
-                        </Button>
-                    ) : (
-                        <>
-                            <Text>{likes} x </Text>
-                            <FastImage source={require('../assets/images/favourite.png')} style={styles.image} />
-                        </>
-                    )}
-                </View>
-            ) : (
-                <TouchableOpacity style={styles.buttonContainer} onPress={onPressLike}>
-                    <FastImage
-                        source={
-                            isLiked
-                                ? require('../assets/images/favourite.png')
-                                : require('../assets/images/favourite-empty.png')
-                        }
-                        style={styles.image}
-                    />
-                </TouchableOpacity>
-            )}
-
-            {showOptions && (
-                <View style={styles.optionsContainer}>
-                    {reflectionData.is_shared && (
-                        <Button type={'small'} onPress={removeReflectionFromHub} color={'tertiary'}>
-                            Unshare
-                        </Button>
-                    )}
-                    <Button type={'small'} onPress={deleteReflection} color={'error'}>
-                        Delete
-                    </Button>
-                </View>
-            )}
-        </View>
+        </Pressable>
     );
 };
 
@@ -197,6 +205,9 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 30,
     },
+    innerPressable: {
+        flex: 1,
+    },
     noteText: {
         ...theme.typography.bodyMedium,
         color: '#575757',
@@ -212,6 +223,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         marginTop: 12,
         padding: 5,
+    },
+    outerPressable: {
+        flex: 1,
     },
     reflectionDataContainer: {
         backgroundColor: '#FFFFFF',

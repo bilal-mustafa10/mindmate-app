@@ -211,6 +211,9 @@ export const styles = StyleSheet.create({
     paddingBottomLarge: {
         paddingBottom: '30%',
     },
+    paddingEndLarge: {
+        paddingBottom: '100%',
+    },
     paddingMedium: {
         padding: '10%',
     },

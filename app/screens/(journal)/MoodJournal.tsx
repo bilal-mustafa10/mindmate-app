@@ -36,7 +36,7 @@ export default function MoodJournal({ navigation }: RootStackScreenProps<'MoodJo
                 title={'Mood Journal'}
                 showBackButton={true}
             />
-            <ScrollView style={styles.container}>
+            <ScrollView style={styles.mainContainer}>
                 {moodData !== null && <CalendarComponent type="mood" data={moodData} navigation={navigation} />}
             </ScrollView>
         </>
