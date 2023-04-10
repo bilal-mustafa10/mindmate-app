@@ -16,6 +16,8 @@ import { RouteProp } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-paper';
 import { addPhoto, addToHub } from '../../services/api/userEndpoints';
+import ActivityCard from '../../components/AcyivityCard';
+import { Photo } from '../../services/redux/activitySlice';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewActivity'>;
@@ -27,7 +29,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const realm = RealmContext.useRealm();
     const activity = route.params.activity;
     const isCompleted = route.params.isCompleted;
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<Photo[]>([]);
     const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
     const [share, setShare] = useState<boolean>(false);
 
@@ -66,6 +68,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
             await addToHub(
                 1,
+                'activity',
                 new Date().toISOString(),
                 activity.id,
                 null,
@@ -168,7 +171,14 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     {images.length > 0 && (
                         <View>
                             <Text style={theme.typography.bodyBold}>Memories</Text>
-                            <ImageViewer images={images} onDeleteImage={handleDeleteImage} showDelete={!isCompleted} />
+                            <ActivityCard
+                                activity_id={activity.id}
+                                is_shared={false}
+                                likes={[]}
+                                photo={images}
+                                type={'activity'}
+                            />
+                            {/*<ImageViewer images={images} onDeleteImage={handleDeleteImage} showDelete={!isCompleted} />*/}
                         </View>
                     )}
                 </View>
@@ -185,12 +195,12 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.activityButtonContainer}>
-                        {/*<Text style={theme.typography.captionMedium}>Share</Text>
+                        <Text style={theme.typography.captionMedium}>Share</Text>
                         <View style={styles.switchContainer}>
                             <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
-                        </View>*/}
+                        </View>
 
-                        <Button onPress={handleCompleteActivity} color={'secondary'} type={'medium'}>
+                        <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
                             Complete
                         </Button>
                     </View>

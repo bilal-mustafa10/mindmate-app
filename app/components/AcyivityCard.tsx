@@ -9,19 +9,21 @@ import ImageViewer from './ImageViewerComponent';
 import { Ionicons } from '@expo/vector-icons';
 
 interface ActivityCardProps {
-    id: number;
+    id?: string;
     activity_id: number;
-    date: string;
+    date?: string;
+    note?: string;
+    is_shared: boolean;
+    likes?: number[];
     photo: Photo[];
-    likes: number;
+    hub_id?: number;
+    type: 'hub' | 'activity';
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, photo, likes }: ActivityCardProps) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, photo, type }: ActivityCardProps) => {
     const activity = useSelector((state: RootState) =>
         state.activity.results?.find((activity) => activity.id === activity_id)
     );
-
-    const images = photo.map((photo) => photo.file);
 
     const time = new Date(date)
         .toLocaleTimeString([], {
@@ -34,6 +36,11 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, phot
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
+    };
+
+    const handleDeleteImage = (index: number) => {
+        console.log('delete image', index);
+        photo.splice(index, 1);
     };
 
     return (
@@ -50,20 +57,20 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, phot
                     <View style={styles.moodTextContainer}>
                         <View>
                             <Text style={styles.moodText}>{activity.title}</Text>
-                            <Text style={styles.dateText}>{time}</Text>
+                            {date && <Text style={styles.dateText}>{time}</Text>}
                         </View>
                     </View>
                 </View>
 
                 {photo.length > 0 && (
                     <View>
-                        <ImageViewer images={images} showDelete={false} />
+                        <ImageViewer images={photo} showDelete={type !== 'hub'} onDeleteImage={handleDeleteImage} />
                     </View>
                 )}
 
-                <TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={toggleLike}>
+                {/*<TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={toggleLike}>
                     <Ionicons name={isLiked ? 'heart' : 'heart-outline'} size={30} color={theme.colors.primary} />
-                </TouchableOpacity>
+                </TouchableOpacity>*/}
             </View>
         </>
     );
@@ -85,6 +92,7 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         width: '100%',
     },
+
     dateText: {
         ...theme.typography.caption,
         color: '#A4A4A4',
@@ -100,6 +108,7 @@ const styles = StyleSheet.create({
         width: 30,
     },
     moodImageContainer: {
+        backgroundColor: theme.colors.secondaryBackground,
         borderRadius: 100,
         marginRight: 8,
         padding: 10,

@@ -49,10 +49,11 @@ export default function HubScreen() {
                                 <ActivityCard
                                     key={data.id}
                                     activity_id={data.activity_id}
-                                    id={data.id}
                                     date={data.datetime}
-                                    likes={0}
+                                    likes={[]}
                                     photo={data.photos}
+                                    is_shared={true}
+                                    type={'hub'}
                                 />
                             );
                         } else if (data.type === 'mood') {

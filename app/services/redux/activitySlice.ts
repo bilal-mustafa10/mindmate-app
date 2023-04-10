@@ -13,7 +13,7 @@ export interface ActivityResults {
     photo: Photo;
 }
 export interface Photo {
-    id: number;
+    id?: number;
     title: string;
     file: string;
     width: number;
