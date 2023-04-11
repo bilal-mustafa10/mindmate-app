@@ -57,7 +57,7 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
             null,
             reflectionData.note,
             reflectionData.title,
-            []
+            null
         );
 
         if (hub_id === null) {

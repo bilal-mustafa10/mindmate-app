@@ -105,24 +105,28 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
                     />
                 )}
 
-                {is_shared ? (
-                    <View style={styles.actionContainer}>
-                        <TouchableOpacity style={styles.likeButton} onPress={toggleLike}>
-                            <Animated.View style={likeAnimatedStyle}>
-                                <Ionicons
-                                    name={isLiked ? 'heart' : 'heart-outline'}
-                                    size={30}
-                                    color={theme.colors.primary}
-                                />
-                            </Animated.View>
-                        </TouchableOpacity>
-                    </View>
-                ) : (
-                    <View style={styles.actionContainer}>
-                        <Button onPress={handleShare} color={'secondary'} type={'pill'}>
-                            Share
-                        </Button>
-                    </View>
+                {completed && (
+                    <>
+                        {is_shared ? (
+                            <View style={styles.actionContainer}>
+                                <TouchableOpacity style={styles.likeButton} onPress={toggleLike}>
+                                    <Animated.View style={likeAnimatedStyle}>
+                                        <Ionicons
+                                            name={isLiked ? 'heart' : 'heart-outline'}
+                                            size={30}
+                                            color={theme.colors.primary}
+                                        />
+                                    </Animated.View>
+                                </TouchableOpacity>
+                            </View>
+                        ) : (
+                            <View style={styles.actionContainer}>
+                                <Button onPress={handleShare} color={'secondary'} type={'pill'}>
+                                    Share
+                                </Button>
+                            </View>
+                        )}
+                    </>
                 )}
             </View>
         </>

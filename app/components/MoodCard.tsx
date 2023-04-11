@@ -65,7 +65,7 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
             moodData.mood,
             moodData.note,
             null,
-            []
+            null
         );
 
         if (hub_id === null) {

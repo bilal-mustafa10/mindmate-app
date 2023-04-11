@@ -22,6 +22,8 @@ import { styles, theme } from '../../constants/Theme';
 import { RootStackScreenProps } from '../../navigation/types';
 import { RealmContext } from '../../services/realm/config';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { getMentalHealthResources } from '../../services/api/resourcesEndpoints';
+import { setResources } from '../../services/redux/resourcesSlice';
 
 export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     const dispatch = useDispatch();
@@ -56,8 +58,10 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
 
         if (response && response.status === 200) {
             const decoded = jwtDecode(response.data.access);
-            const activities = await getActivities();
+            const [activities, resources] = await Promise.all([getActivities(), getMentalHealthResources()]);
+
             dispatch(setActivity(activities));
+            dispatch(setResources(resources));
 
             if (user.length > 0) {
                 navigation.navigate('Root');

@@ -1,6 +1,7 @@
 import { axiosInstance } from './api';
 import { Platform } from 'react-native';
 import { IHubData } from '../interface/IHubData';
+import { Photo } from '../redux/activitySlice';
 
 export const addPhoto = async (uri: string, name: string) => {
     const config = {
@@ -38,7 +39,7 @@ export const addToHub = async (
     mood: string | null,
     notes: string | null,
     title: string | null,
-    photos: string[]
+    photos: number[] | null
 ) => {
     const config = {
         timeout: 10000,
@@ -55,11 +56,15 @@ export const addToHub = async (
         title: title,
     };
 
+    if (photos === null) {
+        delete data.photos;
+    }
+
     try {
         const response = await axiosInstance.post('/hub/', data, config);
         return response.data.id;
     } catch (e) {
-        console.log(e);
+        console.log(e.response.data);
         return null;
     }
 };

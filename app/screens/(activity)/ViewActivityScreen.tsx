@@ -55,15 +55,8 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         initializeActivityState();
     }, [activity.id, initializeActivityState, isCompleted, realm]);
 
-    const handleOpenCamera = useCallback(async () => {
-        const response = await openCamera();
-        if (response) {
-            setImages((prevImages) => [...prevImages, response]);
-        }
-    }, []);
-
-    const handleOpenImageLibrary = useCallback(async () => {
-        const response = await openImageLibrary();
+    const handleImageAction = useCallback(async (imageAction: 'camera' | 'library') => {
+        const response = imageAction === 'camera' ? await openCamera() : await openImageLibrary();
         if (response) {
             setImages((prevImages) => [...prevImages, response]);
         }
@@ -155,27 +148,27 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         navigation.navigate('ActivityCompleted');
     };
 
-    const handleAddFavourite = () => {
-        realm.write(() => {
-            const userActivityFavourite = {
-                _id: new Realm.BSON.UUID(),
-                activity_id: activity.id,
-            };
-            realm.create('UserActivityFavourite', userActivityFavourite);
-        });
-        setActivityFavourite(true);
-    };
-
-    const handleRemoveFavourite = () => {
-        realm.write(() => {
-            const userActivityFavourite = realm
-                .objects('UserActivityFavourite')
-                .filtered(`activity_id = "${activity.id}"`)[0];
-            if (userActivityFavourite) {
-                realm.delete(userActivityFavourite);
-                setActivityFavourite(false);
-            }
-        });
+    const handleFavourite = () => {
+        if (activityFavourite) {
+            realm.write(() => {
+                const userActivityFavourite = realm
+                    .objects('UserActivityFavourite')
+                    .filtered(`activity_id = "${activity.id}"`)[0];
+                if (userActivityFavourite) {
+                    realm.delete(userActivityFavourite);
+                    setActivityFavourite(false);
+                }
+            });
+        } else {
+            realm.write(() => {
+                const userActivityFavourite = {
+                    _id: new Realm.BSON.UUID(),
+                    activity_id: activity.id,
+                };
+                realm.create('UserActivityFavourite', userActivityFavourite);
+            });
+            setActivityFavourite(true);
+        }
     };
 
     const onHeaderLeftPress = () => {
@@ -206,7 +199,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                             </Text>
                             <TagComponent tags={activity.tags} />
                         </View>
-                        <TouchableOpacity onPress={activityFavourite ? handleRemoveFavourite : handleAddFavourite}>
+                        <TouchableOpacity onPress={handleFavourite}>
                             <FastImage
                                 source={
                                     activityFavourite
@@ -239,10 +232,10 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
             {!isCompleted && (
                 <View style={styles.activityContainer}>
                     <View style={styles.backButtonContainer}>
-                        <TouchableOpacity onPress={handleOpenImageLibrary} style={styles.iconButton}>
+                        <TouchableOpacity onPress={() => handleImageAction('library')} style={styles.iconButton}>
                             <Ionicons name={'image-outline'} size={36} color={'#000000'} />
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={handleOpenCamera} style={styles.iconButton}>
+                        <TouchableOpacity onPress={() => handleImageAction('camera')} style={styles.iconButton}>
                             <Ionicons name={'camera-outline'} size={36} color={'#000000'} />
                         </TouchableOpacity>
                     </View>
