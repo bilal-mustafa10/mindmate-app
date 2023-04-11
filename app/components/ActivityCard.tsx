@@ -2,13 +2,14 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { theme } from '../constants/Theme';
 import FastImage from 'react-native-fast-image';
-import { Photo } from '../services/redux/activitySlice';
 import { useSelector } from 'react-redux';
 import { RootState } from '../services/redux/store';
 import ImageViewer from './ImageViewerComponent';
 import { Ionicons } from '@expo/vector-icons';
+import { Photo } from '../services/redux/activitySlice';
+import { Button } from './Button';
 
-interface ActivityCardProps {
+export interface ActivityCardProps {
     id?: string;
     activity_id: number;
     date?: string;
@@ -19,6 +20,8 @@ interface ActivityCardProps {
     hub_id?: number;
     type: 'hub' | 'activity';
     onDelete?: (index: number) => void;
+    completed?: boolean;
+    handleShare?: () => void;
 }
 
 const ActivityCard: React.FC<ActivityCardProps> = ({
@@ -28,6 +31,8 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
     photo,
     type,
     onDelete,
+    completed,
+    handleShare,
 }: ActivityCardProps) => {
     const activity = useSelector((state: RootState) =>
         state.activity.results?.find((activity) => activity.id === activity_id)
@@ -92,13 +97,17 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
                 </View>
 
                 {photo.length > 0 && (
-                    <ImageViewer images={photo} showDelete={type !== 'hub'} onDeleteImage={onDelete} />
+                    <ImageViewer
+                        images={photo}
+                        showDelete={type !== 'hub'}
+                        onDeleteImage={onDelete}
+                        completed={completed}
+                    />
                 )}
 
-                {is_shared && (
+                {is_shared ? (
                     <View style={styles.actionContainer}>
                         <TouchableOpacity style={styles.likeButton} onPress={toggleLike}>
-                            <Text style={styles.likeCount}>{likeCount}</Text>
                             <Animated.View style={likeAnimatedStyle}>
                                 <Ionicons
                                     name={isLiked ? 'heart' : 'heart-outline'}
@@ -107,6 +116,12 @@ const ActivityCard: React.FC<ActivityCardProps> = ({
                                 />
                             </Animated.View>
                         </TouchableOpacity>
+                    </View>
+                ) : (
+                    <View style={styles.actionContainer}>
+                        <Button onPress={handleShare} color={'secondary'} type={'pill'}>
+                            Share
+                        </Button>
                     </View>
                 )}
             </View>
@@ -143,10 +158,6 @@ const styles = StyleSheet.create({
     likeButton: {
         alignItems: 'center',
         flexDirection: 'row',
-    },
-    likeCount: {
-        ...theme.typography.bodyMedium,
-        marginRight: 5,
     },
     moodContainer: {
         alignItems: 'center',

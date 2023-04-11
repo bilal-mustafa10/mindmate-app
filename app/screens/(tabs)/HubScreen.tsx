@@ -50,10 +50,11 @@ export default function HubScreen() {
                                     key={data.id}
                                     activity_id={data.activity_id}
                                     date={data.datetime}
-                                    likes={[]}
+                                    likes={data.likes}
                                     photo={data.photos}
                                     is_shared={true}
                                     type={'hub'}
+                                    completed={true}
                                 />
                             );
                         } else if (data.type === 'mood') {

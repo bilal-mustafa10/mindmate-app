@@ -7,6 +7,7 @@ import * as Animatable from 'react-native-animatable';
 import { Photo } from '../services/redux/activitySlice';
 import { theme } from '../constants/Theme';
 import PhotoEditor from '@baronha/react-native-photo-editor';
+import { Button } from './Button';
 
 const { width } = Dimensions.get('window');
 const adjustedWidth = width * 0.9;
@@ -15,9 +16,10 @@ type ImageGalleryProps = {
     images: Photo[];
     onDeleteImage?: (index: number) => void;
     showDelete?: boolean;
+    completed?: boolean;
 };
 
-const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showDelete }) => {
+const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showDelete, completed }) => {
     const [activeSlide, setActiveSlide] = React.useState(0);
     const [modalVisible, setModalVisible] = React.useState(false);
     const [modalImageIndex, setModalImageIndex] = React.useState(0);
@@ -89,13 +91,17 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                         />
                     </TouchableOpacity>
                     <View style={styles.actionContainer}>
-                        <TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
-                            <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
-                        </TouchableOpacity>
-                        {showDelete && (
-                            <TouchableOpacity style={styles.actionButton} onPress={() => onDeleteImage(index)}>
-                                <Ionicons name={'trash-outline'} size={24} color={theme.colors.primary} />
-                            </TouchableOpacity>
+                        {!completed && (
+                            <>
+                                <TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
+                                    <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
+                                </TouchableOpacity>
+                                {showDelete && (
+                                    <TouchableOpacity style={styles.actionButton} onPress={() => onDeleteImage(index)}>
+                                        <Ionicons name={'trash-outline'} size={24} color={theme.colors.primary} />
+                                    </TouchableOpacity>
+                                )}
+                            </>
                         )}
                     </View>
                 </Animatable.View>

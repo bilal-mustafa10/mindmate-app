@@ -1,15 +1,13 @@
 import Realm from 'realm';
+import Photo from './Photo';
 
-class UserActivity extends Realm.Object<UserActivity> {
-    _id!: Realm.BSON.UUID;
+class UserActivity extends Realm.Object {
     static schema = {
         name: 'UserActivity',
-        primaryKey: '_id',
         properties: {
-            _id: 'uuid',
             activity_id: 'int',
             completed_at: 'date',
-            photos: { type: 'string[]', optional: true },
+            photos: { type: 'list', objectType: 'Photo', optional: false },
             is_shared: 'bool',
             likes: { type: 'int', optional: true },
             hub_id: { type: 'int', optional: true },

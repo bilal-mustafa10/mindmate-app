@@ -14,7 +14,7 @@ import { RealmContext } from '../../services/realm/config';
 import { RouteProp } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-paper';
-import { addPhoto, addToHub } from '../../services/api/userEndpoints';
+import { addPhoto, addToHub, getHubDataById } from '../../services/api/userEndpoints';
 import ActivityCard from '../../components/ActivityCard';
 import { Photo } from '../../services/redux/activitySlice';
 
@@ -31,18 +31,18 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const [images, setImages] = useState<Photo[]>([]);
     const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
     const [share, setShare] = useState<boolean>(false);
+    const [hubId, setHubId] = useState<number | null>(null);
+    const [likes, setLikes] = useState(0);
 
     const backgroundColor = '#000000';
     const isLight = backgroundColor === '#000000';
-
-    useEffect(() => {
-        initializeActivityState();
-    }, [activity.id, isCompleted, realm]);
 
     const initializeActivityState = useCallback(() => {
         if (isCompleted) {
             const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
             setImages(userActivity['photos']);
+            setShare(userActivity['is_shared']);
+            setHubId(userActivity['hub_id']);
         }
 
         const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
@@ -50,6 +50,10 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
             setActivityFavourite(true);
         }
     }, [activity.id, isCompleted, realm]);
+
+    useEffect(() => {
+        initializeActivityState();
+    }, [activity.id, initializeActivityState, isCompleted, realm]);
 
     const handleOpenCamera = useCallback(async () => {
         const response = await openCamera();
@@ -69,7 +73,48 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         setImages((prevImages) => prevImages.filter((_, idx) => idx !== index));
     }, []);
 
+    const shareToHub = async () => {
+        const images_id = await Promise.all(
+            images.map(async (image, index) => {
+                const fileName = `activity-${activity.id}-${index}.jpg`;
+                return await addPhoto(image.file, fileName);
+            })
+        );
+
+        await addToHub(
+            1,
+            'activity',
+            new Date().toISOString(),
+            activity.id,
+            null,
+            null,
+            null,
+            images.length > 0 ? images_id : undefined
+        );
+
+        realm.write(() => {
+            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
+            userActivity['is_shared'] = true;
+        });
+
+        setShare(true);
+    };
+
+    const getMoodDataFromHub = useCallback(async () => {
+        const data = await getHubDataById(hubId);
+        if (data.likes !== null && data.likes.length > 0) {
+            setLikes(data.likes.length);
+        }
+    }, [hubId]);
+
+    useEffect(() => {
+        if (hubId !== null) {
+            getMoodDataFromHub();
+        }
+    }, [getMoodDataFromHub, hubId]);
+
     const handleCompleteActivity = async () => {
+        let hub_id = null;
         if (share) {
             const images_id = await Promise.all(
                 images.map(async (image, index) => {
@@ -78,7 +123,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 })
             );
 
-            await addToHub(
+            hub_id = await addToHub(
                 1,
                 'activity',
                 new Date().toISOString(),
@@ -90,6 +135,10 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
             );
         }
 
+        if (hub_id === null) {
+            return;
+        }
+
         realm.write(() => {
             const userActivity = {
                 _id: new Realm.BSON.UUID(),
@@ -98,6 +147,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 photos: images.length > 0 ? images : undefined,
                 is_shared: false,
                 likes: 0,
+                hub_id: hub_id,
             };
             realm.create('UserActivity', userActivity);
         });
@@ -173,11 +223,13 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                             <Text style={theme.typography.bodyBold}>Memories</Text>
                             <ActivityCard
                                 activity_id={activity.id}
-                                is_shared={false}
+                                is_shared={share}
                                 likes={[]}
                                 photo={images}
                                 type={'activity'}
                                 onDelete={handleDeleteImage}
+                                completed={isCompleted}
+                                handleShare={shareToHub}
                             />
                         </View>
                     )}
@@ -195,10 +247,14 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.activityButtonContainer}>
-                        <Text style={theme.typography.captionMedium}>Share</Text>
-                        <View style={styles.switchContainer}>
-                            <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
-                        </View>
+                        {images.length > 0 && (
+                            <>
+                                <Text style={theme.typography.captionMedium}>Share</Text>
+                                <View style={styles.switchContainer}>
+                                    <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
+                                </View>
+                            </>
+                        )}
 
                         <Button onPress={handleCompleteActivity} color={'secondary'} type={'small'}>
                             Complete
