@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
@@ -10,13 +10,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { Button } from '../../components/Button';
 import TagComponent from '../../components/TagComponent';
 import { openCamera, openImageLibrary } from '../../services/camera';
-import ImageViewer from '../../components/ImageViewerComponent';
 import { RealmContext } from '../../services/realm/config';
 import { RouteProp } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Switch } from 'react-native-paper';
 import { addPhoto, addToHub } from '../../services/api/userEndpoints';
-import ActivityCard from '../../components/AcyivityCard';
+import ActivityCard from '../../components/ActivityCard';
 import { Photo } from '../../services/redux/activitySlice';
 
 type Props = {
@@ -33,38 +32,51 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
     const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
     const [share, setShare] = useState<boolean>(false);
 
-    const backgroundColor = '#000000'; // Replace this with your desired background color
-    const isLight = backgroundColor === '#000000'; // Set your condition for the light status bar here
+    const backgroundColor = '#000000';
+    const isLight = backgroundColor === '#000000';
 
-    const handleOpenCamera = async () => {
+    useEffect(() => {
+        initializeActivityState();
+    }, [activity.id, isCompleted, realm]);
+
+    const initializeActivityState = useCallback(() => {
+        if (isCompleted) {
+            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
+            setImages(userActivity['photos']);
+        }
+
+        const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
+        if (isFavourite) {
+            setActivityFavourite(true);
+        }
+    }, [activity.id, isCompleted, realm]);
+
+    const handleOpenCamera = useCallback(async () => {
         const response = await openCamera();
-
-        if (response !== null) {
-            setImages([...images, response]);
+        if (response) {
+            setImages((prevImages) => [...prevImages, response]);
         }
-    };
+    }, []);
 
-    const handleOpenImageLibrary = async () => {
+    const handleOpenImageLibrary = useCallback(async () => {
         const response = await openImageLibrary();
-
-        if (response !== null) {
-            setImages([...images, response]);
+        if (response) {
+            setImages((prevImages) => [...prevImages, response]);
         }
-    };
+    }, []);
 
-    const handleDeleteImage = (indexToDelete: number) => {
-        setImages(images.filter((_, index) => index !== indexToDelete));
-    };
+    const handleDeleteImage = useCallback((index: number) => {
+        setImages((prevImages) => prevImages.filter((_, idx) => idx !== index));
+    }, []);
 
     const handleCompleteActivity = async () => {
         if (share) {
-            const images_id = [];
-            for (const image of images) {
-                const index = images.indexOf(image);
-                const fileName = `activity-${activity.id}-${index}.jpg`;
-                const id = await addPhoto(image, fileName);
-                images_id.push(id);
-            }
+            const images_id = await Promise.all(
+                images.map(async (image, index) => {
+                    const fileName = `activity-${activity.id}-${index}.jpg`;
+                    return await addPhoto(image.file, fileName);
+                })
+            );
 
             await addToHub(
                 1,
@@ -92,18 +104,6 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
         navigation.navigate('ActivityCompleted');
     };
-
-    useEffect(() => {
-        if (isCompleted) {
-            const userActivity = realm.objects('UserActivity').filtered(`activity_id = "${activity.id}"`)[0];
-            setImages(userActivity['photos']);
-        }
-
-        const isFavourite = realm.objects('UserActivityFavourite').filtered(`activity_id = "${activity.id}"`)[0];
-        if (isFavourite) {
-            setActivityFavourite(true);
-        }
-    }, [activity.id, isCompleted, realm]);
 
     const handleAddFavourite = () => {
         realm.write(() => {
@@ -177,8 +177,8 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                                 likes={[]}
                                 photo={images}
                                 type={'activity'}
+                                onDelete={handleDeleteImage}
                             />
-                            {/*<ImageViewer images={images} onDeleteImage={handleDeleteImage} showDelete={!isCompleted} />*/}
                         </View>
                     )}
                 </View>

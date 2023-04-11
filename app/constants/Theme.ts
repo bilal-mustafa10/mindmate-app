@@ -16,6 +16,7 @@ export const theme = {
         whiteBackground: '#FFFFFF',
         text: '#333333',
         textSecondary: '#666666',
+        textTertiary: '#A4A4A4',
         disabled: '#C0C0C0',
         borderColor: '#E5E5E5',
         shadowColor: '#000',

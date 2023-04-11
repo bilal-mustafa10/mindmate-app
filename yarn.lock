@@ -1176,6 +1176,11 @@
     "@babel/helper-validator-identifier" "^7.19.1"
     to-fast-properties "^2.0.0"
 
+"@baronha/react-native-photo-editor@^1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@baronha/react-native-photo-editor/-/react-native-photo-editor-1.1.6.tgz#ac9648c388a74d8f9ca95edcb8d3d6a1bb324092"
+  integrity sha512-Dfcv+bR83PU5PK/LUKxoI0mX4tK1vSMfE4D+ycuVgupbeZItnrwNjI3Ton4RETv4Kv2aZkUtpihh+CBdV7PWTg==
+
 "@callstack/react-theme-provider@^3.0.8":
   version "3.0.8"
   resolved "https://registry.yarnpkg.com/@callstack/react-theme-provider/-/react-theme-provider-3.0.8.tgz#d0d7ac71e422133c5f7b78f4c4aa1bc57f156f50"

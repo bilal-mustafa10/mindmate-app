@@ -9,6 +9,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
+    "@baronha/react-native-photo-editor": "^1.1.6",
     "@develondigital/react-native-lightning-modal": "^2.1.0",
     "@expo-google-fonts/nunito": "^0.2.3",
     "@expo/vector-icons": "^13.0.0",

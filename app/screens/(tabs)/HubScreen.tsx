@@ -4,7 +4,7 @@ import { ScrollView, View, Text, RefreshControl } from 'react-native';
 import React, { useCallback, useEffect, useState } from 'react';
 import { getHub } from '../../services/api/userEndpoints';
 import { IHubData } from '../../services/interface/IHubData';
-import ActivityCard from '../../components/AcyivityCard';
+import ActivityCard from '../../components/ActivityCard';
 import MoodCard from '../../components/MoodCard';
 import { IMoodDataProps, IReflectionDataProps } from '../../components/CalendarComponent';
 import { ReflectionCard } from '../../components/ReflectionCard';

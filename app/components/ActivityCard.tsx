@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { theme } from '../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import { Photo } from '../services/redux/activitySlice';
@@ -18,9 +18,17 @@ interface ActivityCardProps {
     photo: Photo[];
     hub_id?: number;
     type: 'hub' | 'activity';
+    onDelete?: (index: number) => void;
 }
 
-const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, photo, type }: ActivityCardProps) => {
+const ActivityCard: React.FC<ActivityCardProps> = ({
+    is_shared,
+    activity_id,
+    date,
+    photo,
+    type,
+    onDelete,
+}: ActivityCardProps) => {
     const activity = useSelector((state: RootState) =>
         state.activity.results?.find((activity) => activity.id === activity_id)
     );
@@ -33,14 +41,35 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, phot
         .replace(/(\d)([AP]M)/i, '$1 $2');
 
     const [isLiked, setIsLiked] = React.useState(false);
+    const [likeCount, setLikeCount] = React.useState(0);
+    const likeAnimation = React.useRef(new Animated.Value(0)).current;
 
     const toggleLike = () => {
         setIsLiked(!isLiked);
+        setLikeCount(isLiked ? likeCount - 1 : likeCount + 1);
+        Animated.sequence([
+            Animated.timing(likeAnimation, {
+                toValue: 1,
+                duration: 100,
+                useNativeDriver: true,
+            }),
+            Animated.timing(likeAnimation, {
+                toValue: 0,
+                duration: 100,
+                useNativeDriver: true,
+            }),
+        ]).start();
     };
 
-    const handleDeleteImage = (index: number) => {
-        console.log('delete image', index);
-        photo.splice(index, 1);
+    const likeAnimatedStyle = {
+        transform: [
+            {
+                scale: likeAnimation.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 1.2],
+                }),
+            },
+        ],
     };
 
     return (
@@ -63,27 +92,41 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ id, activity_id, date, phot
                 </View>
 
                 {photo.length > 0 && (
-                    <View>
-                        <ImageViewer images={photo} showDelete={type !== 'hub'} onDeleteImage={handleDeleteImage} />
-                    </View>
+                    <ImageViewer images={photo} showDelete={type !== 'hub'} onDeleteImage={onDelete} />
                 )}
 
-                {/*<TouchableOpacity style={{ alignSelf: 'flex-end' }} onPress={toggleLike}>
-                    <Ionicons name={isLiked ? 'heart' : 'heart-outline'} size={30} color={theme.colors.primary} />
-                </TouchableOpacity>*/}
+                {is_shared && (
+                    <View style={styles.actionContainer}>
+                        <TouchableOpacity style={styles.likeButton} onPress={toggleLike}>
+                            <Text style={styles.likeCount}>{likeCount}</Text>
+                            <Animated.View style={likeAnimatedStyle}>
+                                <Ionicons
+                                    name={isLiked ? 'heart' : 'heart-outline'}
+                                    size={30}
+                                    color={theme.colors.primary}
+                                />
+                            </Animated.View>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
         </>
     );
 };
 
 const styles = StyleSheet.create({
+    actionContainer: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+        marginTop: 5,
+    },
     container: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
+        backgroundColor: theme.colors.whiteBackground,
+        borderRadius: 15,
         elevation: 4,
         marginBottom: 12,
         padding: 12,
-        shadowColor: '#000',
+        shadowColor: theme.colors.text,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -92,15 +135,23 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         width: '100%',
     },
-
     dateText: {
         ...theme.typography.caption,
-        color: '#A4A4A4',
+        color: theme.colors.textTertiary,
         marginTop: 2,
+    },
+    likeButton: {
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    likeCount: {
+        ...theme.typography.bodyMedium,
+        marginRight: 5,
     },
     moodContainer: {
         alignItems: 'center',
         flexDirection: 'row',
+        marginBottom: 5,
     },
     moodImage: {
         height: 30,
