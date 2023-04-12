@@ -7,7 +7,6 @@ import * as Animatable from 'react-native-animatable';
 import { Photo } from '../services/redux/activitySlice';
 import { theme } from '../constants/Theme';
 import PhotoEditor from '@baronha/react-native-photo-editor';
-import { Button } from './Button';
 
 const { width } = Dimensions.get('window');
 const adjustedWidth = width * 0.9;
@@ -40,7 +39,6 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
     };
 
     const openPhotoEditor = async (index: number) => {
-        console.log('images', images);
         if (!images[index]) {
             console.warn('Image not found at index', index);
             return;
@@ -53,7 +51,6 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                 stickers: undefined,
                 path: images[index].file,
             });
-            console.log('result', result);
 
             images[index].file = result as string;
             setIsLoading(false);

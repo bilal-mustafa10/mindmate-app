@@ -48,13 +48,16 @@ export default function HubScreen() {
                             return (
                                 <ActivityCard
                                     key={data.id}
-                                    activity_id={data.activity_id}
-                                    date={data.datetime}
-                                    likes={data.likes}
-                                    photo={data.photos}
-                                    is_shared={true}
-                                    type={'hub'}
-                                    completed={true}
+                                    ActivityData={{
+                                        activity_id: data.activity_id,
+                                        is_shared: true,
+                                        likes: data.likes,
+                                        photo: data.photos,
+                                        type: 'hub',
+                                        completed: true,
+                                        hub_id: data.id,
+                                        date: data.datetime,
+                                    }}
                                 />
                             );
                         } else if (data.type === 'mood') {
@@ -68,7 +71,7 @@ export default function HubScreen() {
                                 type: 'hub',
                             };
 
-                            return <MoodCard key={`mood-${index}`} moodData={moodData} />;
+                            return <MoodCard key={data.id} moodData={moodData} />;
                         } else if (data.type === 'reflection') {
                             const reflectionData: IReflectionDataProps = {
                                 date: data.datetime,
@@ -80,7 +83,7 @@ export default function HubScreen() {
                                 type: 'hub',
                             };
 
-                            return <ReflectionCard key={`reflection-${index}`} reflectionData={reflectionData} />;
+                            return <ReflectionCard key={data.id} reflectionData={reflectionData} />;
                         }
                     })}
                 </ScrollView>

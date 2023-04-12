@@ -1,7 +1,6 @@
 import { axiosInstance } from './api';
 import { Platform } from 'react-native';
 import { IHubData } from '../interface/IHubData';
-import { Photo } from '../redux/activitySlice';
 
 export const addPhoto = async (uri: string, name: string) => {
     const config = {
@@ -75,7 +74,7 @@ export const removeFromHub = async (id: number) => {
     };
 
     try {
-        await axiosInstance.delete(`/hub/${id}/`, config);
+        return await axiosInstance.delete(`/hub/${id}/`, config);
     } catch (e) {
         console.log(e);
         return null;
