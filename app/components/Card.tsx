@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Photo } from '../services/redux/activitySlice';
-import { theme, width } from '../constants/Theme';
+import { theme, width as baseWidth } from '../constants/Theme';
 
 interface SmallCardProps {
     logo?: Photo;
@@ -11,22 +11,68 @@ interface SmallCardProps {
     borderColor?: string;
     type: 'large' | 'medium' | 'small' | 'empty';
     isCompleted?: boolean;
+    width?: number;
+    height?: number;
 }
 
 const screenWidth = Dimensions.get('window').width;
+const maxHeight = 300;
+const maxWidth = 500;
 
-const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardProps) => {
+const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, height }: SmallCardProps) => {
     const cardWidth = useMemo(() => {
+        if (width) return width;
+
         if (type === 'large') {
-            return screenWidth * 0.425;
+            return screenWidth * 0.445;
         } else if (type === 'medium') {
-            return screenWidth * 0.33;
+            return screenWidth * 0.38;
         } else if (type === 'small') {
-            return screenWidth * 0.28;
+            return screenWidth * 0.29;
         } else if (type === 'empty') {
             return screenWidth * 0.8;
         }
-    }, [type]);
+    }, [type, width]);
+
+    const cardHeight = useMemo(() => {
+        if (height) return height;
+
+        if (type === 'large') {
+            return screenWidth * 0.32;
+        } else if (type === 'medium') {
+            return screenWidth * 0.32;
+        } else if (type === 'small') {
+            return screenWidth * 0.3;
+        } else if (type === 'empty') {
+            return screenWidth * 0.8;
+        }
+    }, [type, height]);
+
+    const imageSize = useMemo(() => {
+        let sizeRatio = 0;
+
+        if (type === 'large') {
+            sizeRatio = 0.42;
+        } else if (type === 'medium') {
+            sizeRatio = 0.4;
+        } else if (type === 'small') {
+            sizeRatio = 0.35;
+        }
+
+        const sizeByWidth = cardWidth * sizeRatio;
+        const sizeByHeight = cardHeight * sizeRatio;
+
+        let size = Math.min(sizeByWidth, sizeByHeight);
+
+        if (maxWidth && size > maxWidth) {
+            size = maxWidth;
+        }
+        if (maxHeight && size > maxHeight) {
+            size = maxHeight;
+        }
+
+        return size;
+    }, [type, maxWidth, maxHeight, cardWidth, cardHeight]);
 
     const boxStyle = useMemo(() => {
         const bgColor = isCompleted ? borderColor : '#ffffff';
@@ -37,20 +83,11 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardP
             {
                 borderColor: borderColor,
                 width: cardWidth,
+                height: cardHeight,
                 backgroundColor: rgbaColor,
             },
         ];
-    }, [borderColor, cardWidth, isCompleted]);
-
-    const imageSize = useMemo(() => {
-        if (type === 'large') {
-            return 40;
-        } else if (type === 'medium') {
-            return 35;
-        } else if (type === 'small') {
-            return 30;
-        }
-    }, [type]);
+    }, [borderColor, cardWidth, cardHeight, isCompleted]);
 
     return (
         <View style={boxStyle}>
@@ -80,9 +117,8 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted }: SmallCardP
 const styles = StyleSheet.create({
     activityBox: {
         borderRadius: 15,
-        borderWidth: 1,
-        height: width * 0.28,
-        marginHorizontal: width * 0.012,
+        borderWidth: 1.2,
+        marginHorizontal: baseWidth * 0.012,
     },
     activityTitle: {
         ...theme.typography.CardText,
@@ -90,11 +126,11 @@ const styles = StyleSheet.create({
     imageContainer: {
         alignItems: 'flex-start',
         justifyContent: 'flex-start',
-        padding: width * 0.03,
+        padding: baseWidth * 0.03,
     },
     textContainer: {
         justifyContent: 'flex-end',
-        padding: width * 0.03,
+        padding: baseWidth * 0.03,
     },
 });
 

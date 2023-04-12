@@ -99,6 +99,11 @@ function RootNavigator() {
                 options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
+                name={'AddReflectionScreen'}
+                component={AddReflectionScreen}
+                options={{ headerShown: false, gestureEnabled: true }}
+            />
+            <Stack.Screen
                 name="SelfReflectionJournal"
                 component={SelfReflectionJournal}
                 options={{ headerShown: false, gestureEnabled: true }}

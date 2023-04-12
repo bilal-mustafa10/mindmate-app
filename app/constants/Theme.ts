@@ -33,7 +33,7 @@ export const theme = {
             color: '#A83944',
         },
         Text: createTypographyStyles('outfit-regular', 16),
-        CardText: createTypographyStyles('outfit-medium', 12),
+        CardText: createTypographyStyles('outfit-medium', 13),
         Caption: createTypographyStyles('outfit-regular', 12),
         body: createTypographyStyles('nunito-regular', 18),
         bodyMedium: createTypographyStyles('nunito-medium', 18),
@@ -110,6 +110,7 @@ export const styles = StyleSheet.create({
     },
     allResourcesCardContainer: {
         ...baseContainer,
+        marginHorizontal: 2,
         marginVertical: 10,
         width: cardWidth,
     },

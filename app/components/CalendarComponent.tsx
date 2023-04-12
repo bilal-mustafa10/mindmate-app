@@ -112,6 +112,7 @@ export function CalendarComponent<T extends DataProps>({
         if (type === 'mood') {
             navigation.navigate('MoodScreen');
         } else {
+            navigation.navigate('AddReflectionScreen');
             setAddReflectionModal(true);
         }
     };
@@ -208,7 +209,8 @@ export function CalendarComponent<T extends DataProps>({
             </View>
             <>
                 {type === 'reflection' && addReflectionModal && (
-                    <AddReflectionScreen onClose={() => setAddReflectionModal(false)} />
+                    /*<AddReflectionScreen onClose={() => setAddReflectionModal(false)} />*/
+                    <AddReflectionScreen />
                 )}
             </>
         </>

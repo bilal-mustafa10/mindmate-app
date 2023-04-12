@@ -54,7 +54,7 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                                 >
                                     <Card
                                         key={resource.id}
-                                        type={'medium'}
+                                        type={'small'}
                                         borderColor={theme.card_theme[index % 4]}
                                         logo={resource.logo}
                                         title={resource.title}
