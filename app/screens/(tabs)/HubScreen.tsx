@@ -26,8 +26,8 @@ export default function HubScreen() {
         setRefreshing(false);
     }, []);
 
-    const onRefresh = () => {
-        getHubData();
+    const onRefresh = async () => {
+        await getHubData();
     };
 
     useEffect(() => {
@@ -39,11 +39,11 @@ export default function HubScreen() {
             <Header title={'MindSpace'} />
             {hubData !== null && hubData.results.length > 0 ? (
                 <ScrollView
-                    style={[styles.mainContainer, styles.paddingTop]}
+                    style={[styles.mainContainer, styles.paddingTop, styles.paddingHorizontal]}
                     showsVerticalScrollIndicator={false}
                     refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
                 >
-                    {hubData.results.map((data, index) => {
+                    {hubData.results.map((data) => {
                         if (data.type === 'activity') {
                             return (
                                 <ActivityCard

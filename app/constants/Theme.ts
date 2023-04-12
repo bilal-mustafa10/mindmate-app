@@ -105,6 +105,9 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
         width: width * 0.35,
     },
+    activityPadding: {
+        paddingLeft: '4%',
+    },
     allResourcesCardContainer: {
         ...baseContainer,
         marginVertical: 10,
@@ -151,9 +154,11 @@ export const styles = StyleSheet.create({
         marginHorizontal: '3%',
     },
     landingBottomContainer: {
+        alignSelf: 'center',
         flex: 1,
         justifyContent: 'space-between',
         marginVertical: '5%',
+        width: '90%',
     },
     landingContainer: {
         backgroundColor: theme.colors.background,
@@ -178,7 +183,7 @@ export const styles = StyleSheet.create({
     mainContainer: {
         backgroundColor: theme.colors.background,
         flex: 1,
-        paddingHorizontal: '5%',
+        //paddingHorizontal: '5%',
     },
     marginBottomLarge: {
         marginBottom: '10%',
@@ -214,6 +219,9 @@ export const styles = StyleSheet.create({
     },
     paddingEndLarge: {
         paddingBottom: '100%',
+    },
+    paddingHorizontal: {
+        paddingHorizontal: '3%',
     },
     paddingMedium: {
         padding: '10%',

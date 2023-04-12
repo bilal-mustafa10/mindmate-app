@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, TextInput, Text, StyleSheet } from 'react-native';
+import { View, TextInput, Text, StyleSheet, Keyboard, LayoutAnimation } from 'react-native';
 import { theme } from '../constants/Theme';
 
 interface CustomTextInputProps {
@@ -19,6 +19,8 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
     ...props
 }) => {
     const [wordCount, setWordCount] = React.useState<number>(0);
+    const [isFocused, setIsFocused] = React.useState<boolean>(false);
+    const textInputRef = React.useRef<TextInput>(null);
 
     const handleChange = (text: string) => {
         const currentWordCount = countWords(text);
@@ -44,15 +46,44 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
         }
     };
 
+    React.useEffect(() => {
+        Keyboard.addListener('keyboardDidShow', handleKeyboardShow);
+        Keyboard.addListener('keyboardDidHide', handleKeyboardHide);
+        return () => {
+            Keyboard.removeAllListeners('keyboardDidShow');
+            Keyboard.removeAllListeners('keyboardDidHide');
+        };
+    }, []);
+
+    const handleKeyboardShow = (event: any) => {
+        const keyboardHeight = event.endCoordinates.height;
+        const textInputBottomPosition = textInputRef.current
+            ? textInputRef.current.measure((x, y, width, height, pageX, pageY) => pageY + height)
+            : 0;
+        const screenBottomPosition = event.endCoordinates.screenY;
+        setIsFocused(textInputBottomPosition > screenBottomPosition - keyboardHeight);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    };
+
+    const handleKeyboardHide = () => {
+        setIsFocused(false);
+        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    };
+
     return (
         <View style={styles.container}>
             <TextInput
                 value={data}
                 onChangeText={handleChange}
-                style={[styles.textInput, type === 'large' ? styles.largeInput : styles.mediumInput]}
+                style={[
+                    styles.textInput,
+                    type === 'large' ? styles.largeInput : styles.mediumInput,
+                    isFocused && styles.focusedInput,
+                ]}
                 multiline={true}
                 textAlignVertical="top"
                 placeholder={placeholder ? placeholder : 'Enter text here'}
+                ref={textInputRef}
                 {...props}
             />
             <Text style={[styles.wordCount, wordCount > getWordLimit(inputPurpose) ? styles.wordCountExceeded : null]}>
@@ -65,6 +96,9 @@ const CustomTextInput: React.FC<CustomTextInputProps> = ({
 const styles = StyleSheet.create({
     container: {
         alignItems: 'flex-start',
+    },
+    focusedInput: {
+        marginBottom: 100, // Adjust this to your liking
     },
     largeInput: {
         height: 200,

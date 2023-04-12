@@ -20,7 +20,7 @@ export default function AllResourcesScreen({ navigation }: RootStackScreenProps<
                 title={'All Resources'}
                 showBackButton={true}
             />
-            <ScrollView style={styles.container}>
+            <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]}>
                 <View style={styles.allResourcesContainer}>
                     {results &&
                         results.length > 0 &&

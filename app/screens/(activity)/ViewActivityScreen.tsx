@@ -218,7 +218,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
                 <Text style={theme.typography.bodyBold}>Back</Text>
             </TouchableOpacity>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <FastImage
                     source={{
                         uri: activity.photo.file,
@@ -227,7 +227,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     }}
                     style={{ width: width, height: (width / (activity.photo.width / activity.photo.height)) * 1.5 }}
                 />
-                <View style={[styles.mainContainer, styles.paddingBottomLarge]}>
+                <View style={[styles.mainContainer, styles.paddingBottomLarge, styles.paddingHorizontal]}>
                     <View style={styles.activityHeader}>
                         <View>
                             <Text style={[theme.typography.SubHeading, styles.marginBottomSmall]}>

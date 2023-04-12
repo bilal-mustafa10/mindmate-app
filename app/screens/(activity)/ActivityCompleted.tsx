@@ -8,7 +8,14 @@ import { RootStackScreenProps } from '../../navigation/types';
 export default function ActivityCompleted({ navigation }: RootStackScreenProps<'ActivityCompleted'>) {
     const insets = useSafeAreaInsets();
     return (
-        <View style={[styles.container, styles.primaryBackground, { paddingTop: insets.top, flex: 1 }]}>
+        <View
+            style={[
+                styles.mainContainer,
+                styles.primaryBackground,
+                { paddingTop: insets.top, flex: 1 },
+                styles.paddingHorizontal,
+            ]}
+        >
             <View style={[styles.content, styles.primaryBackground, { height: height * 0.75 }]}>
                 <FastImage source={require('../../assets/images/activity-completed.png')} style={styles.activityLogo} />
                 <Text style={{ ...theme.typography.Heading, textAlign: 'center' }}>Congratulations!</Text>

@@ -1,5 +1,5 @@
 import { styles, theme } from '../../constants/Theme';
-import { View, Text } from 'react-native';
+import { Text, ScrollView, KeyboardAvoidingView, Platform } from 'react-native';
 import { RootStackScreenProps } from '../../navigation/types';
 import * as React from 'react';
 import { moodImages } from '../../constants/Images';
@@ -48,39 +48,35 @@ export default function AddMoodScreen({ navigation }: RootStackScreenProps<'Mood
     };
 
     return (
-        <>
-            <Header
-                onHeaderLeftPress={() => {
-                    navigation.goBack();
-                }}
-                title={''}
-                showBackButton={true}
-                transparent={true}
-                showBottomBorder={true}
-            />
-
-            <View style={{ ...styles.container, backgroundColor: '#F5F4FF' }}>
-                <Text style={[theme.typography.bodyBold, { marginBottom: '5%' }]}>
-                    How are you feeling today {firstName}?
-                </Text>
-                <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
-                <Text style={[theme.typography.bodyBold, { marginVertical: '5%' }]}>What made you feel like this?</Text>
-                <TextInput data={notes} onDataChange={onNotesChange} type={'medium'} inputPurpose={'moodLog'} />
-                <View
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        alignSelf: 'center',
-                        width: '100%',
-                        flexDirection: 'row',
-                        justifyContent: 'flex-end',
-                        marginBottom: '10%',
-                        backgroundColor: 'transparent',
+        <KeyboardAvoidingView
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            style={styles.mainContainer}
+            keyboardVerticalOffset={10}
+        >
+            <>
+                <Header
+                    onHeaderLeftPress={() => {
+                        navigation.goBack();
                     }}
+                    title={''}
+                    showBackButton={true}
+                    transparent={true}
+                    showBottomBorder={true}
+                />
+
+                <ScrollView
+                    style={styles.secondaryBackground}
+                    contentContainerStyle={styles.paddingHorizontal}
+                    showsVerticalScrollIndicator={false}
                 >
-                    {/*<Button onPress={() => navigation.navigate('Root')} color={'tertiary'} type={'medium'}>
-                    Share with friends
-                </Button>*/}
+                    <Text style={[theme.typography.BodyBold, styles.marginBottomMedium, styles.marginTopSmall]}>
+                        How are you feeling today {firstName}?
+                    </Text>
+                    <MoodComponent moodImages={moodImages} onAction={onMoodSelect} mood={mood} />
+                    <Text style={[theme.typography.BodyBold, styles.marginTopSmall, styles.marginBottomMedium]}>
+                        What made you feel like this?
+                    </Text>
+                    <TextInput data={notes} onDataChange={onNotesChange} type={'medium'} inputPurpose={'moodLog'} />
                     {showError ? (
                         <Button
                             onPress={() => {
@@ -88,16 +84,22 @@ export default function AddMoodScreen({ navigation }: RootStackScreenProps<'Mood
                             }}
                             color={'error'}
                             type={'large'}
+                            style={styles.marginBottomLarge}
                         >
                             please select a mood
                         </Button>
                     ) : (
-                        <Button onPress={handleAddUserMood} color={'secondary'} type={'medium'}>
+                        <Button
+                            onPress={handleAddUserMood}
+                            color={'secondary'}
+                            type={'medium'}
+                            style={styles.marginBottomLarge}
+                        >
                             Complete
                         </Button>
                     )}
-                </View>
-            </View>
-        </>
+                </ScrollView>
+            </>
+        </KeyboardAvoidingView>
     );
 }

@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
                 }}
                 name={name}
             />
-            <ScrollView style={styles.mainContainer} showsVerticalScrollIndicator={false}>
+            <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
                 <SectionHeader
                     title="Daily Inspiration"
                     buttonText={showModal ? 'save' : 'create your own'}

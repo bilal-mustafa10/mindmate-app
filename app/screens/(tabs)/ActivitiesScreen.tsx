@@ -90,7 +90,7 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
                     setFavouriteSelected(!favouriteSelected);
                 }}
             />
-            <ScrollView style={{ paddingLeft: '2%' }} showsVerticalScrollIndicator={false}>
+            <ScrollView style={[styles.mainContainer, styles.activityPadding]} showsVerticalScrollIndicator={false}>
                 {Object.entries(activitiesByTag).map(([tag, activities]) => renderActivities(tag, activities))}
             </ScrollView>
         </>

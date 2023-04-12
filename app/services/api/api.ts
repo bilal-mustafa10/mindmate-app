@@ -2,8 +2,8 @@ import { applyAuthTokenInterceptor, AuthTokens, TokenRefreshRequest } from 'reac
 import axios from 'axios';
 import { logout } from './authEndpoints';
 
-const BASE_URL = 'http://127.0.0.1:8000/api';
-// const BASE_URL = 'https://9b52-2a00-23ee-17e8-2469-6d15-482d-3fe1-7a78.eu.ngrok.io/api';
+// const BASE_URL = 'http://127.0.0.1:8000/api';
+const BASE_URL = 'https://a449-2a00-23ee-17e8-2469-8551-d4cf-f051-c403.eu.ngrok.io/api';
 export const axiosInstance = axios.create({ baseURL: BASE_URL });
 
 const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promise<AuthTokens | string> => {

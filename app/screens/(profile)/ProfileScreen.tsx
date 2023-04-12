@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet, Text, ScrollView } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import UserAvatar from 'react-native-user-avatar';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +30,8 @@ export default function ProfileScreen({ navigation, route }: Props) {
         navigation.navigate('LandingPage');
     };
 
+    // TODO: add header styles.  maincontainer, paddingHorizontal
+
     return (
         <>
             <Header
@@ -41,7 +43,7 @@ export default function ProfileScreen({ navigation, route }: Props) {
                 showBackButton={true}
             />
 
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container}>
                 <View style={styles.avatarContainer}>
                     <UserAvatar size={80} name={firstName + lastName} bgColor={'green'} />
                     <Ionicons name="create-outline" size={20} color={'black'} style={styles.editIcon} />
@@ -72,7 +74,7 @@ export default function ProfileScreen({ navigation, route }: Props) {
                         Logout
                     </Button>
                 </View>
-            </View>
+            </ScrollView>
         </>
     );
 }

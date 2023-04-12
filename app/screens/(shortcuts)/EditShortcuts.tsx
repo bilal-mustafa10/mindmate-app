@@ -53,7 +53,7 @@ export default function EditShortcutsScreen({ navigation }: RootStackScreenProps
                 title={'Edit Shortcuts'}
                 showBackButton={true}
             />
-            <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+            <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
                 <View>
                     <SectionHeader title="My Shortcuts" />
                     {userShortcuts.map((shortcut) => (
