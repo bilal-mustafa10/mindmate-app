@@ -11,6 +11,8 @@ import { setActivity } from '../services/redux/activitySlice';
 import { getMentalHealthResources } from '../services/api/resourcesEndpoints';
 import { setResources } from '../services/redux/resourcesSlice';
 import WelcomeText from '../components/WelcomeText';
+import { getAssessments } from '../services/api/assessmentEndpoints';
+import { AssessmentSlice, setAssessments } from '../services/redux/assessmentSlice';
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
     const dispatch = useDispatch();
@@ -25,10 +27,15 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
             }
 
             console.log('logged in');
-            const [activities, resources] = await Promise.all([getActivities(), getMentalHealthResources()]);
+            const [activities, resources, assessments] = await Promise.all([
+                getActivities(),
+                getMentalHealthResources(),
+                getAssessments(),
+            ]);
 
             dispatch(setActivity(activities));
             dispatch(setResources(resources));
+            dispatch(setAssessments(assessments));
             navigation.navigate('Root');
         }
 

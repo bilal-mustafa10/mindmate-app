@@ -11,7 +11,8 @@ import Header from '../../components/Header';
 import SectionHeader from '../../components/SectionHeader';
 
 export default function MindverseScreen({ navigation }: RootStackScreenProps<'Root'>) {
-    const { results } = useSelector((state: RootState) => state.resources);
+    const { results: resourceResults } = useSelector((state: RootState) => state.resources);
+    const { results: assessmentResults } = useSelector((state: RootState) => state.assessment);
 
     return (
         <>
@@ -38,9 +39,9 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                     contentContainerStyle={styles.rowScrollContainer}
                     showsHorizontalScrollIndicator={false}
                 >
-                    {results &&
-                        results.length > 0 &&
-                        results.slice(0, 5).map((resource, index) => {
+                    {resourceResults &&
+                        resourceResults.length > 0 &&
+                        resourceResults.slice(0, 5).map((resource, index) => {
                             return (
                                 <TouchableOpacity
                                     onPress={() =>
@@ -66,6 +67,28 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                 </ScrollView>
 
                 <SectionHeader title="Assessments" />
+                <ScrollView
+                    horizontal
+                    contentContainerStyle={styles.rowScrollContainer}
+                    showsHorizontalScrollIndicator={false}
+                >
+                    {assessmentResults &&
+                        assessmentResults.length > 0 &&
+                        assessmentResults.slice(0, 5).map((resource, index) => {
+                            return (
+                                <TouchableOpacity style={styles.transparentBackground} key={resource.id}>
+                                    <Card
+                                        key={resource.id}
+                                        type={'small'}
+                                        borderColor={theme.card_theme[index % 4]}
+                                        logo={resource.logo}
+                                        title={resource.title}
+                                        isCompleted={false}
+                                    />
+                                </TouchableOpacity>
+                            );
+                        })}
+                </ScrollView>
             </ScrollView>
         </>
     );

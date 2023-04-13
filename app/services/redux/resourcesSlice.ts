@@ -1,17 +1,15 @@
-import {createSlice, PayloadAction} from '@reduxjs/toolkit';
-
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IResourcesRequest {
     results: ResourcesResult[] | null;
 }
 
 export interface ResourcesResult {
-    id: number
-    title: string
-    content: string
+    id: number;
+    title: string;
+    content: string;
     logo: Photo;
 }
-
 
 export interface Photo {
     id: number;
@@ -21,21 +19,18 @@ export interface Photo {
     height: number;
 }
 
-
-
 const initialState: IResourcesRequest = {
-    results: []
+    results: [],
 };
 
 export const resourcesSlice = createSlice({
-    name:'resources',
+    name: 'resources',
     initialState,
     reducers: {
         setResources: (state, action: PayloadAction<IResourcesRequest>) => {
             state.results = action.payload.results;
-        }
-    }
+        },
+    },
 });
 
 export const { setResources } = resourcesSlice.actions;
-
