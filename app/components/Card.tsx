@@ -78,6 +78,7 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
         const bgColor = isCompleted ? borderColor : '#ffffff';
         const opacity = isCompleted ? 0.25 : 1;
         const rgbaColor = `${bgColor}${Math.floor(opacity * 255).toString(16)}`;
+
         return [
             styles.activityBox,
             {

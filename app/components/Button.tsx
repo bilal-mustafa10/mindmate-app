@@ -7,7 +7,7 @@ const { width } = Dimensions.get('window');
 interface ButtonProps {
     type: 'large' | 'medium' | 'small' | 'pill';
     onPress: () => void;
-    color: 'secondary' | 'tertiary' | 'error' | 'primary';
+    color: 'secondary' | 'tertiary' | 'error' | 'primary' | 'transparent';
     children: React.ReactNode;
     style?: ViewStyle;
 }
@@ -83,8 +83,9 @@ export const Button = ({ type, onPress, color, children, style }: ButtonProps) =
     ]);
 
     const textStyle = StyleSheet.flatten([
-        styles.buttonText,
+        color === 'transparent' ? theme.typography.Body : styles.buttonText,
         buttonSizeStyles[type]?.text || {},
+        color === 'transparent' ? { color: theme.colors.text } : {},
         isPressed && styles.buttonTextPressed,
     ]);
 

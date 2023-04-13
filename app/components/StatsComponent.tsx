@@ -29,25 +29,24 @@ const Stats = ({ value, label }: StatsProps) => {
 
 const styles = StyleSheet.create({
     box: {
-        width: width * 0.28,
-        height: 120,
-        padding: 10,
-        backgroundColor: '#ffffff',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#D9D9D9',
-        justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column-reverse'
+        backgroundColor: '#ffffff',
+        borderColor: '#D9D9D9',
+        borderRadius: 15,
+        borderWidth: 1,
+        flexDirection: 'column-reverse',
+        height: 130,
+        justifyContent: 'center',
+        padding: 10,
+        width: width * 0.3,
     },
     label: {
         marginVertical: 8,
-        fontSize: 10,
         textAlign: 'center',
-        ...theme.typography.captionSemiBold,
-        flex: 1
+        ...theme.typography.BodyMedium,
+        flex: 1,
+        fontSize: 14,
     },
 });
-
 
 export default Stats;

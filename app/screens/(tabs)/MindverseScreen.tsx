@@ -55,7 +55,7 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                                 >
                                     <Card
                                         key={resource.id}
-                                        type={'small'}
+                                        type={'medium'}
                                         borderColor={theme.card_theme[index % 4]}
                                         logo={resource.logo}
                                         title={resource.title}
@@ -74,15 +74,24 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                 >
                     {assessmentResults &&
                         assessmentResults.length > 0 &&
-                        assessmentResults.slice(0, 5).map((resource, index) => {
+                        assessmentResults.slice(0, 5).map((assessment, index) => {
                             return (
-                                <TouchableOpacity style={styles.transparentBackground} key={resource.id}>
+                                <TouchableOpacity
+                                    style={styles.transparentBackground}
+                                    key={assessment.id}
+                                    onPress={() =>
+                                        navigation.navigate('ViewAssessment', {
+                                            assessment: assessment,
+                                            title: assessment.title,
+                                        })
+                                    }
+                                >
                                     <Card
-                                        key={resource.id}
-                                        type={'small'}
+                                        key={assessment.id}
+                                        type={'medium'}
                                         borderColor={theme.card_theme[index % 4]}
-                                        logo={resource.logo}
-                                        title={resource.title}
+                                        logo={assessment.logo}
+                                        title={assessment.title}
                                         isCompleted={false}
                                     />
                                 </TouchableOpacity>

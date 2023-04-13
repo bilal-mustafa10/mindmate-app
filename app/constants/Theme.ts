@@ -7,11 +7,11 @@ const createTypographyStyles = (fontFamily: string, fontSize: number) => ({
 
 export const theme = {
     colors: {
-        primary: '#5539A8',
-        secondary: '#39A873',
-        tertiary: '#2B61C4',
-        error: '#A83944',
-        background: '#F9F9F9',
+        primary: '#8858C7',
+        secondary: '#58C77B',
+        tertiary: '#5873C7',
+        error: '#C75858',
+        background: '#F4F4F4',
         secondaryBackground: '#F5F4FF',
         whiteBackground: '#FFFFFF',
         text: '#333333',
@@ -20,12 +20,14 @@ export const theme = {
         disabled: '#C0C0C0',
         borderColor: '#E5E5E5',
         shadowColor: '#000',
+        transparent: 'transparent',
         transparentBackground: 'transparent',
     },
     typography: {
         Heading: createTypographyStyles('outfit-bold', 32),
         SubHeading: createTypographyStyles('outfit-bold', 22),
         BodyBold: createTypographyStyles('outfit-bold', 18),
+        BodySemiBold: createTypographyStyles('outfit-semibold', 18),
         BodyMedium: createTypographyStyles('outfit-medium', 18),
         Body: createTypographyStyles('outfit-regular', 18),
         Error: {
@@ -52,17 +54,17 @@ export const theme = {
         },
     },
     five_ways_theme: {
-        'Keep Active': '#2B61C4',
-        'Connect with others': '#A83973',
-        'Keep Learning': '#A85B39',
-        'Give to others': '#6F39A8',
-        'Take Notice': '#1F9429',
+        'Keep Active': '#5873C7',
+        'Connect with others': '#C758A4',
+        'Keep Learning': '#C77B58',
+        'Give to others': '#7358C6',
+        'Take Notice': '#58C77B',
     },
     card_theme: {
-        0: '#2B61C4',
-        1: '#5539A8',
-        2: '#1F9429',
-        3: '#A83944',
+        0: '#5873C7',
+        1: '#7358C6',
+        2: '#58C77B',
+        3: '#C75858',
     },
     spacing: {
         small: 8,
@@ -71,6 +73,7 @@ export const theme = {
     },
 };
 
+// colors used in the icons : #F0DEFF
 export const { width, height } = Dimensions.get('window');
 const cardWidth = (width - 43) / 3;
 

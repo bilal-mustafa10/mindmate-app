@@ -7,6 +7,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ActivityResults } from '../services/redux/activitySlice';
 import { ResourcesResult } from '../services/redux/resourcesSlice';
+import { AssessmentData } from '../services/redux/assessmentSlice';
 
 export type RootStackParamList = {
     Root: NavigatorScreenParams<RootTabParamList> | undefined;
@@ -22,6 +23,7 @@ export type RootStackParamList = {
     SelfReflectionJournal: undefined;
     AllResources: undefined;
     ViewResource: { resource: ResourcesResult; title: string };
+    ViewAssessment: { assessment: AssessmentData; title: string };
     EditShortcuts: undefined;
     Introduction: { userId: string };
     ViewActivity: { activity: ActivityResults; isCompleted: boolean };
