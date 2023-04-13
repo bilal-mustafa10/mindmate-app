@@ -65,7 +65,7 @@ const Header = ({
                 </TouchableOpacity>
             )}
 
-            {title && <Text style={theme.typography.BodyMedium}>{title}</Text>}
+            {title && <Text style={theme.typography.SubHeading}>{title}</Text>}
 
             {headerRight && (
                 <TouchableOpacity onPress={onHeaderRightPress}>
@@ -83,11 +83,12 @@ const styles = StyleSheet.create({
     },
     container: {
         alignItems: 'center',
+        alignSelf: 'stretch',
         borderBottomColor: 'lightgrey',
         borderBottomWidth: 0.6,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        paddingBottom: 10,
+        paddingBottom: 20,
         paddingHorizontal: 15,
     },
     image: {

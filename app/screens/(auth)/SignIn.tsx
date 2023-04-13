@@ -24,6 +24,8 @@ import { RealmContext } from '../../services/realm/config';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { getMentalHealthResources } from '../../services/api/resourcesEndpoints';
 import { setResources } from '../../services/redux/resourcesSlice';
+import { getAssessments } from '../../services/api/assessmentEndpoints';
+import { setAssessments } from '../../services/redux/assessmentSlice';
 
 export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     const dispatch = useDispatch();
@@ -58,10 +60,15 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
 
         if (response && response.status === 200) {
             const decoded = jwtDecode(response.data.access);
-            const [activities, resources] = await Promise.all([getActivities(), getMentalHealthResources()]);
+            const [activities, resources, assessments] = await Promise.all([
+                getActivities(),
+                getMentalHealthResources(),
+                getAssessments(),
+            ]);
 
             dispatch(setActivity(activities));
             dispatch(setResources(resources));
+            dispatch(setAssessments(assessments));
 
             if (user.length > 0) {
                 navigation.navigate('Root');

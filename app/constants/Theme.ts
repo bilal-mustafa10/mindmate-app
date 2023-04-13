@@ -7,10 +7,10 @@ const createTypographyStyles = (fontFamily: string, fontSize: number) => ({
 
 export const theme = {
     colors: {
-        primary: '#8858C7',
-        secondary: '#58C77B',
-        tertiary: '#5873C7',
-        error: '#C75858',
+        primary: '#7C47C2',
+        secondary: '#47C26E',
+        tertiary: '#4766C2',
+        error: '#C24747',
         background: '#F4F4F4',
         secondaryBackground: '#F5F4FF',
         whiteBackground: '#FFFFFF',
@@ -54,17 +54,17 @@ export const theme = {
         },
     },
     five_ways_theme: {
-        'Keep Active': '#5873C7',
-        'Connect with others': '#C758A4',
-        'Keep Learning': '#C77B58',
-        'Give to others': '#7358C6',
-        'Take Notice': '#58C77B',
+        'Keep Active': '#4766C2',
+        'Connect with others': '#C2479B',
+        'Keep Learning': '#C26E47',
+        'Give to others': '#7C47C2',
+        'Take Notice': '#47C26E',
     },
     card_theme: {
-        0: '#5873C7',
-        1: '#7358C6',
-        2: '#58C77B',
-        3: '#C75858',
+        0: '#47C26E',
+        1: '#7C47C2',
+        2: '#4766C2',
+        3: '#C24747',
     },
     spacing: {
         small: 8,
