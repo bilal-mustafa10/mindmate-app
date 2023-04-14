@@ -24,6 +24,8 @@ import AllResourcesScreen from '../screens/(resources)/AllResourcesScreen';
 import ViewResourceScreen from '../screens/(resources)/ViewResourceScreen';
 import ProfileScreen from '../screens/(profile)/ProfileScreen';
 import ViewAssessmentScreen from '../screens/(assessments)/ViewAssessmentScreen';
+import AssessmentInfoScreen from '../screens/(assessments)/AssessmentInfoScreen';
+import AssessmentCompleted from '../screens/(assessments)/AssessmentCompleted';
 
 export default function Navigation() {
     return (
@@ -94,18 +96,27 @@ function RootNavigator() {
                 options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
+                name="AssessmentInfo"
+                component={AssessmentInfoScreen}
+                options={{ headerShown: false, gestureEnabled: true }}
+            />
+            <Stack.Screen
                 name="ViewAssessment"
                 component={ViewAssessmentScreen}
                 options={{ headerShown: false, gestureEnabled: true }}
             />
-
+            <Stack.Screen
+                name="AssessmentCompleted"
+                component={AssessmentCompleted}
+                options={{ headerShown: false, gestureEnabled: false }}
+            />
             <Stack.Screen
                 name="MoodJournal"
                 component={MoodJournal}
                 options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen
-                name={'AddReflectionScreen'}
+                name="AddReflectionScreen"
                 component={AddReflectionScreen}
                 options={{ headerShown: false, gestureEnabled: true }}
             />

@@ -18,12 +18,12 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
         <>
             <Header title={'Mindverse'} />
             <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
-                <SectionHeader title="MindStats" buttonText="edit" onButtonPress={() => navigation.navigate('Root')} />
-                <View style={styles.mindStatsContainer}>
+                {/*<SectionHeader title="MindStats" buttonText="edit" onButtonPress={() => navigation.navigate('Root')} />*/}
+                {/*<View style={styles.mindStatsContainer}>
                     <Stats value={80} label={'Mental Health'} />
                     <Stats value={12} label={'Anxiety'} />
                     <Stats value={20} label={'Depression'} />
-                </View>
+                </View>*/}
 
                 <SectionHeader title="Journals" />
                 <JournalComponent navigation={navigation} />
@@ -80,7 +80,7 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                                     style={styles.transparentBackground}
                                     key={assessment.id}
                                     onPress={() =>
-                                        navigation.navigate('ViewAssessment', {
+                                        navigation.navigate('AssessmentInfo', {
                                             assessment: assessment,
                                             title: assessment.title,
                                         })

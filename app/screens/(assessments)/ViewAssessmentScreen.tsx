@@ -7,6 +7,12 @@ import { Button } from '../../components/Button';
 import * as Progress from 'react-native-progress';
 import { RouteProp } from '@react-navigation/native';
 import Header from '../../components/Header';
+import {
+    calculateAngerScore,
+    calculateAnxietyScore,
+    calculateDepressionScore,
+} from '../../constants/AssessmentScoreCalculator';
+import { RealmContext } from '../../services/realm/config';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewAssessment'>;
@@ -14,23 +20,67 @@ type Props = {
 };
 
 export default function ViewAssessmentScreen({ navigation, route }: Props) {
+    const realm = RealmContext.useRealm();
+    const options = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'];
     const assessment = route.params.assessment;
-    console.log('assessment: ', assessment);
     const content = JSON.parse(assessment.content);
+    const screenWidth = Dimensions.get('window').width * 0.9;
+
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [errorMessage, setErrorMessage] = useState('');
     const [answers, setAnswers] = useState(Array(content.length).fill(null));
+
     const { question } = content[currentIndex].value;
 
+    const assessmentCalculators = {
+        Depression: calculateDepressionScore,
+        Anxiety: calculateAnxietyScore,
+        Anger: calculateAngerScore,
+    };
+
+    const calculateScore = () => {
+        const calculator = assessmentCalculators[assessment.title];
+
+        if (calculator) {
+            const { rawScore, tScore, result } = calculator(answers);
+            return { rawScore, tScore, result };
+        }
+    };
+
+    const addAssessmentToRealm = (score: number, result: string) => {
+        realm.write(() => {
+            const userAssessment = {
+                _id: new Realm.BSON.UUID(),
+                date: new Date(),
+                type: assessment.title,
+                score: score,
+                result: result,
+                answers: answers,
+            };
+            realm.create('UserAssessment', userAssessment);
+        });
+    };
+
     const handleNext = () => {
+        if (answers[currentIndex] === null) {
+            setErrorMessage('Please select an answer before proceeding.');
+            return;
+        } else {
+            setErrorMessage('');
+        }
+
         if (currentIndex < content.length - 1) {
             setCurrentIndex(currentIndex + 1);
         } else {
-            navigation.goBack();
+            const { rawScore, tScore, result } = calculateScore();
+            addAssessmentToRealm(tScore, result);
+            navigation.navigate('AssessmentCompleted', { results: { rawScore, tScore, result } });
         }
     };
 
     const handlePrevious = () => {
         if (currentIndex > 0) {
+            setErrorMessage('');
             setCurrentIndex(currentIndex - 1);
         }
     };
@@ -39,11 +89,8 @@ export default function ViewAssessmentScreen({ navigation, route }: Props) {
         const updatedAnswers = [...answers];
         updatedAnswers[currentIndex] = index;
         setAnswers(updatedAnswers);
+        setErrorMessage('');
     };
-
-    // Get width of screen
-    const screenWidth = Dimensions.get('window').width * 0.8;
-    const options = ['Never', 'Rarely', 'Sometimes', 'Often', 'Always'];
 
     return (
         <>
@@ -52,53 +99,54 @@ export default function ViewAssessmentScreen({ navigation, route }: Props) {
                 onHeaderLeftPress={() => {
                     navigation.goBack();
                 }}
-                title={assessment.title}
+                title={assessment.title + ' Assessment'}
                 showBackButton={true}
             />
-            <ScrollView contentContainerStyle={style.scrollView}>
-                <View style={style.contentContainer}>
-                    <View style={style.progressBarContainer}>
-                        <Progress.Bar
-                            height={20}
-                            progress={(currentIndex + 1) / content.length}
-                            color={theme.colors.secondary}
-                            unfilledColor={'#E5E5E5'}
-                            borderWidth={0}
-                            borderRadius={5}
-                            width={screenWidth}
-                        />
-                    </View>
+            <ScrollView>
+                <View style={style.progressBarContainer}>
+                    <Progress.Bar
+                        height={30}
+                        progress={(currentIndex + 1) / content.length}
+                        color={theme.colors.secondary}
+                        unfilledColor={'#E5E5E5'}
+                        borderWidth={0}
+                        borderRadius={10}
+                        width={screenWidth}
+                    />
+                </View>
+                <View style={style.errorMessageContainer}>
+                    <Text style={style.errorMessage}>{errorMessage}</Text>
+                </View>
 
-                    <View style={style.cardContainer}>
-                        <View style={style.card}>
-                            <Text style={style.cardTitle}>{question}</Text>
+                <View style={style.cardContainer}>
+                    <View style={style.card}>
+                        <Text style={style.cardTitle}>{question}</Text>
 
-                            {options.map((option, index) => {
-                                return (
-                                    <Button
-                                        key={option}
-                                        type={'large'}
-                                        onPress={() => setAnswerForCurrentIndex(index)}
-                                        color={answers[currentIndex] === index ? 'primary' : 'transparent'}
-                                    >
-                                        {option}
-                                    </Button>
-                                );
-                            })}
-                        </View>
-                    </View>
-                    <View style={style.buttonContainer}>
-                        {currentIndex > 0 && (
-                            <Button onPress={handlePrevious} color={'tertiary'} type={'medium'} style={style.button}>
-                                Back
-                            </Button>
-                        )}
-                        <Button onPress={handleNext} color={'secondary'} type={'medium'} style={style.button}>
-                            {currentIndex === content.length - 1 ? 'Complete' : 'Next'}
-                        </Button>
+                        {options.map((option, index) => {
+                            return (
+                                <Button
+                                    key={option}
+                                    type={'medium'}
+                                    onPress={() => setAnswerForCurrentIndex(index)}
+                                    color={answers[currentIndex] === index ? 'primary' : 'transparent'}
+                                >
+                                    {option}
+                                </Button>
+                            );
+                        })}
                     </View>
                 </View>
             </ScrollView>
+            <View style={style.buttonContainer}>
+                {currentIndex > 0 && (
+                    <Button onPress={handlePrevious} color={'tertiary'} type={'medium'} style={style.button}>
+                        Back
+                    </Button>
+                )}
+                <Button onPress={handleNext} color={'secondary'} type={'medium'} style={style.button}>
+                    {currentIndex === content.length - 1 ? 'Complete' : 'Next'}
+                </Button>
+            </View>
         </>
     );
 }
@@ -110,59 +158,50 @@ const style = StyleSheet.create({
     },
     buttonContainer: {
         backgroundColor: theme.colors.transparentBackground,
-        bottom: 30,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        left: 0,
-        paddingHorizontal: '5%',
-        position: 'absolute',
-        right: 0,
+        justifyContent: 'space-around',
+        paddingBottom: 16,
+        paddingHorizontal: 10,
     },
     card: {
-        alignItems: 'center',
         backgroundColor: theme.colors.whiteBackground,
-        borderRadius: 13,
-        elevation: 5,
-        justifyContent: 'center',
-        padding: 30,
-        paddingHorizontal: 50,
+        borderRadius: 15,
+        elevation: 3,
+        paddingBottom: '10%',
+        paddingHorizontal: 24,
+        paddingTop: 24,
         shadowColor: theme.colors.shadowColor,
         shadowOffset: {
             width: 0,
-            height: 8,
+            height: 1,
         },
-        shadowOpacity: 0.07,
-        shadowRadius: 3.3,
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        width: '100%',
     },
     cardContainer: {
-        flex: 1,
-        paddingTop: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '5%',
     },
     cardTitle: {
-        fontFamily: 'outfit-medium',
-        fontSize: 22,
-        marginBottom: 20,
+        ...theme.typography.BodySemiBold,
+        fontSize: 24,
+        marginBottom: 24,
         textAlign: 'left',
     },
-    contentContainer: {
-        backgroundColor: theme.colors.transparentBackground,
-        flex: 1,
+    errorMessage: {
+        ...theme.typography.BodySemiBold,
+        color: theme.colors.error,
+    },
+    errorMessageContainer: {
+        alignItems: 'center',
         justifyContent: 'center',
-        paddingHorizontal: '5%',
-        paddingTop: 20,
     },
     progressBarContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        left: 0,
-        paddingVertical: 20,
-        position: 'absolute',
-        right: 0,
-        top: 0,
-    },
-    scrollView: {
-        backgroundColor: theme.colors.background,
-        flexGrow: 1,
+        paddingBottom: 15,
+        paddingTop: 20,
     },
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
@@ -17,26 +17,25 @@ type Props = {
 export default function ViewResourceScreen({ navigation, route }: Props) {
     const resources = route.params.resource;
     const content = JSON.parse(resources.content);
-    const [currentIndex, setCurrentIndex] = useState(0);
+    const screenWidth = Dimensions.get('window').width * 0.9;
+    const { width, height } = Dimensions.get('window');
+
+    const [currentIndex, setCurrentIndex] = useState(0); // Add this line
+    const scrollViewRef = useRef(null); // Add this line
 
     const handleNext = () => {
-        if (currentIndex < content.length - 1) {
-            setCurrentIndex(currentIndex + 1);
-        } else {
+        if (currentIndex === content.length - 1) {
             navigation.goBack();
+        } else {
+            setCurrentIndex(currentIndex + 1);
+            scrollViewRef.current.scrollTo({ x: width * (currentIndex + 1), y: 0, animated: true });
         }
     };
 
-    const handlePrevious = () => {
-        if (currentIndex > 0) {
-            setCurrentIndex(currentIndex - 1);
-        }
+    const handleBack = () => {
+        setCurrentIndex(currentIndex - 1);
+        scrollViewRef.current.scrollTo({ x: width * (currentIndex - 1), y: 0, animated: true });
     };
-
-    const { title, description } = content[currentIndex].value;
-
-    // Get width of screen
-    const screenWidth = Dimensions.get('window').width * 0.8;
 
     return (
         <>
@@ -48,38 +47,53 @@ export default function ViewResourceScreen({ navigation, route }: Props) {
                 title={resources.title}
                 showBackButton={true}
             />
-            <ScrollView contentContainerStyle={style.scrollView}>
-                <View style={style.contentContainer}>
-                    <View style={style.progressBarContainer}>
-                        <Progress.Bar
-                            height={20}
-                            progress={(currentIndex + 1) / content.length}
-                            color={theme.colors.secondary}
-                            unfilledColor={'#E5E5E5'}
-                            borderWidth={0}
-                            borderRadius={5}
-                            width={screenWidth}
-                        />
-                    </View>
+            <ScrollView
+                horizontal={true}
+                scrollEventThrottle={16}
+                pagingEnabled={true}
+                showsHorizontalScrollIndicator={false}
+                ref={scrollViewRef}
+                onMomentumScrollEnd={(event) => {
+                    const newIndex = Math.round(event.nativeEvent.contentOffset.x / width);
+                    setCurrentIndex(newIndex);
+                }}
+            >
+                {content.map((_, index) => {
+                    const { title, description } = content[index].value;
+                    return (
+                        <View key={title} style={{ width, height }}>
+                            <View style={style.progressBarContainer}>
+                                <Progress.Bar
+                                    height={30}
+                                    progress={(index + 1) / content.length}
+                                    color={theme.colors.secondary}
+                                    unfilledColor={'#E5E5E5'}
+                                    borderWidth={0}
+                                    borderRadius={10}
+                                    width={screenWidth}
+                                />
+                            </View>
 
-                    <View style={style.cardContainer}>
-                        <View style={style.card}>
-                            <Text style={[theme.typography.bodyMedium, style.cardTitle]}>{title}</Text>
-                            <HTMLView value={description} stylesheet={htmlViewResourceStyle} />
+                            <View style={style.cardContainer}>
+                                <View style={style.card}>
+                                    <Text style={style.cardTitle}>{title}</Text>
+                                    <HTMLView value={description} stylesheet={htmlViewResourceStyle} />
+                                </View>
+                            </View>
                         </View>
-                    </View>
-                    <View style={style.buttonContainer}>
-                        {currentIndex > 0 && (
-                            <Button onPress={handlePrevious} color={'tertiary'} type={'medium'} style={style.button}>
-                                Back
-                            </Button>
-                        )}
-                        <Button onPress={handleNext} color={'secondary'} type={'medium'} style={style.button}>
-                            {currentIndex === content.length - 1 ? 'Complete' : 'Next'}
-                        </Button>
-                    </View>
-                </View>
+                    );
+                })}
             </ScrollView>
+            <View style={style.buttonContainer}>
+                {currentIndex > 0 && (
+                    <Button onPress={handleBack} color={'tertiary'} type={'medium'} style={style.button}>
+                        Back
+                    </Button>
+                )}
+                <Button onPress={handleNext} color={'secondary'} type={'medium'} style={style.button}>
+                    {currentIndex === content.length - 1 ? 'Complete' : 'Next'}
+                </Button>
+            </View>
         </>
     );
 }
@@ -91,69 +105,51 @@ const style = StyleSheet.create({
     },
     buttonContainer: {
         backgroundColor: theme.colors.transparentBackground,
-        bottom: 30,
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        left: 0,
-        paddingHorizontal: '5%',
-        position: 'absolute',
-        right: 0,
+        justifyContent: 'space-around',
+        paddingBottom: 16,
+        paddingHorizontal: 10,
     },
     card: {
-        alignItems: 'center',
         backgroundColor: theme.colors.whiteBackground,
-        borderRadius: 13,
-        elevation: 5,
-        justifyContent: 'center',
-        padding: 30,
-        shadowColor: theme.colors.shadowColor,
+        borderRadius: 15,
+        elevation: 3,
+        paddingBottom: '10%',
+        paddingHorizontal: 24,
+        paddingTop: 24,
+        shadowColor: '#000',
         shadowOffset: {
             width: 0,
-            height: 8,
+            height: 1,
         },
-        shadowOpacity: 0.07,
-        shadowRadius: 3.3,
+        shadowOpacity: 0.22,
+
+        shadowRadius: 2.22,
     },
     cardContainer: {
-        flex: 1,
-        paddingTop: '15%',
+        alignItems: 'center',
+        justifyContent: 'center',
         padding: '5%',
     },
     cardTitle: {
-        ...theme.typography.bodyBold,
-        marginBottom: 20,
-        paddingHorizontal: 20,
-        textAlign: 'center',
-    },
-    contentContainer: {
-        backgroundColor: theme.colors.transparentBackground,
-        flex: 1,
-        justifyContent: 'center',
-        paddingHorizontal: '5%',
-        paddingTop: 20, // Add this line
+        ...theme.typography.BodySemiBold,
+        fontSize: 24,
+        marginBottom: 24,
+        textAlign: 'left',
     },
     progressBarContainer: {
         alignItems: 'center',
         justifyContent: 'center',
-        left: 0,
         paddingVertical: 20,
-        position: 'absolute',
-        right: 0,
-        top: 0,
-    },
-    scrollView: {
-        backgroundColor: theme.colors.background,
-        flexGrow: 1,
     },
 });
 
 const htmlViewResourceStyle = StyleSheet.create({
-    // eslint-disable-next-line react-native/no-unused-styles
     p: {
-        ...theme.typography.caption,
-        fontSize: 14,
+        ...theme.typography.Body,
+        fontSize: 16,
         letterSpacing: 0.75,
-        lineHeight: 24,
-        textAlign: 'center',
+        lineHeight: 28,
+        textAlign: 'left',
     },
 });

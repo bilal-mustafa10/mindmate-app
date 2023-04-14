@@ -15,12 +15,12 @@ const Stats = ({ value, label }: StatsProps) => {
                 value={value}
                 duration={2000}
                 inActiveStrokeOpacity={0.5}
-                activeStrokeWidth={5}
-                inActiveStrokeWidth={5}
+                activeStrokeWidth={8}
+                inActiveStrokeWidth={8}
                 activeStrokeColor={'#3960A8'}
                 inActiveStrokeColor={'#C2D0EA'}
                 maxValue={100}
-                radius={32}
+                radius={40}
             />
             <Text style={styles.label}>{label}</Text>
         </View>
@@ -35,17 +35,17 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         borderWidth: 1,
         flexDirection: 'column-reverse',
-        height: 130,
+        height: 150,
         justifyContent: 'center',
         padding: 10,
-        width: width * 0.3,
+        width: width * 0.45,
     },
     label: {
         marginVertical: 8,
         textAlign: 'center',
         ...theme.typography.BodyMedium,
         flex: 1,
-        fontSize: 14,
+        fontSize: 15,
     },
 });
 

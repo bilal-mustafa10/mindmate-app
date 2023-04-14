@@ -6,7 +6,17 @@ import UserMood from './models/UserMood';
 import UserData from './models/UserData';
 import UserReflection from './models/UserReflection';
 import Photo from './models/Photo';
+import UserAssessment from './models/UserAssessment';
 export const RealmContext = createRealmContext({
-    schema: [UserShortcut, UserActivity, UserActivityFavourite, UserMood, UserData, UserReflection, Photo],
-    schemaVersion: 15,
+    schema: [
+        UserShortcut,
+        UserActivity,
+        UserActivityFavourite,
+        UserMood,
+        UserData,
+        UserReflection,
+        Photo,
+        UserAssessment,
+    ],
+    schemaVersion: 18,
 });

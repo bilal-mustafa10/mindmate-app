@@ -6,6 +6,7 @@ export interface AssessmentSlice {
 export interface AssessmentData {
     id: number;
     title: string;
+    instructions: string;
     content: string;
     logo: Photo;
 }

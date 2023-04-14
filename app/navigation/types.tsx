@@ -8,6 +8,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { ActivityResults } from '../services/redux/activitySlice';
 import { ResourcesResult } from '../services/redux/resourcesSlice';
 import { AssessmentData } from '../services/redux/assessmentSlice';
+import { IScoreResult } from '../constants/AssessmentScoreCalculator';
 
 export type RootStackParamList = {
     Root: NavigatorScreenParams<RootTabParamList> | undefined;
@@ -16,6 +17,7 @@ export type RootStackParamList = {
     SignUp: undefined;
     Profile: { id: number; firstName: string; lastName: string; avatarColor: string };
     ActivityCompleted: undefined;
+    AssessmentCompleted: { results: IScoreResult };
     MoodScreen: undefined;
     ReflectionScreen: undefined;
     MoodJournal: undefined;
@@ -24,6 +26,7 @@ export type RootStackParamList = {
     AllResources: undefined;
     ViewResource: { resource: ResourcesResult; title: string };
     ViewAssessment: { assessment: AssessmentData; title: string };
+    AssessmentInfo: { assessment: AssessmentData; title: string };
     EditShortcuts: undefined;
     Introduction: { userId: string };
     ViewActivity: { activity: ActivityResults; isCompleted: boolean };

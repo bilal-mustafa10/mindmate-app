@@ -24,15 +24,7 @@ export default function ActivityCompleted({ navigation }: RootStackScreenProps<'
                     activity.
                 </Text>
             </View>
-            <View
-                style={{
-                    position: 'absolute',
-                    bottom: 30,
-                    alignSelf: 'center',
-                    width: '100%',
-                    backgroundColor: 'transparent',
-                }}
-            >
+            <View style={styles.buttonBottomStyle}>
                 <Button onPress={() => navigation.navigate('Root')} color={'secondary'} type={'large'}>
                     Next
                 </Button>
