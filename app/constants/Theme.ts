@@ -31,7 +31,7 @@ export const theme = {
         BodyMedium: createTypographyStyles('outfit-medium', 18),
         Body: createTypographyStyles('outfit-regular', 18),
         Error: {
-            ...createTypographyStyles('outfit-bold', 16),
+            ...createTypographyStyles('outfit-bold', 20),
             color: '#A83944',
         },
         TextSemiBold: createTypographyStyles('outfit-semibold', 16),

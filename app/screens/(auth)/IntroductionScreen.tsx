@@ -60,7 +60,7 @@ export default function IntroductionScreen({ navigation, route }: RootStackScree
     return (
         <KeyboardAvoidingView
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-            style={[styles.mainContainer, { paddingTop: insets.top }]}
+            style={[styles.mainContainer, styles.paddingHorizontal, { paddingTop: insets.top }]}
         >
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <ScrollView>

@@ -28,7 +28,7 @@ export type RootStackParamList = {
     ViewAssessment: { assessment: AssessmentData; title: string };
     AssessmentInfo: { assessment: AssessmentData; title: string };
     EditShortcuts: undefined;
-    Introduction: { userId: string };
+    Introduction: { userId: number };
     ViewActivity: { activity: ActivityResults; isCompleted: boolean };
 };
 

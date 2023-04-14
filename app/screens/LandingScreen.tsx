@@ -12,10 +12,12 @@ import { getMentalHealthResources } from '../services/api/resourcesEndpoints';
 import { setResources } from '../services/redux/resourcesSlice';
 import WelcomeText from '../components/WelcomeText';
 import { getAssessments } from '../services/api/assessmentEndpoints';
-import { AssessmentSlice, setAssessments } from '../services/redux/assessmentSlice';
+import { setAssessments } from '../services/redux/assessmentSlice';
+import { RealmContext } from '../services/realm/config';
 
 export default function LandingScreen({ navigation }: RootStackScreenProps<'LandingPage'>) {
     const dispatch = useDispatch();
+    const user = RealmContext.useQuery('UserData');
 
     useEffect(() => {
         async function fetchData() {
@@ -23,10 +25,12 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
 
             if (!loggedIn) {
                 console.log('not logged in');
+                if (user) {
+                    navigation.navigate('SignIn');
+                }
                 return;
             }
 
-            console.log('logged in');
             const [activities, resources, assessments] = await Promise.all([
                 getActivities(),
                 getMentalHealthResources(),
@@ -36,7 +40,7 @@ export default function LandingScreen({ navigation }: RootStackScreenProps<'Land
             dispatch(setActivity(activities));
             dispatch(setResources(resources));
             dispatch(setAssessments(assessments));
-            navigation.navigate('Root');
+            navigation.navigate('SignIn');
         }
 
         fetchData().then(() => {
