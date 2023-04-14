@@ -39,7 +39,7 @@ export default function AssessmentCompleted({ navigation, route }: Props) {
                         Congratulations! You have successfully completed the mental wellbeing assessment.
                     </Text>
                     <View style={{ alignSelf: 'center', paddingVertical: '5%', backgroundColor: 'transparent' }}>
-                        <Stats value={tScore} label={'Assessment Score'} />
+                        <Stats value={tScore} label={'Assessment Score'} size={'large'} />
                     </View>
 
                     <Text style={theme.typography.Text}>
