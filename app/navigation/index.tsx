@@ -26,6 +26,7 @@ import ProfileScreen from '../screens/(profile)/ProfileScreen';
 import ViewAssessmentScreen from '../screens/(assessments)/ViewAssessmentScreen';
 import AssessmentInfoScreen from '../screens/(assessments)/AssessmentInfoScreen';
 import AssessmentCompleted from '../screens/(assessments)/AssessmentCompleted';
+import DailyResourceScreen from '../screens/(resources)/DailyResourceScreen';
 
 export default function Navigation() {
     return (
@@ -93,6 +94,11 @@ function RootNavigator() {
             <Stack.Screen
                 name="ViewResource"
                 component={ViewResourceScreen}
+                options={{ headerShown: false, gestureEnabled: true }}
+            />
+            <Stack.Screen
+                name="DailyResource"
+                component={DailyResourceScreen}
                 options={{ headerShown: false, gestureEnabled: true }}
             />
             <Stack.Screen

@@ -9,6 +9,7 @@ export interface ResourcesResult {
     title: string;
     content: string;
     logo: Photo;
+    daily_boost: boolean;
 }
 
 export interface Photo {

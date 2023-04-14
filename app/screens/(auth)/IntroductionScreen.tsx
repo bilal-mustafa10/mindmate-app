@@ -24,6 +24,7 @@ export default function IntroductionScreen({ navigation, route }: RootStackScree
     const [firstName, setFirstName] = React.useState({ value: '', error: '' });
     const [lastName, setLastName] = React.useState({ value: '', error: '' });
     const shortcuts = [1, 2, 3];
+    const stats = [1, 2, 3];
 
     const handleContinue = () => {
         const firstNameError = nameValidator(firstName.value);
@@ -51,6 +52,16 @@ export default function IntroductionScreen({ navigation, route }: RootStackScree
                     shortcut_id: id,
                 };
                 realm.create('UserShortcut', userShortcut);
+            });
+        });
+
+        stats.forEach((id) => {
+            realm.write(() => {
+                const userStat = {
+                    _id: new Realm.BSON.UUID(),
+                    stat_id: id,
+                };
+                realm.create('UserStat', userStat);
             });
         });
 

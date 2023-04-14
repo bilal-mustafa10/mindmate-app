@@ -7,6 +7,7 @@ interface StatsProps {
     value: number;
     label: string;
     size: 'small' | 'medium' | 'large';
+    empty?: boolean;
 }
 
 const getSizeDimensions = (size: 'small' | 'medium' | 'large') => {
@@ -22,22 +23,27 @@ const getSizeDimensions = (size: 'small' | 'medium' | 'large') => {
     }
 };
 
-const Stats = ({ value, label, size }: StatsProps) => {
+const Stats = ({ value, label, size, empty }: StatsProps) => {
     const { cardWidth, cardHeight, progressRadius, strokeWidth, fontSize } = getSizeDimensions(size);
 
     return (
         <View style={[styles.box, { width: cardWidth, height: cardHeight }]}>
-            <CircularProgress
-                value={value}
-                duration={2000}
-                inActiveStrokeOpacity={0.5}
-                activeStrokeWidth={strokeWidth}
-                inActiveStrokeWidth={strokeWidth}
-                activeStrokeColor={'#3960A8'}
-                inActiveStrokeColor={'#C2D0EA'}
-                maxValue={100}
-                radius={progressRadius}
-            />
+            {empty ? (
+                <Text style={[styles.label, { fontSize }]}>No data</Text>
+            ) : (
+                <CircularProgress
+                    value={value}
+                    duration={2000}
+                    inActiveStrokeOpacity={0.5}
+                    activeStrokeWidth={strokeWidth}
+                    inActiveStrokeWidth={strokeWidth}
+                    activeStrokeColor={'#3960A8'}
+                    inActiveStrokeColor={'#C2D0EA'}
+                    maxValue={100}
+                    radius={progressRadius}
+                />
+            )}
+
             <Text style={[styles.label, { fontSize }]}>{label}</Text>
         </View>
     );

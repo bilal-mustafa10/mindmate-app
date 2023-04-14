@@ -5,7 +5,6 @@ import { RectButton } from 'react-native-gesture-handler';
 import { ReflectionCard } from './ReflectionCard';
 import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
-import AddReflectionScreen from '../screens/(journal)/AddReflectionScreen';
 import SectionHeader from './SectionHeader';
 import MoodCard from './MoodCard';
 
@@ -106,14 +105,11 @@ export function CalendarComponent<T extends DataProps>({
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
 
-    const [addReflectionModal, setAddReflectionModal] = useState(false);
-
     const handleAddNavigation = () => {
         if (type === 'mood') {
             navigation.navigate('MoodScreen');
         } else {
             navigation.navigate('AddReflectionScreen');
-            setAddReflectionModal(true);
         }
     };
 
@@ -171,9 +167,6 @@ export function CalendarComponent<T extends DataProps>({
         );
     };
 
-    // Todo: Voice-to-Text Input
-    // Todo: Reflection Tags: Allow users to add tags to their reflections, which can help them categorize and search for specific topics later.
-
     return (
         <>
             <View style={styles.container}>
@@ -193,26 +186,17 @@ export function CalendarComponent<T extends DataProps>({
                         {selectedDateData.length === 0 ? (
                             <Text style={styles.noDataText}>No data for the selected date.</Text>
                         ) : (
-                            selectedDateData.map((data, index) =>
+                            selectedDateData.map((data) =>
                                 type === 'mood' ? (
-                                    <MoodCard key={`mood-${index}`} moodData={data as IMoodDataProps} />
+                                    <MoodCard key={data.id} moodData={data as IMoodDataProps} />
                                 ) : (
-                                    <ReflectionCard
-                                        key={`reflection-${index}`}
-                                        reflectionData={data as IReflectionDataProps}
-                                    />
+                                    <ReflectionCard key={data.id} reflectionData={data as IReflectionDataProps} />
                                 )
                             )
                         )}
                     </View>
                 )}
             </View>
-            <>
-                {type === 'reflection' && addReflectionModal && (
-                    /*<AddReflectionScreen onClose={() => setAddReflectionModal(false)} />*/
-                    <AddReflectionScreen />
-                )}
-            </>
         </>
     );
 }

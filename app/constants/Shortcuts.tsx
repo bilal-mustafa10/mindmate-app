@@ -1,7 +1,7 @@
-import {RootStackParamList} from '../navigation/types';
+import { RootStackParamList } from '../navigation/types';
 
 export interface IShortcut {
-    id: number,
+    id: number;
     name: string;
     logo: any;
     navigateTo: keyof RootStackParamList;
@@ -12,25 +12,24 @@ export const shortcuts: IShortcut[] = [
         id: 1,
         name: 'Moodify Your Journal',
         logo: require('../assets/images/shortcuts/add-mood.png'),
-        navigateTo: 'MoodScreen'
+        navigateTo: 'MoodScreen',
     },
     {
         id: 2,
         name: 'Daily Mental Health Boost',
         logo: require('../assets/images/shortcuts/mental-health-boost.png'),
-        navigateTo: 'Root'
+        navigateTo: 'DailyResource',
     },
     {
         id: 3,
         name: 'Mindfulness',
         logo: require('../assets/images/shortcuts/mindfulness.png'),
-        navigateTo: 'Root'
+        navigateTo: 'Root',
     },
     {
         id: 4,
-        name: 'Mindfulness',
-        logo: require('../assets/images/shortcuts/mindfulness.png'),
-        navigateTo: 'Root'
-    }
+        name: 'Self Reflection Journal',
+        logo: require('../assets/images/shortcuts/self-reflection-journal.png'),
+        navigateTo: 'AddReflectionScreen',
+    },
 ];
-

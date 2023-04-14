@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { View } from '../../components/Themed';
 import { styles, theme } from '../../constants/Theme';
 import { ScrollView, TouchableOpacity } from 'react-native';
@@ -9,20 +10,57 @@ import { RootState } from '../../services/redux/store';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 import SectionHeader from '../../components/SectionHeader';
+import { RealmContext } from '../../services/realm/config';
+import { Stat } from '../../constants/Stats';
 
 export default function MindverseScreen({ navigation }: RootStackScreenProps<'Root'>) {
     const { results: resourceResults } = useSelector((state: RootState) => state.resources);
     const { results: assessmentResults } = useSelector((state: RootState) => state.assessment);
+    const [userStats, setUserStats] = useState([]);
+    const stats = RealmContext.useQuery('UserStat');
+    const assessment = RealmContext.useQuery('UserAssessment');
+
+    useEffect(() => {
+        const currentUserStats = Stat.filter((shortcut) =>
+            stats.some((userStat) => userStat['stat_id'] === shortcut.id)
+        );
+
+        setUserStats(currentUserStats);
+    }, [stats]);
+
+    console.log('userStats', userStats);
 
     return (
         <>
             <Header title={'Mindverse'} />
             <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
-                <SectionHeader title="MindStats" buttonText="edit" onButtonPress={() => navigation.navigate('Root')} />
+                <SectionHeader title="MindStats" />
                 <View style={styles.mindStatsContainer}>
-                    <Stats value={80} label={'Mental Health'} size={'small'} />
-                    <Stats value={12} label={'Anxiety'} size={'small'} />
-                    <Stats value={20} label={'Depression'} size={'small'} />
+                    {userStats &&
+                        userStats.length > 0 &&
+                        userStats.map((stat) => {
+                            const thirtyDaysAgo = new Date();
+                            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+                            const relevantAssessments = assessment.filter(
+                                (assmt) => assmt['type'] === stat.name && new Date(assmt['date']) >= thirtyDaysAgo
+                            );
+
+                            const averageScore =
+                                relevantAssessments.length > 0
+                                    ? relevantAssessments.reduce((sum, assmt) => sum + assmt['score'], 0) /
+                                      relevantAssessments.length
+                                    : 0;
+                            return (
+                                <Stats
+                                    key={stat.id}
+                                    value={averageScore}
+                                    label={stat.name}
+                                    size={'small'}
+                                    empty={relevantAssessments.length === 0}
+                                />
+                            );
+                        })}
                 </View>
 
                 <SectionHeader title="Journals" />

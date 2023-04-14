@@ -32,7 +32,6 @@ export default function AddMoodScreen({ navigation }: RootStackScreenProps<'Mood
             return;
         }
         const date = new Date();
-        date.setHours(date.getHours() + 1);
         realm.write(() => {
             const userMood = {
                 _id: new Realm.BSON.UUID(),

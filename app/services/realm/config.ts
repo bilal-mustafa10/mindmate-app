@@ -7,6 +7,7 @@ import UserData from './models/UserData';
 import UserReflection from './models/UserReflection';
 import Photo from './models/Photo';
 import UserAssessment from './models/UserAssessment';
+import UserStat from './models/UserStat';
 export const RealmContext = createRealmContext({
     schema: [
         UserShortcut,
@@ -17,6 +18,7 @@ export const RealmContext = createRealmContext({
         UserReflection,
         Photo,
         UserAssessment,
+        UserStat,
     ],
-    schemaVersion: 18,
+    schemaVersion: 19,
 });

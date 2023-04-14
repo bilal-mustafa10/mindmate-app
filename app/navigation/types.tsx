@@ -30,6 +30,7 @@ export type RootStackParamList = {
     EditShortcuts: undefined;
     Introduction: { userId: number };
     ViewActivity: { activity: ActivityResults; isCompleted: boolean };
+    DailyResource: undefined;
 };
 
 export type RootStackScreenProps<Screen extends keyof RootStackParamList> = NativeStackScreenProps<
