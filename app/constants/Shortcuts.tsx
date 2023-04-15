@@ -29,7 +29,7 @@ export const shortcuts: IShortcut[] = [
     {
         id: 4,
         name: 'Self Reflection Journal',
-        logo: require('../assets/images/shortcuts/self-reflection-journal.png'),
+        logo: require('../assets/images/shortcuts/mind-mapping.png'),
         navigateTo: 'AddReflectionScreen',
     },
 ];

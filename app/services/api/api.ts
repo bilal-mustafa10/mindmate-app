@@ -3,7 +3,7 @@ import axios from 'axios';
 import { logout } from './authEndpoints';
 
 const BASE_URL = 'http://127.0.0.1:8000/api';
-//const BASE_URL = 'https://4546-2a00-23ee-1470-990d-e96a-7e83-93ab-447d.eu.ngrok.io/api';
+// const BASE_URL = 'http://eu-west-2.eba-t9bysaac.eu-west-2.elasticbeanstalk.com/api';
 export const axiosInstance = axios.create({ baseURL: BASE_URL });
 
 const requestRefresh: TokenRefreshRequest = async (refreshToken: string): Promise<AuthTokens | string> => {
