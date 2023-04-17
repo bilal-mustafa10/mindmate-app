@@ -119,7 +119,7 @@ const style = StyleSheet.create({
         paddingBottom: '10%',
         paddingHorizontal: 24,
         paddingTop: 24,
-        shadowColor: '#000',
+        shadowColor: theme.colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 1,

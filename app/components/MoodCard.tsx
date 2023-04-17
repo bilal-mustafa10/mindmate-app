@@ -58,7 +58,7 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
 
     const shareToHub = useCallback(async () => {
         const hub_id = await addToHub(
-            1,
+            user,
             'mood',
             new Date().toISOString(),
             null,

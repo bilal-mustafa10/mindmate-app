@@ -20,12 +20,12 @@ export const shortcuts: IShortcut[] = [
         logo: require('../assets/images/shortcuts/mental-health-boost.png'),
         navigateTo: 'DailyResource',
     },
-    {
+    /*{
         id: 3,
         name: 'Mindfulness',
         logo: require('../assets/images/shortcuts/mindfulness.png'),
         navigateTo: 'Root',
-    },
+    },*/
     {
         id: 4,
         name: 'Self Reflection Journal',

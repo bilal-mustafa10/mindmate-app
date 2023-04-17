@@ -11,7 +11,6 @@ import ActivitiesScreen from '../screens/(tabs)/ActivitiesScreen';
 import HubScreen from '../screens/(tabs)/HubScreen';
 import MindverseScreen from '../screens/(tabs)/MindverseScreen';
 import { theme } from '../constants/Theme';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import ViewActivityScreen from '../screens/(activity)/ViewActivityScreen';
 import ActivityCompleted from '../screens/(activity)/ActivityCompleted';
 import AddMoodScreen from '../screens/(journal)/AddMoodScreen';
@@ -27,6 +26,7 @@ import ViewAssessmentScreen from '../screens/(assessments)/ViewAssessmentScreen'
 import AssessmentInfoScreen from '../screens/(assessments)/AssessmentInfoScreen';
 import AssessmentCompleted from '../screens/(assessments)/AssessmentCompleted';
 import DailyResourceScreen from '../screens/(resources)/DailyResourceScreen';
+import { Dimensions, View, Text } from 'react-native';
 
 export default function Navigation() {
     return (
@@ -152,7 +152,9 @@ const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
 function BottomTabNavigator({ route }: { route: unknown }) {
     const routeName = getFocusedRouteNameFromRoute(route);
-    const insets = useSafeAreaInsets();
+
+    // Determine suitable icon size and padding based on screen width
+    const iconSize = 32;
 
     const activeTabLabelStyle = {
         ...theme.typography.BodyBold,
@@ -164,8 +166,8 @@ function BottomTabNavigator({ route }: { route: unknown }) {
         fontSize: 10,
     };
 
-    const tabBarIcon = (iconName: any, focused: boolean, color: string) => (
-        <Ionicons name={focused ? iconName : iconName + '-outline'} size={28} color={color} />
+    const tabBarIcon = (iconName, focused, color, size) => (
+        <Ionicons name={focused ? iconName : iconName + '-outline'} size={size} color={color} />
     );
 
     return (
@@ -175,27 +177,10 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 tabBarActiveTintColor: theme.colors.primary,
                 tabBarInactiveTintColor: '#000',
                 tabBarShowLabel: true,
-                tabBarStyle: {
-                    borderTopRightRadius: 20,
-                    borderTopLeftRadius: 20,
-                    paddingTop: 10,
-                    paddingBottom: insets.bottom - 10,
-                    paddingHorizontal: 10,
-                    height: 50 + insets.bottom,
-                    backgroundColor: '#fff',
-                    borderTopColor: '#fff',
-                    marginBottom: 0,
-                    elevation: 5,
-                    shadowColor: '#000',
-                    shadowOffset: {
-                        width: 0,
-                        height: 2,
-                    },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 3.84,
-                },
                 tabBarLabelStyle: inactiveTabLabelStyle,
-                tabBarLabelPosition: 'below-icon',
+                tabBarStyle: {
+                    paddingBottom: 20,
+                },
             }}
         >
             <BottomTab.Screen
@@ -204,7 +189,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'MindMate' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({ color, focused }) => tabBarIcon('cloud', focused, color),
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('cloud', focused, color, iconSize),
                 })}
             />
             <BottomTab.Screen
@@ -213,7 +198,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'Activities' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({ color, focused }) => tabBarIcon('compass', focused, color),
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('compass', focused, color, iconSize),
                 })}
             />
             <BottomTab.Screen
@@ -222,7 +207,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'Hub' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({ color, focused }) => tabBarIcon('people', focused, color),
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('people', focused, color, iconSize),
                 })}
             />
             <BottomTab.Screen
@@ -231,7 +216,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 options={() => ({
                     headerShown: false,
                     tabBarLabelStyle: routeName === 'Mindverse' ? activeTabLabelStyle : inactiveTabLabelStyle,
-                    tabBarIcon: ({ color, focused }) => tabBarIcon('heart', focused, color),
+                    tabBarIcon: ({ color, focused }) => tabBarIcon('heart', focused, color, iconSize),
                 })}
             />
         </BottomTab.Navigator>

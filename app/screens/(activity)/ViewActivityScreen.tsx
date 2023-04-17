@@ -26,6 +26,7 @@ type Props = {
 export default function ViewActivityScreen({ navigation, route }: Props) {
     const insets = useSafeAreaInsets();
     const realm = RealmContext.useRealm();
+    const user = RealmContext.useQuery('UserData')[0]['username'];
     const { activity, isCompleted } = route.params;
     const [images, setImages] = useState<Photo[]>([]);
     const [activityFavourite, setActivityFavourite] = useState<boolean>(false);
@@ -80,7 +81,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
         const images_id = await uploadImages();
 
         return await addToHub(
-            1,
+            user,
             'activity',
             new Date().toISOString(),
             activity.id,

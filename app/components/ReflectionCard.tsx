@@ -50,7 +50,7 @@ export const ReflectionCard: React.FC<ReflectionCardProps> = ({ reflectionData }
 
     const shareToHub = useCallback(async () => {
         const hub_id = await addToHub(
-            1,
+            user,
             'reflection',
             new Date().toISOString(),
             null,

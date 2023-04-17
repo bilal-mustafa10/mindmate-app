@@ -23,6 +23,7 @@ export const addPhoto = async (uri: string, name: string) => {
 
     try {
         const response = await axiosInstance.post('/images/', formData, config);
+        console.log('response: ', response);
         return response.data.id;
     } catch (e) {
         console.log(e.response);
