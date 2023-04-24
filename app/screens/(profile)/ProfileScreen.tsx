@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, ScrollView } from 'react-native';
+import { View, Text, ScrollView } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import UserAvatar from 'react-native-user-avatar';
-import { Ionicons } from '@expo/vector-icons';
-
-import { styles as globalStyles, theme } from '../../constants/Theme';
+import { styles, theme } from '../../constants/Theme';
 import { RootStackParamList } from '../../navigation/types';
 import { Button } from '../../components/Button';
 import { Input } from '../../components/Input';
@@ -20,18 +17,24 @@ type Props = {
 };
 
 export default function ProfileScreen({ navigation, route }: Props) {
+    const realm = RealmContext.useRealm();
     const user = RealmContext.useObject('UserData', route.params.id);
-    console.log(user);
-
     const [firstName, setFirstName] = useState(route.params.firstName);
     const [lastName, setLastName] = useState(route.params.lastName);
+
+    React.useEffect(() => {
+        if (user) {
+            realm.write(() => {
+                user['first_name'] = firstName;
+                user['last_name'] = lastName;
+            });
+        }
+    }, [firstName, lastName, realm, user]);
 
     const handleLogout = async () => {
         await logout();
         navigation.navigate('LandingPage');
     };
-
-    // TODO: add header styles.  maincontainer, paddingHorizontal
 
     return (
         <>
@@ -44,14 +47,10 @@ export default function ProfileScreen({ navigation, route }: Props) {
                 showBackButton={true}
             />
 
-            <ScrollView contentContainerStyle={styles.container}>
-                {/*<View style={styles.avatarContainer}>
-                    <UserAvatar size={80} name={firstName + lastName} bgColor={'green'} />
-                    <Ionicons name="create-outline" size={20} color={'black'} style={styles.editIcon} />
-                </View>*/}
-                <View style={styles.personalDetailsContainer}>
-                    <Text style={theme.typography.bodyBold}>Personal Details</Text>
-                    <View style={styles.inputGroup}>
+            <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
+                <View style={styles.marginTopLarge}>
+                    <Text style={[theme.typography.bodyBold, styles.marginBottomSmall]}>Personal Details</Text>
+                    <View style={styles.marginBottomSmall}>
                         <Input
                             label={'First Name'}
                             keyboardType="default"
@@ -74,7 +73,7 @@ export default function ProfileScreen({ navigation, route }: Props) {
                     <View style={styles.disclaimerContainer}>
                         <Text style={styles.disclaimerText}>{fullDisclaimer}</Text>
                     </View>
-                    <Button type={'large'} onPress={handleLogout} color={'error'} style={styles.logoutButton}>
+                    <Button type={'large'} onPress={handleLogout} color={'error'}>
                         Logout
                     </Button>
                 </View>
@@ -82,50 +81,3 @@ export default function ProfileScreen({ navigation, route }: Props) {
         </>
     );
 }
-
-const styles = StyleSheet.create({
-    avatarContainer: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginBottom: theme.spacing.large,
-        position: 'relative',
-    },
-    container: {
-        ...globalStyles.container,
-        alignItems: 'center',
-        flex: 1,
-        justifyContent: 'flex-start',
-        padding: theme.spacing.medium,
-        paddingTop: theme.spacing.large,
-    },
-    disclaimerContainer: {
-        alignItems: 'center',
-        backgroundColor: theme.colors.transparentBackground,
-        borderRadius: 15,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20,
-        padding: 10,
-    },
-    disclaimerText: {
-        ...theme.typography.error,
-        textAlign: 'center',
-    },
-    editIcon: {
-        bottom: 0,
-        position: 'absolute',
-        right: -theme.spacing.small,
-    },
-    inputGroup: {
-        marginBottom: theme.spacing.medium,
-    },
-    logoutButton: {
-        marginTop: theme.spacing.medium,
-    },
-    personalDetailsContainer: {
-        marginBottom: theme.spacing.large,
-        paddingHorizontal: theme.spacing.small,
-        width: '100%',
-    },
-});

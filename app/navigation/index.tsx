@@ -26,6 +26,7 @@ import ViewAssessmentScreen from '../screens/(assessments)/ViewAssessmentScreen'
 import AssessmentInfoScreen from '../screens/(assessments)/AssessmentInfoScreen';
 import AssessmentCompleted from '../screens/(assessments)/AssessmentCompleted';
 import DailyResourceScreen from '../screens/(resources)/DailyResourceScreen';
+import EmergencyScreen from '../screens/(tabs)/EmergencyScreen';
 
 export default function Navigation() {
     return (
@@ -75,6 +76,7 @@ function RootNavigator() {
                 component={ActivityCompleted}
                 options={{ headerShown: false, gestureEnabled: true }}
             />
+            <Stack.Screen name={'EmergencyScreen'} component={EmergencyScreen} options={{ headerShown: false }} />
             <Stack.Screen
                 name="MoodScreen"
                 component={AddMoodScreen}

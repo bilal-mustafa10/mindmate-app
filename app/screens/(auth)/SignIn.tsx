@@ -111,7 +111,8 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     };
 
     const handlePin = async () => {
-        if (user.length === 0) {
+        console.log('Pin: ', pin);
+        if (user.length === 0 && pin.join('').length === 4) {
             const pinString = pin.join('');
             await PinManager.setPin(pinString);
             setPin(['', '', '', '']);
@@ -126,11 +127,19 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                     getAssessments(),
                 ]);
 
-                dispatch(setActivity(activities));
-                dispatch(setResources(resources));
-                dispatch(setAssessments(assessments));
-                setPin(['', '', '', '']);
+                if (activities !== null) {
+                    dispatch(setActivity(activities));
+                }
 
+                if (resources !== null) {
+                    dispatch(setResources(resources));
+                }
+
+                if (assessments !== null) {
+                    dispatch(setAssessments(assessments));
+                }
+
+                setPin(['', '', '', '']);
                 navigation.navigate('Root');
             } else {
                 setPinError(true);

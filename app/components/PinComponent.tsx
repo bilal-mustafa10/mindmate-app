@@ -26,6 +26,12 @@ export const PinComponent: React.FC<PinComponentProps> = ({
         }
     }, [error]);
 
+    useEffect(() => {
+        if (!setupMode && onComplete && pin.indexOf('') === -1) {
+            onComplete();
+        }
+    }, [pin]);
+
     const onKeyPressHandler = (value: string) => {
         error = false;
         const updatedPin = [...pin];
@@ -34,10 +40,6 @@ export const PinComponent: React.FC<PinComponentProps> = ({
         if (emptyIndex >= 0) {
             updatedPin[emptyIndex] = value;
             setPin(updatedPin);
-        }
-
-        if (updatedPin.indexOf('') === -1 && onComplete) {
-            onComplete();
         }
 
         onKeyPress(value);

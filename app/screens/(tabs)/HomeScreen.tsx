@@ -55,7 +55,7 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
                 avatarColor={avatarColor}
                 headerRight={require('../../assets/images/help.png')}
                 onHeaderRightPress={() => {
-                    console.log('');
+                    navigation.navigate('EmergencyScreen');
                 }}
                 onHeaderLeftPress={() => {
                     navigation.navigate('Profile', {
