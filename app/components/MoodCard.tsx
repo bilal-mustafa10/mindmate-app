@@ -19,9 +19,10 @@ export interface MoodCardProps {
         hub_id?: number;
         type: 'hub' | 'journal';
     };
+    onShare?: () => void;
 }
 
-const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
+const MoodCard: React.FC<MoodCardProps> = ({ moodData, onShare }) => {
     const realm = RealmContext.useRealm();
     const user = RealmContext.useQuery('UserData')[0]['username'];
     const [isLiked, setIsLiked] = useState(moodData.likes ? moodData.likes.includes(user) : false);
@@ -78,7 +79,8 @@ const MoodCard: React.FC<MoodCardProps> = ({ moodData }) => {
                 moodObject['hub_id'] = hub_id;
             });
         }
-    }, [moodObject, realm]);
+        onShare();
+    }, [moodData.mood, moodData.note, moodObject, onShare, realm, user]);
 
     const removeMoodFromHub = useCallback(async () => {
         await removeFromHub(moodData.hub_id);

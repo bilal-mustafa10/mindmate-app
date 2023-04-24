@@ -7,6 +7,7 @@ import { NavigationProp } from '@react-navigation/native';
 import { RootStackParamList } from '../navigation/types';
 import SectionHeader from './SectionHeader';
 import MoodCard from './MoodCard';
+import { AcknowledgmentToast } from './AcknowledgmentToast';
 
 export interface IMoodDataProps {
     id?: string;
@@ -104,6 +105,11 @@ export function CalendarComponent<T extends DataProps>({
     const [dates] = useState(getCalendarDates(earliestDate).reverse());
     const [selectedDate, setSelectedDate] = useState(currentDate);
     const [displayedMonth, setDisplayedMonth] = useState(currentMonth);
+    const [toastVisible, setToastVisible] = React.useState(false);
+
+    const onShare = () => {
+        setToastVisible(true);
+    };
 
     const handleAddNavigation = () => {
         if (type === 'mood') {
@@ -170,7 +176,21 @@ export function CalendarComponent<T extends DataProps>({
     return (
         <>
             <View style={styles.container}>
-                <SectionHeader title={displayedMonth} buttonText={`add ${type}`} onButtonPress={handleAddNavigation} />
+                {toastVisible ? (
+                    <AcknowledgmentToast
+                        message="Shared successfully!"
+                        visible={toastVisible}
+                        onDismiss={() => setToastVisible(false)}
+                        bgColor={theme.colors.secondary}
+                    />
+                ) : (
+                    <SectionHeader
+                        title={displayedMonth}
+                        buttonText={`add ${type}`}
+                        onButtonPress={handleAddNavigation}
+                    />
+                )}
+
                 <FlatList
                     horizontal
                     showsHorizontalScrollIndicator={false}
@@ -188,7 +208,7 @@ export function CalendarComponent<T extends DataProps>({
                         ) : (
                             selectedDateData.map((data) =>
                                 type === 'mood' ? (
-                                    <MoodCard key={data.id} moodData={data as IMoodDataProps} />
+                                    <MoodCard key={data.id} moodData={data as IMoodDataProps} onShare={onShare} />
                                 ) : (
                                     <ReflectionCard key={data.id} reflectionData={data as IReflectionDataProps} />
                                 )
