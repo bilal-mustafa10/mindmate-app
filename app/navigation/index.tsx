@@ -181,7 +181,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 tabBarLabelStyle: inactiveTabLabelStyle,
                 tabBarStyle: {
                     paddingBottom: 20,
-                    paddingHorizontal: 15,
+                    paddingHorizontal: 5,
                 },
             }}
         >
