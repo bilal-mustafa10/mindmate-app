@@ -8,6 +8,7 @@ import ActivityCard from '../../components/ActivityCard';
 import MoodCard from '../../components/MoodCard';
 import { IMoodDataProps, IReflectionDataProps } from '../../components/CalendarComponent';
 import { ReflectionCard } from '../../components/ReflectionCard';
+import { disclamerMessage } from '../../constants/disclamer';
 
 export default function HubScreen() {
     const [hubData, setHubData] = useState<IHubData>(null);
@@ -86,10 +87,16 @@ export default function HubScreen() {
                             return <ReflectionCard key={data.id} reflectionData={reflectionData} />;
                         }
                     })}
+                    <View style={styles.disclaimerContainer}>
+                        <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                    </View>
                 </ScrollView>
             ) : (
                 <View style={styles.noDataContainer}>
                     <Text style={theme.typography.SubHeading}>No Data</Text>
+                    <View style={styles.disclaimerContainer}>
+                        <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                    </View>
                 </View>
             )}
         </>

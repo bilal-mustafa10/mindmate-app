@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View } from '../../components/Themed';
 import { styles, theme } from '../../constants/Theme';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity } from 'react-native';
 import { RootStackScreenProps } from '../../navigation/types';
 import JournalComponent from '../../components/JournalComponent';
 import Stats from '../../components/StatsComponent';
@@ -12,6 +12,7 @@ import Header from '../../components/Header';
 import SectionHeader from '../../components/SectionHeader';
 import { RealmContext } from '../../services/realm/config';
 import { Stat } from '../../constants/Stats';
+import { disclamerMessage } from '../../constants/disclamer';
 
 export default function MindverseScreen({ navigation }: RootStackScreenProps<'Root'>) {
     const { results: resourceResults } = useSelector((state: RootState) => state.resources);
@@ -136,6 +137,9 @@ export default function MindverseScreen({ navigation }: RootStackScreenProps<'Ro
                             );
                         })}
                 </ScrollView>
+                <View style={styles.disclaimerContainer}>
+                    <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                </View>
             </ScrollView>
         </>
     );

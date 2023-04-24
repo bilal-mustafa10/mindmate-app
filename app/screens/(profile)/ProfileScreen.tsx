@@ -12,6 +12,7 @@ import { logout } from '../../services/api/authEndpoints';
 import { RouteProp } from '@react-navigation/native';
 import Header from '../../components/Header';
 import { RealmContext } from '../../services/realm/config';
+import { fullDisclaimer } from '../../constants/disclamer';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'Profile'>;
@@ -44,10 +45,10 @@ export default function ProfileScreen({ navigation, route }: Props) {
             />
 
             <ScrollView contentContainerStyle={styles.container}>
-                <View style={styles.avatarContainer}>
+                {/*<View style={styles.avatarContainer}>
                     <UserAvatar size={80} name={firstName + lastName} bgColor={'green'} />
                     <Ionicons name="create-outline" size={20} color={'black'} style={styles.editIcon} />
-                </View>
+                </View>*/}
                 <View style={styles.personalDetailsContainer}>
                     <Text style={theme.typography.bodyBold}>Personal Details</Text>
                     <View style={styles.inputGroup}>
@@ -69,6 +70,9 @@ export default function ProfileScreen({ navigation, route }: Props) {
                             autoCapitalize="none"
                             autoCorrect={false}
                         />
+                    </View>
+                    <View style={styles.disclaimerContainer}>
+                        <Text style={styles.disclaimerText}>{fullDisclaimer}</Text>
                     </View>
                     <Button type={'large'} onPress={handleLogout} color={'error'} style={styles.logoutButton}>
                         Logout
@@ -94,6 +98,19 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         padding: theme.spacing.medium,
         paddingTop: theme.spacing.large,
+    },
+    disclaimerContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
+        borderRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 20,
+        padding: 10,
+    },
+    disclaimerText: {
+        ...theme.typography.error,
+        textAlign: 'center',
     },
     editIcon: {
         bottom: 0,

@@ -8,6 +8,8 @@ import { RouteProp } from '@react-navigation/native';
 import Stats from '../../components/StatsComponent';
 import { ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { disclamerMessage } from '../../constants/disclamer';
+import React from 'react';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'AssessmentCompleted'>;
@@ -20,7 +22,11 @@ export default function AssessmentCompleted({ navigation, route }: Props) {
     return (
         <>
             <ScrollView
-                contentContainerStyle={[styles.mainContainer, { paddingTop: insets.top * 2 }, styles.paddingHorizontal]}
+                contentContainerStyle={[
+                    styles.mainContainer,
+                    { paddingTop: insets.top * 1.5 },
+                    styles.paddingHorizontal,
+                ]}
             >
                 <View style={styles.primaryBackground}>
                     <FastImage
@@ -38,7 +44,7 @@ export default function AssessmentCompleted({ navigation, route }: Props) {
                     >
                         Congratulations! You have successfully completed the mental wellbeing assessment.
                     </Text>
-                    <View style={{ alignSelf: 'center', paddingVertical: '5%', backgroundColor: 'transparent' }}>
+                    <View style={{ alignSelf: 'center', paddingVertical: '0%', backgroundColor: 'transparent' }}>
                         <Stats value={tScore} label={'Assessment Score'} size={'large'} />
                     </View>
 
@@ -46,6 +52,9 @@ export default function AssessmentCompleted({ navigation, route }: Props) {
                         Your result is <Text style={theme.typography.TextSemiBold}>{result}</Text>, which is determined
                         by comparing your assessment score to the established cut-off scores for this assessment.
                     </Text>
+                </View>
+                <View style={styles.disclaimerContainer}>
+                    <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
                 </View>
             </ScrollView>
             <View style={styles.buttonBottomStyle}>

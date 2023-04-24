@@ -2,12 +2,13 @@ import React, { useRef, useState } from 'react';
 import { ScrollView, Text, View, StyleSheet, Dimensions } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../navigation/types';
-import { theme } from '../../constants/Theme';
+import { styles, theme } from '../../constants/Theme';
 import HTMLView from 'react-native-htmlview';
 import { Button } from '../../components/Button';
 import * as Progress from 'react-native-progress';
 import { RouteProp } from '@react-navigation/native';
 import Header from '../../components/Header';
+import { disclamerMessage } from '../../constants/disclamer';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewActivity'>;
@@ -61,26 +62,31 @@ export default function ViewResourceScreen({ navigation, route }: Props) {
                 {content.map((_, index) => {
                     const { title, description } = content[index].value;
                     return (
-                        <View key={title} style={{ width, height }}>
-                            <View style={style.progressBarContainer}>
-                                <Progress.Bar
-                                    height={30}
-                                    progress={(index + 1) / content.length}
-                                    color={theme.colors.secondary}
-                                    unfilledColor={'#E5E5E5'}
-                                    borderWidth={0}
-                                    borderRadius={10}
-                                    width={screenWidth}
-                                />
-                            </View>
+                        <>
+                            <View key={title} style={{ width, height }}>
+                                <View style={style.progressBarContainer}>
+                                    <Progress.Bar
+                                        height={30}
+                                        progress={(index + 1) / content.length}
+                                        color={theme.colors.secondary}
+                                        unfilledColor={'#E5E5E5'}
+                                        borderWidth={0}
+                                        borderRadius={10}
+                                        width={screenWidth}
+                                    />
+                                </View>
 
-                            <View style={style.cardContainer}>
-                                <View style={style.card}>
-                                    <Text style={style.cardTitle}>{title}</Text>
-                                    <HTMLView value={description} stylesheet={htmlViewResourceStyle} />
+                                <View style={style.cardContainer}>
+                                    <View style={style.card}>
+                                        <Text style={style.cardTitle}>{title}</Text>
+                                        <HTMLView value={description} stylesheet={htmlViewResourceStyle} />
+                                    </View>
+                                    <View style={styles.disclaimerContainer}>
+                                        <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                                    </View>
                                 </View>
                             </View>
-                        </View>
+                        </>
                     );
                 })}
             </ScrollView>

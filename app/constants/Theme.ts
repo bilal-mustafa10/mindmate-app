@@ -155,6 +155,19 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingHorizontal: '10%',
     },
+    disclaimerContainer: {
+        alignItems: 'center',
+        backgroundColor: theme.colors.transparentBackground,
+        borderRadius: 15,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginVertical: 20,
+        padding: 10,
+    },
+    disclaimerText: {
+        ...theme.typography.error,
+        textAlign: 'center',
+    },
     emptyShortcutContainer: {
         alignItems: 'center',
         backgroundColor: theme.colors.secondaryBackground,

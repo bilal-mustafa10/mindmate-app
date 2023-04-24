@@ -5,7 +5,7 @@ import InspirationBoxComponent from '../../components/InspirationComponent';
 import { shortcuts } from '../../constants/Shortcuts';
 import ShortcutComponent from '../../components/ShortcutComponent';
 import RecommendedActivity from '../../components/RecommendedActivity';
-import { ScrollView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { quotes } from '../../constants/quotes';
 import { RealmContext } from '../../services/realm/config';
 import { useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { RootState } from '../../services/redux/store';
 import Header from '../../components/Header';
 import SectionHeader from '../../components/SectionHeader';
 import TextInput from '../../components/TextInput';
+import { disclamerMessage } from '../../constants/disclamer';
 
 const { useQuery } = RealmContext;
 export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>) {
@@ -99,6 +100,9 @@ export default function HomeScreen({ navigation }: RootStackScreenProps<'Root'>)
                 <ShortcutComponent shortcuts={userShortcuts} navigation={navigation} />
                 <SectionHeader title="Recommended Activities" />
                 <RecommendedActivity activities={results} navigation={navigation} />
+                <View style={styles.disclaimerContainer}>
+                    <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                </View>
             </ScrollView>
         </>
     );

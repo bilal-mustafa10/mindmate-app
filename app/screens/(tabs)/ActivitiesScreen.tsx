@@ -1,4 +1,4 @@
-import { ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/redux/store';
 import Card from '../../components/Card';
@@ -9,6 +9,7 @@ import { useState } from 'react';
 import Header from '../../components/Header';
 import { ActivityResults } from '../../services/redux/activitySlice';
 import SectionHeader from '../../components/SectionHeader';
+import { disclamerMessage } from '../../constants/disclamer';
 
 const { useQuery } = RealmContext;
 
@@ -92,6 +93,9 @@ export default function ActivitiesScreen({ navigation }: RootStackScreenProps<'R
             />
             <ScrollView style={[styles.mainContainer, styles.activityPadding]} showsVerticalScrollIndicator={false}>
                 {Object.entries(activitiesByTag).map(([tag, activities]) => renderActivities(tag, activities))}
+                <View style={styles.disclaimerContainer}>
+                    <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                </View>
             </ScrollView>
         </>
     );

@@ -20,5 +20,5 @@ export const RealmContext = createRealmContext({
         UserAssessment,
         UserStat,
     ],
-    schemaVersion: 1,
+    schemaVersion: 19,
 });

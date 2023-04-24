@@ -26,7 +26,6 @@ import ViewAssessmentScreen from '../screens/(assessments)/ViewAssessmentScreen'
 import AssessmentInfoScreen from '../screens/(assessments)/AssessmentInfoScreen';
 import AssessmentCompleted from '../screens/(assessments)/AssessmentCompleted';
 import DailyResourceScreen from '../screens/(resources)/DailyResourceScreen';
-import { Dimensions, View, Text } from 'react-native';
 
 export default function Navigation() {
     return (

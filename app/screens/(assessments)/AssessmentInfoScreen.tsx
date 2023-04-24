@@ -12,6 +12,7 @@ import { RealmContext } from '../../services/realm/config';
 import { Button } from '../../components/Button';
 import AssessmentCard from '../../components/AssessmentCard';
 import { getFormattedDate, getFormattedTime } from '../../services/formatDate';
+import { disclamerMessage } from '../../constants/disclamer';
 
 type Props = {
     navigation: NativeStackNavigationProp<RootStackParamList, 'ViewAssessment'>;
@@ -38,6 +39,9 @@ export default function AssessmentInfoScreen({ navigation, route }: Props) {
             <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]}>
                 <SectionHeader title="About" />
                 <HTMLView stylesheet={htmlViewStyle} value={assessment.instructions} />
+                <View style={styles.disclaimerContainer}>
+                    <Text style={styles.disclaimerText}>{disclamerMessage}</Text>
+                </View>
                 <SectionHeader title="Recent Assessments" />
                 <View style={styles.paddingBottomLarge}>
                     {userAssessment.length > 0 ? (
