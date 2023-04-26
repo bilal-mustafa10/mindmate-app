@@ -2,7 +2,7 @@
   "expo": {
     "name": "mindmate",
     "slug": "mindmate",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "orientation": "portrait",
     "icon": "./app/assets/images/main_icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.bmustafa.mindmate",
-      "buildNumber": "2.0.0",
+      "buildNumber": "3",
       "infoPlist": {
         "NSCameraUsageDescription": "Mindmate needs camera access to capture photos of your activities, which can then be added to your memories.",
         "NSPhotoLibraryUsageDescription": "Mindmate requires access to your photo library so you can select and add photos to the memories of the activities you're doing."
@@ -32,6 +32,11 @@
     },
     "web": {
       "favicon": "app/assets/images/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "a5233b2e-c982-412b-8bf2-efb9716019ea"
+      }
     }
   }
 }

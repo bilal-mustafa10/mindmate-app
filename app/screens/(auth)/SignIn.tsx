@@ -33,8 +33,8 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     const dispatch = useDispatch();
     const insets = useSafeAreaInsets();
     const [userId, setUserId] = useState(0);
-    const [username, setUsername] = useState({ value: 'bilalmustafa', error: '' });
-    const [password, setPassword] = useState({ value: 'Global1234@', error: '' });
+    const [username, setUsername] = useState({ value: '', error: '' });
+    const [password, setPassword] = useState({ value: '', error: '' });
     const [pin, setPin] = useState(['', '', '', '']);
     const [showError, setShowError] = useState(false);
     const user = RealmContext.useQuery('UserData');
@@ -42,8 +42,8 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
     const [pinError, setPinError] = useState(false);
 
     useEffect(() => {
-        setUsername({ value: 'bilalmustafa', error: '' });
-        setPassword({ value: 'Global1234@', error: '' });
+        setUsername({ value: '', error: '' });
+        setPassword({ value: '', error: '' });
         setShowError(false);
     }, []);
 
