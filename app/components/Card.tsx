@@ -26,9 +26,9 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
         if (type === 'large') {
             return screenWidth * 0.445;
         } else if (type === 'medium') {
-            return screenWidth * 0.38;
+            return screenWidth * 0.4;
         } else if (type === 'small') {
-            return screenWidth * 0.29;
+            return screenWidth * 0.32;
         } else if (type === 'empty') {
             return screenWidth * 0.8;
         }
@@ -38,11 +38,11 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
         if (height) return height;
 
         if (type === 'large') {
-            return screenWidth * 0.32;
+            return screenWidth * 0.36;
         } else if (type === 'medium') {
-            return screenWidth * 0.32;
+            return screenWidth * 0.36;
         } else if (type === 'small') {
-            return screenWidth * 0.3;
+            return screenWidth * 0.32;
         } else if (type === 'empty') {
             return screenWidth * 0.8;
         }
@@ -56,7 +56,7 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
         } else if (type === 'medium') {
             sizeRatio = 0.4;
         } else if (type === 'small') {
-            sizeRatio = 0.35;
+            sizeRatio = 0.38;
         }
 
         const sizeByWidth = cardWidth * sizeRatio;
@@ -118,16 +118,27 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
 const styles = StyleSheet.create({
     activityBox: {
         borderRadius: 15,
-        borderWidth: 1.5,
+        borderWidth: 2,
+        elevation: 4,
+        justifyContent: 'space-around',
         marginHorizontal: baseWidth * 0.012,
+        shadowColor: theme.colors.shadowColor,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.23,
+        shadowRadius: 2.62,
     },
     activityTitle: {
         ...theme.typography.CardText,
     },
     imageContainer: {
         alignItems: 'flex-start',
+        // backgroundColor: 'red',
         justifyContent: 'flex-start',
-        padding: baseWidth * 0.03,
+        paddingHorizontal: baseWidth * 0.03,
+        paddingVertical: baseWidth * 0.04,
     },
     textContainer: {
         justifyContent: 'flex-end',
