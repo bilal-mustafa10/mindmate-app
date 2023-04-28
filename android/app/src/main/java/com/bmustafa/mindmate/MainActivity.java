@@ -1,4 +1,4 @@
-package com.mindmate;
+package com.bmustafa.mindmate;
 
 import android.os.Build;
 import android.os.Bundle;
