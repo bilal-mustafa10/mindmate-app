@@ -155,7 +155,7 @@ function BottomTabNavigator({ route }: { route: unknown }) {
     const routeName = getFocusedRouteNameFromRoute(route);
 
     // Determine suitable icon size and padding based on screen width
-    const iconSize = 32;
+    const iconSize = 28;
 
     const activeTabLabelStyle = {
         ...theme.typography.BodyBold,
@@ -179,10 +179,10 @@ function BottomTabNavigator({ route }: { route: unknown }) {
                 tabBarInactiveTintColor: '#000',
                 tabBarShowLabel: true,
                 tabBarLabelStyle: inactiveTabLabelStyle,
-                tabBarStyle: {
+                /*tabBarStyle: {
                     paddingBottom: 20,
                     paddingHorizontal: 5,
-                },
+                },*/
             }}
         >
             <BottomTab.Screen

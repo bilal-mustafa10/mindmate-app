@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity, Dimensions, Modal, StyleSheet, ActivityIndicator } from 'react-native';
+import { View, TouchableOpacity, Dimensions, Modal, StyleSheet, ActivityIndicator, Platform } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -90,9 +90,15 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                     <View style={styles.actionContainer}>
                         {!completed && (
                             <>
-                                <TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
-                                    <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
-                                </TouchableOpacity>
+                                {Platform.OS === 'ios' && (
+                                    <TouchableOpacity
+                                        style={styles.actionButton}
+                                        onPress={() => openPhotoEditor(index)}
+                                    >
+                                        <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
+                                    </TouchableOpacity>
+                                )}
+
                                 {showDelete && (
                                     <TouchableOpacity style={styles.actionButton} onPress={() => onDeleteImage(index)}>
                                         <Ionicons name={'trash-outline'} size={24} color={theme.colors.primary} />
@@ -156,8 +162,6 @@ const styles = StyleSheet.create({
     actionButton: {
         alignItems: 'center',
         backgroundColor: theme.colors.whiteBackground,
-        borderRadius: 20,
-        elevation: 3,
         flexDirection: 'row',
         marginRight: 10,
         paddingHorizontal: 10,
