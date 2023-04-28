@@ -38,7 +38,7 @@ export default function AllResourcesScreen({ navigation }: RootStackScreenProps<
                                 >
                                     <Card
                                         key={resource.id}
-                                        type={'small'}
+                                        type={'large'}
                                         borderColor={theme.card_theme[index % 3]}
                                         logo={resource.logo}
                                         title={resource.title}

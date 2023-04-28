@@ -76,7 +76,6 @@ export const theme = {
 
 // colors used in the icons : #F0DEFF
 export const { width, height } = Dimensions.get('window');
-const cardWidth = (width - 43) / 3;
 
 const baseContainer: ViewStyle = {
     alignItems: 'center',
@@ -113,16 +112,14 @@ export const styles = StyleSheet.create({
         paddingLeft: '4%',
     },
     allResourcesCardContainer: {
-        ...baseContainer,
-        marginHorizontal: 2,
+        backgroundColor: theme.colors.transparentBackground,
         marginVertical: 10,
-        width: cardWidth,
     },
     allResourcesContainer: {
         ...baseContainer,
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'flex-start',
+        justifyContent: 'center',
     },
     backButtonContainer: {
         alignItems: 'center',
