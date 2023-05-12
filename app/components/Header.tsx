@@ -60,7 +60,7 @@ const Header = ({
                 <TouchableOpacity onPress={onHeaderLeftPress}>
                     <View style={styles.backButtonContainer}>
                         <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
-                        <Text style={theme.typography.bodyBold}>Back</Text>
+                        <Text style={theme.typography.BodyBold}>Back</Text>
                     </View>
                 </TouchableOpacity>
             )}

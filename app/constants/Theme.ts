@@ -38,21 +38,6 @@ export const theme = {
         Text: createTypographyStyles('outfit-regular', 16),
         CardText: createTypographyStyles('outfit-medium', 13),
         Caption: createTypographyStyles('outfit-regular', 12),
-        body: createTypographyStyles('nunito-regular', 18),
-        bodyMedium: createTypographyStyles('nunito-medium', 18),
-        bodySemiBold: createTypographyStyles('nunito-semibold', 18),
-        bodyBold: createTypographyStyles('nunito-bold', 18),
-        heading: createTypographyStyles('nunito-semibold', 24),
-        headingBold: createTypographyStyles('nunito-bold', 24),
-        subtitle: createTypographyStyles('nunito-regular', 18),
-        subtitleMedium: createTypographyStyles('nunito-medium', 18),
-        caption: createTypographyStyles('nunito-regular', 12),
-        captionMedium: createTypographyStyles('nunito-medium', 12),
-        captionSemiBold: createTypographyStyles('nunito-semibold', 12),
-        error: {
-            ...createTypographyStyles('nunito-bold', 16),
-            color: '#A83944',
-        },
     },
     five_ways_theme: {
         'Keep Active': '#4766C2',
@@ -162,7 +147,7 @@ export const styles = StyleSheet.create({
         padding: 10,
     },
     disclaimerText: {
-        ...theme.typography.error,
+        ...theme.typography.Error,
         textAlign: 'center',
     },
     emptyShortcutContainer: {
@@ -286,7 +271,7 @@ export const styles = StyleSheet.create({
         marginVertical: 5,
         paddingBottom: 15,
         paddingHorizontal: 5,
-        shadowColor: '#000',
+        shadowColor: theme.colors.shadowColor,
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -301,11 +286,5 @@ export const styles = StyleSheet.create({
     },
     transparentBackground: {
         backgroundColor: theme.colors.transparentBackground,
-    },
-    viewActivityContainer: {
-        backgroundColor: '#F5F5F5',
-        marginBottom: '30%',
-        // paddingHorizontal: '5%',
-        padding: 16,
     },
 });

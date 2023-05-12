@@ -49,7 +49,7 @@ export default function ProfileScreen({ navigation, route }: Props) {
 
             <ScrollView style={[styles.mainContainer, styles.paddingHorizontal]} showsVerticalScrollIndicator={false}>
                 <View style={styles.marginTopLarge}>
-                    <Text style={[theme.typography.bodyBold, styles.marginBottomSmall]}>Personal Details</Text>
+                    <Text style={[theme.typography.BodySemiBold, styles.marginBottomSmall]}>Personal Details</Text>
                     <View style={styles.marginBottomSmall}>
                         <Input
                             label={'First Name'}

@@ -16,9 +16,11 @@ export const addPhoto = async (uri: string, name: string) => {
     const formData = new FormData();
     formData.append('title', name);
     formData.append('file', {
-        uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         name: name,
         type: mimeType,
+        uri: Platform.OS === 'ios' ? uri.replace('file://', '') : uri,
     });
 
     try {

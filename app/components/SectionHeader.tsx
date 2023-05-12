@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { View, Text } from './Themed';
+import { StyleSheet, View, Text } from 'react-native';
 import { Button } from './Button';
 import { theme } from '../constants/Theme';
 

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, TouchableOpacity, Dimensions, Modal, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { View, TouchableOpacity, Dimensions, Modal, StyleSheet, ActivityIndicator } from 'react-native';
 import FastImage from 'react-native-fast-image';
 import { Ionicons } from '@expo/vector-icons';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
@@ -90,14 +90,9 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                     <View style={styles.actionContainer}>
                         {!completed && (
                             <>
-                                {Platform.OS === 'ios' && (
-                                    <TouchableOpacity
-                                        style={styles.actionButton}
-                                        onPress={() => openPhotoEditor(index)}
-                                    >
-                                        <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
-                                    </TouchableOpacity>
-                                )}
+                                <TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
+                                    <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
+                                </TouchableOpacity>
 
                                 {showDelete && (
                                     <TouchableOpacity style={styles.actionButton} onPress={() => onDeleteImage(index)}>
@@ -110,7 +105,7 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                 </Animatable.View>
             );
         },
-        [handleError, onDeleteImage, openPhotoEditor, showDelete]
+        [handleError, onDeleteImage, showDelete]
     );
 
     return (

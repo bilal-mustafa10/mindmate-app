@@ -1,10 +1,9 @@
 import React from 'react';
-import { ScrollView, TouchableOpacity } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigation/types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../services/redux/store';
 import { styles, theme } from '../../constants/Theme';
-import { View } from '../../components/Themed';
 import Card from '../../components/Card';
 import Header from '../../components/Header';
 

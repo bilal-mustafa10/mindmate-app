@@ -232,7 +232,7 @@ export default function SignIn({ navigation }: RootStackScreenProps<'SignIn'>) {
                                     Sign In
                                 </Button>
                                 {showError && (
-                                    <Text style={[theme.typography.error, styles.marginBottomSmall]}>
+                                    <Text style={[theme.typography.Error, styles.marginBottomSmall]}>
                                         Failure Logging In
                                     </Text>
                                 )}

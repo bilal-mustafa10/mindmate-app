@@ -35,7 +35,7 @@ export const AcknowledgmentToast: React.FC<Props> = ({ message, visible, duratio
                 }, duration);
             });
         }
-    }, [visible]);
+    }, [duration, onDismiss, opacity, visible]);
 
     if (!visible) {
         return null;

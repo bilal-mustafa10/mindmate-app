@@ -20,7 +20,6 @@ export const nameValidator = (name: string) => {
 };
 
 export const usernameValidator = (username: string) => {
-    //const re = /\S+@\S+\.\S+/;
     const re = /\S+/;
 
     if (!username || username.length <= 0) {
@@ -28,21 +27,6 @@ export const usernameValidator = (username: string) => {
     }
     if (!re.test(username)) {
         return 'Pleas enter a valid username.';
-    }
-
-    return '';
-};
-
-export const emailValidator = (email: string) => {
-    const re = new RegExp(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-    );
-    if (!email || email.length <= 0) {
-        return 'Email cannot be empty.';
-    }
-
-    if (!re.test(email)) {
-        return 'Please enter a valid email address.';
     }
 
     return '';

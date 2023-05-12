@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Pressable } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Pressable } from 'react-native';
 import { Button } from './Button';
 import { theme } from '../constants/Theme';
 import { Ionicons } from '@expo/vector-icons';
@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-end', // Align the button to the end
     },
     dateText: {
-        ...theme.typography.caption,
+        ...theme.typography.Caption,
         color: '#A4A4A4',
         marginBottom: 8,
     },
@@ -205,11 +205,8 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
         width: 30,
     },
-    innerPressable: {
-        flex: 1,
-    },
     noteText: {
-        ...theme.typography.bodyMedium,
+        ...theme.typography.BodyMedium,
         color: '#575757',
         fontSize: 13,
         marginBottom: 8,
@@ -244,7 +241,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     titleText: {
-        ...theme.typography.bodySemiBold,
+        ...theme.typography.BodySemiBold,
         marginBottom: 4,
     },
 });

@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     dateText: {
-        ...theme.typography.caption,
+        ...theme.typography.Caption,
         color: theme.colors.textTertiary,
         marginTop: 2,
     },
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     moodText: {
-        ...theme.typography.bodyMedium,
+        ...theme.typography.BodyMedium,
     },
     moodTextContainer: {
         alignItems: 'flex-start',

@@ -207,12 +207,12 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     container: {
-        backgroundColor: '#FFFFFF',
+        backgroundColor: theme.colors.whiteBackground,
         borderRadius: 12,
         elevation: 4,
         marginBottom: 12,
         padding: 12,
-        shadowColor: '#000',
+        shadowColor: theme.colors.shadowColor,
         shadowOffset: {
             width: 0,
             height: 1,
@@ -222,7 +222,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     dateText: {
-        ...theme.typography.caption,
+        ...theme.typography.Caption,
         color: '#A4A4A4',
         marginTop: 4,
     },
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     moodText: {
-        ...theme.typography.bodyMedium,
+        ...theme.typography.BodyMedium,
     },
     moodTextContainer: {
         alignItems: 'flex-start',
@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     noteText: {
-        ...theme.typography.bodyMedium,
+        ...theme.typography.BodyMedium,
         color: '#575757',
         flex: 1,
         fontSize: 13,

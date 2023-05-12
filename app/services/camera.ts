@@ -35,7 +35,3 @@ export const openImageLibrary = async () => {
 
     return response;
 };
-
-export const _deleteImage = async () => {
-    return null;
-};

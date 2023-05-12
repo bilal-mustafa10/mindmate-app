@@ -1,9 +1,9 @@
-import { Text, View } from '../../components/Themed';
 import { height, styles, theme } from '../../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Button } from '../../components/Button';
 import { RootStackScreenProps } from '../../navigation/types';
+import { View, Text } from 'react-native';
 
 export default function ActivityCompleted({ navigation }: RootStackScreenProps<'ActivityCompleted'>) {
     const insets = useSafeAreaInsets();

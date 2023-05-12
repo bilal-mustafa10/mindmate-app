@@ -22,7 +22,7 @@ export default function SignUp({ navigation }: RootStackScreenProps<'SignUp'>) {
                 />
             </View>
             <View style={styles.formContainer}>
-                <Text style={theme.typography.bodySemiBold}>Sign up to MindMate</Text>
+                <Text style={theme.typography.BodyBold}>Sign up to MindMate</Text>
                 <View>
                     <Input
                         label={'First Name'}

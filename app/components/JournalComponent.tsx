@@ -27,7 +27,7 @@ const JournalComponent = ({ navigation }: JournalComponentProps) => {
     return (
         <View style={styles.container}>
             {journal.map((journal, index) => (
-                <View key={index} style={index % 2 === 0 ? { marginBottom: 10 } : {}}>
+                <View key={journal.name} style={index % 2 === 0 ? { marginBottom: 10 } : {}}>
                     <TouchableOpacity
                         onPress={() => {
                             navigation.navigate(journal.navigateTo);
@@ -35,7 +35,7 @@ const JournalComponent = ({ navigation }: JournalComponentProps) => {
                     >
                         <Card
                             type={'large'}
-                            key={index}
+                            key={journal.name}
                             photo={journal.logo}
                             title={journal.name}
                             borderColor={theme.card_theme[index]}

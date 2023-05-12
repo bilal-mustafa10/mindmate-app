@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { View } from '../../components/Themed';
 import { styles, theme } from '../../constants/Theme';
-import { ScrollView, Text, TouchableOpacity } from 'react-native';
+import { ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { RootStackScreenProps } from '../../navigation/types';
 import JournalComponent from '../../components/JournalComponent';
 import Stats from '../../components/StatsComponent';

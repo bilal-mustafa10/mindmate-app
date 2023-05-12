@@ -8,7 +8,6 @@ import { Input } from '../../components/Input';
 import TextInput from '../../components/TextInput';
 import { Button } from '../../components/Button';
 
-// const predefinedTags = ['Study', 'Social', 'Health', 'Relationship', 'Career', 'Hobbies', 'Finance', 'Emotional'];
 export default function AddReflectionScreen({ navigation }: RootStackScreenProps<'AddReflectionScreen'>) {
     const realm = RealmContext.useRealm();
     const [showError, setShowError] = React.useState(false);
@@ -63,7 +62,7 @@ export default function AddReflectionScreen({ navigation }: RootStackScreenProps
                     contentContainerStyle={[styles.paddingHorizontal, styles.paddingTop]}
                     showsVerticalScrollIndicator={false}
                 >
-                    <Text style={[theme.typography.bodyBold, styles.marginBottomSmall]}>Title</Text>
+                    <Text style={[theme.typography.BodySemiBold, styles.marginBottomSmall]}>Title</Text>
                     <Input
                         label={'Title'}
                         keyboardType={'default'}
@@ -72,7 +71,7 @@ export default function AddReflectionScreen({ navigation }: RootStackScreenProps
                         autoCapitalize="none"
                         autoCorrect={false}
                     />
-                    <Text style={[theme.typography.bodyBold, styles.marginBottomSmall, styles.marginTopMedium]}>
+                    <Text style={[theme.typography.BodySemiBold, styles.marginBottomSmall, styles.marginTopMedium]}>
                         Write your self-reflection
                     </Text>
                     <TextInput

@@ -17,7 +17,7 @@ const ShortcutComponent = ({ shortcuts, navigation }: ShortcutsProps) => {
     if (shortcutsToDisplay.length === 0) {
         return (
             <View style={styles.emptyShortcutContainer}>
-                <Text style={theme.typography.caption}>No shortcuts.</Text>
+                <Text style={theme.typography.Caption}>No shortcuts.</Text>
             </View>
         );
     }
@@ -36,7 +36,7 @@ const ShortcutComponent = ({ shortcuts, navigation }: ShortcutsProps) => {
                 </TouchableOpacity>
             ))}
 
-            {shortcuts.length === 0 && <Text style={theme.typography.body}>No shortcuts.</Text>}
+            {shortcuts.length === 0 && <Text style={theme.typography.Body}>No shortcuts.</Text>}
         </View>
     );
 };

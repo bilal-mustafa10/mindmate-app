@@ -217,7 +217,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                 }}
             >
                 <Ionicons name={'chevron-back-outline'} size={24} color={'black'} />
-                <Text style={theme.typography.bodyBold}>Back</Text>
+                <Text style={theme.typography.BodyBold}>Back</Text>
             </TouchableOpacity>
             <ScrollView showsVerticalScrollIndicator={false}>
                 <FastImage
@@ -251,7 +251,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
 
                     {images.length > 0 && (
                         <View>
-                            <Text style={theme.typography.bodyBold}>Memories</Text>
+                            <Text style={theme.typography.BodyBold}>Memories</Text>
 
                             <ActivityCard
                                 ActivityData={{
@@ -286,7 +286,7 @@ export default function ViewActivityScreen({ navigation, route }: Props) {
                     <View style={styles.activityButtonContainer}>
                         {images.length > 0 && (
                             <>
-                                <Text style={theme.typography.captionMedium}>Share</Text>
+                                <Text style={theme.typography.Caption}>Share</Text>
                                 <View style={styles.switchContainer}>
                                     <Switch value={share} onValueChange={setShare} color={theme.colors.primary} />
                                 </View>

@@ -1,4 +1,3 @@
-import { Text, View } from '../../components/Themed';
 import { styles, theme } from '../../constants/Theme';
 import FastImage from 'react-native-fast-image';
 import { Button } from '../../components/Button';
@@ -6,7 +5,7 @@ import { RootStackParamList } from '../../navigation/types';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RouteProp } from '@react-navigation/native';
 import Stats from '../../components/StatsComponent';
-import { ScrollView } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { disclamerMessage } from '../../constants/disclamer';
 import React from 'react';

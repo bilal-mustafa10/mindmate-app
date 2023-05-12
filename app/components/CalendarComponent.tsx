@@ -152,11 +152,11 @@ export function CalendarComponent<T extends DataProps>({
             : { ...styles.dateGroup };
 
         const dateTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'white' }
-            : { ...theme.typography.bodyBold };
+            ? { ...theme.typography.BodyBold, color: 'white' }
+            : { ...theme.typography.BodyBold };
         const dayTextStyle = isSelectedDate
-            ? { ...theme.typography.bodyBold, color: 'white' }
-            : { ...theme.typography.body };
+            ? { ...theme.typography.BodyBold, color: 'white' }
+            : { ...theme.typography.Body };
 
         return (
             <RectButton
@@ -238,7 +238,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     noDataText: {
-        ...theme.typography.bodyBold,
+        ...theme.typography.BodyBold,
         color: theme.colors.disabled,
         textAlign: 'center',
     },
