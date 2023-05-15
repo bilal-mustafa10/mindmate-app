@@ -79,7 +79,7 @@ export const styles = StyleSheet.create({
         borderTopWidth: 2,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        padding: 16,
+        padding: 10,
     },
     activityHeader: {
         alignItems: 'center',

@@ -8,14 +8,16 @@ export const openCamera = async () => {
         return null;
     }
 
-    const response: Photo = {
-        title: result.assets[0].fileName,
-        file: result.assets[0].uri,
-        width: result.assets[0].width,
-        height: result.assets[0].height,
-    };
+    if (result.assets) {
+        const response: Photo = {
+            title: result.assets[0].fileName,
+            file: result.assets[0].uri,
+            width: result.assets[0].width,
+            height: result.assets[0].height,
+        };
 
-    return response;
+        return response;
+    }
 };
 
 // Photo Library

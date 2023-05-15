@@ -6,7 +6,7 @@ import Carousel, { Pagination } from 'react-native-snap-carousel';
 import * as Animatable from 'react-native-animatable';
 import { Photo } from '../services/redux/activitySlice';
 import { theme } from '../constants/Theme';
-import PhotoEditor from '@baronha/react-native-photo-editor';
+/*import PhotoEditor from '@baronha/react-native-photo-editor';*/
 
 const { width } = Dimensions.get('window');
 const adjustedWidth = width * 0.9;
@@ -38,7 +38,7 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
         onDeleteImage(modalImageIndex);
     };
 
-    const openPhotoEditor = async (index: number) => {
+    /*const openPhotoEditor = async (index: number) => {
         if (!images[index]) {
             console.warn('Image not found at index', index);
             return;
@@ -57,7 +57,7 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
         } catch (e) {
             setIsLoading(false);
         }
-    };
+    };*/
 
     const renderItem = useCallback(
         ({ item, index }) => {
@@ -90,9 +90,9 @@ const ImageViewer: React.FC<ImageGalleryProps> = ({ images, onDeleteImage, showD
                     <View style={styles.actionContainer}>
                         {!completed && (
                             <>
-                                <TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
+                                {/*<TouchableOpacity style={styles.actionButton} onPress={() => openPhotoEditor(index)}>
                                     <Ionicons name={'brush-outline'} size={24} color={theme.colors.primary} />
-                                </TouchableOpacity>
+                                </TouchableOpacity>*/}
 
                                 {showDelete && (
                                     <TouchableOpacity style={styles.actionButton} onPress={() => onDeleteImage(index)}>

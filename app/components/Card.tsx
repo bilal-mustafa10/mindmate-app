@@ -117,7 +117,7 @@ const Card = ({ logo, title, borderColor, photo, type, isCompleted, width, heigh
 
 const styles = StyleSheet.create({
     activityBox: {
-        borderRadius: 15,
+        borderRadius: 20,
         borderWidth: 2,
         elevation: 4,
         justifyContent: 'space-around',
